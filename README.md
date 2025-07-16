@@ -411,6 +411,7 @@ Cada historia está seguida por un espacio donde puedes escribir:
 <!-- Escribe tu análisis aquí -->
 
 ---
+# Funciones Agregadas
 
 ### ✅ Historia de Usuario 41
 
@@ -611,6 +612,7 @@ Cada historia está seguida por un espacio donde puedes escribir:
 <!-- Escribe tu análisis aquí -->
 
 ---
+# Procedimientos Almacenados
 
 ### ✅ Historia de Usuario 61
 
@@ -811,6 +813,7 @@ Cada historia está seguida por un espacio donde puedes escribir:
 <!-- Escribe tu análisis aquí -->
 
 ---
+# Triggers
 
 ### ✅ Historia de Usuario 81
 
@@ -1011,6 +1014,7 @@ Cada historia está seguida por un espacio donde puedes escribir:
 <!-- Escribe tu análisis aquí -->
 
 ---
+# Events (Eventos Programados..Usar procedimientos o funciones para cada evento)
 
 ### ✅ Historia de Usuario 101
 
@@ -1211,6 +1215,7 @@ Cada historia está seguida por un espacio donde puedes escribir:
 <!-- Escribe tu análisis aquí -->
 
 ---
+# Historias de Usuario con JOINs
 
 ### ✅ Historia de Usuario 121
 
@@ -1411,6 +1416,7 @@ Cada historia está seguida por un espacio donde puedes escribir:
 <!-- Escribe tu análisis aquí -->
 
 ---
+Historias de Usuario con Funciones Definidas por el Usuario (UDF)
 
 ### ✅ Historia de Usuario 141
 
