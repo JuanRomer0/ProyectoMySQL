@@ -1,0 +1,363 @@
+=============================================
+-- EVENTOS PROGRAMADOS
+=============================================
+NOTA: Habilitar el programador de eventos
+SET GLOBAL event_scheduler = ON;
+=============================================
+-- 1. Borrar productos sin actividad cada 6 meses
+
+DELIMITER //
+
+CREATE EVENT IF NOT EXISTS ev_cleanup_inactive_products
+ON SCHEDULE EVERY 6 MONTH
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    DELETE FROM products
+    WHERE id NOT IN (
+        SELECT DISTINCT product_id FROM quality_products
+        UNION
+        SELECT DISTINCT product_id FROM companyproducts
+        UNION
+        SELECT DISTINCT product_id FROM details_favorites
+    )
+    AND created_at < DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH);
+    
+    INSERT INTO log_acciones (action_type, description)
+    VALUES ('LIMPIEZA_PRODUCTOS', CONCAT('Eliminados productos inactivos: ', ROW_COUNT()));
+END //
+
+-- 2. Recalcular el promedio de calificaciones semanalmente
+
+CREATE EVENT IF NOT EXISTS ev_recalculate_averages
+ON SCHEDULE EVERY 1 WEEK
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    CALL sp_recalcular_promedios_semanales();
+END //
+
+-- 3. Actualizar precios según inflación mensual
+
+CREATE EVENT IF NOT EXISTS ev_monthly_price_update
+ON SCHEDULE EVERY 1 MONTH
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    DECLARE v_inflation_rate DECIMAL(5,4) DEFAULT 1.03; -- 3% mensual
+    
+    UPDATE companyproducts
+    SET price = price * v_inflation_rate;
+    
+    INSERT INTO log_acciones (action_type, description)
+    VALUES ('ACTUALIZACION_PRECIOS', CONCAT('Precios actualizados con inflación: ', v_inflation_rate));
+END //
+
+-- 4. Crear backups lógicos diariamente
+
+CREATE EVENT IF NOT EXISTS ev_daily_backup
+ON SCHEDULE EVERY 1 DAY
+STARTS '2024-01-01 00:00:00'
+DO
+BEGIN
+    -- Crear respaldo de datos críticos
+    INSERT INTO auditorias_diarias (audit_date, total_products, total_customers, total_companies, total_ratings)
+    SELECT 
+        CURRENT_DATE,
+        (SELECT COUNT(*) FROM products),
+        (SELECT COUNT(*) FROM customers),
+        (SELECT COUNT(*) FROM companies),
+        (SELECT COUNT(*) FROM rates);
+END //
+
+-- 5. Notificar sobre productos favoritos sin calificar
+
+CREATE EVENT IF NOT EXISTS ev_remind_unrated_favorites
+ON SCHEDULE EVERY 1 WEEK
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    INSERT INTO user_reminders (customer_id, product_id, reminder_type, message)
+    SELECT DISTINCT
+        f.customer_id,
+        df.product_id,
+        'FAVORITO_SIN_CALIFICAR',
+        CONCAT('Tienes el producto "', p.name, '" en favoritos pero no lo has calificado')
+    FROM favorites f
+    JOIN details_favorites df ON f.id = df.favorite_id
+    JOIN products p ON df.product_id = p.id
+    LEFT JOIN quality_products qp ON df.product_id = qp.product_id 
+        AND f.customer_id = qp.customer_id
+    WHERE qp.product_id IS NULL;
+END //
+
+-- 6. Revisar inconsistencias entre empresa y productos cada domingo
+
+CREATE EVENT IF NOT EXISTS ev_check_inconsistencies
+ON SCHEDULE EVERY 1 WEEK
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    CALL sp_validar_inconsistencias_rates();
+    CALL sp_validar_fk_rates_polls();
+END //
+
+-- 7. Archivar membresías vencidas diariamente
+
+CREATE EVENT IF NOT EXISTS ev_archive_expired_memberships
+ON SCHEDULE EVERY 1 DAY
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    UPDATE membershipperiods
+    SET status = 'VENCIDA'
+    WHERE end_date < CURRENT_DATE
+        AND status = 'ACTIVA';
+    
+    INSERT INTO log_acciones (action_type, description)
+    VALUES ('MEMBRESIAS_VENCIDAS', CONCAT('Membresías archivadas: ', ROW_COUNT()));
+END //
+
+-- 8. Notificar beneficios nuevos a usuarios semanalmente
+
+CREATE EVENT IF NOT EXISTS ev_notify_new_benefits
+ON SCHEDULE EVERY 1 WEEK
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    INSERT INTO notificaciones (customer_id, message, type)
+    SELECT DISTINCT
+        c.id,
+        CONCAT('Nuevos beneficios disponibles: ', b.description),
+        'NUEVO_BENEFICIO'
+    FROM customers c
+    CROSS JOIN benefits b
+    WHERE b.created_at >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY);
+END //
+
+-- 9. Calcular cantidad de favoritos por cliente mensualmente
+
+CREATE EVENT IF NOT EXISTS ev_monthly_favorites_summary
+ON SCHEDULE EVERY 1 MONTH
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    INSERT INTO favoritos_resumen (customer_id, total_favorites, month, year)
+    SELECT 
+        f.customer_id,
+        COUNT(df.product_id),
+        MONTH(CURRENT_DATE),
+        YEAR(CURRENT_DATE)
+    FROM favorites f
+    JOIN details_favorites df ON f.id = df.favorite_id
+    GROUP BY f.customer_id
+    ON DUPLICATE KEY UPDATE
+        total_favorites = VALUES(total_favorites);
+END //
+
+-- 10. Validar claves foráneas semanalmente
+
+CREATE EVENT IF NOT EXISTS ev_validate_foreign_keys
+ON SCHEDULE EVERY 1 WEEK
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    -- Validar rates -> polls
+    INSERT INTO inconsistencias_fk (table_name, column_name, invalid_value, reference_table)
+    SELECT 'rates', 'poll_id', r.poll_id, 'polls'
+    FROM rates r
+    LEFT JOIN polls p ON r.poll_id = p.id
+    WHERE p.id IS NULL;
+    
+    -- Validar companies -> cities
+    INSERT INTO inconsistencias_fk (table_name, column_name, invalid_value, reference_table)
+    SELECT 'companies', 'city_id', c.city_id, 'citiesormunicipalities'
+    FROM companies c
+    LEFT JOIN citiesormunicipalities city ON c.city_id = city.code
+    WHERE city.code IS NULL;
+END //
+
+-- 11. Eliminar calificaciones inválidas antiguas
+
+CREATE EVENT IF NOT EXISTS ev_cleanup_invalid_ratings
+ON SCHEDULE EVERY 1 MONTH
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    DELETE FROM rates
+    WHERE (rating IS NULL OR rating < 0 OR rating > 10)
+        AND daterating < DATE_SUB(CURRENT_DATE, INTERVAL 3 MONTH);
+    
+    INSERT INTO log_acciones (action_type, description)
+    VALUES ('LIMPIEZA_CALIFICACIONES', CONCAT('Calificaciones inválidas eliminadas: ', ROW_COUNT()));
+END //
+
+-- 12. Cambiar estado de encuestas inactivas automáticamente
+
+CREATE EVENT IF NOT EXISTS ev_deactivate_unused_polls
+ON SCHEDULE EVERY 1 MONTH
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    UPDATE polls
+    SET status = 'inactiva'
+    WHERE id NOT IN (
+        SELECT DISTINCT poll_id
+        FROM rates
+        WHERE daterating >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH)
+    )
+    AND status = 'activa';
+END //
+
+-- 13. Registrar auditorías de forma periódica
+
+CREATE EVENT IF NOT EXISTS ev_daily_audit
+ON SCHEDULE EVERY 1 DAY
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    INSERT INTO estadisticas (metric_name, metric_value)
+    VALUES 
+        ('total_productos_activos', (SELECT COUNT(*) FROM products)),
+        ('total_clientes_activos', (SELECT COUNT(*) FROM customers)),
+        ('total_empresas_activas', (SELECT COUNT(*) FROM companies)),
+        ('promedio_calificaciones_dia', (SELECT AVG(rating) FROM rates WHERE DATE(daterating) = CURRENT_DATE))
+    ON DUPLICATE KEY UPDATE
+        metric_value = VALUES(metric_value);
+END //
+
+-- 14. Notificar métricas de calidad a empresas cada lunes
+
+CREATE EVENT IF NOT EXISTS ev_weekly_quality_metrics
+ON SCHEDULE EVERY 1 WEEK
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    INSERT INTO notificaciones (company_id, message, type)
+    SELECT 
+        c.id,
+        CONCAT('Tu promedio de calificación esta semana: ', ROUND(AVG(qp.rating), 2)),
+        'METRICA_SEMANAL'
+    FROM companies c
+    JOIN quality_products qp ON c.id = qp.company_id
+    WHERE qp.daterating >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)
+    GROUP BY c.id;
+END //
+
+-- 15. Recordar renovación de membresías
+
+CREATE EVENT IF NOT EXISTS ev_membership_renewal_reminder
+ON SCHEDULE EVERY 1 DAY
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    INSERT INTO user_reminders (customer_id, reminder_type, message)
+    SELECT DISTINCT
+        c.id,
+        'RENOVACION_MEMBRESIA',
+        'Tu membresía vence pronto. ¡Renuévala para seguir disfrutando los beneficios!'
+    FROM customers c
+    JOIN membershipperiods mp ON c.id = mp.membership_id -- Asumiendo relación
+    WHERE mp.end_date BETWEEN CURRENT_DATE AND DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)
+        AND mp.status = 'ACTIVA';
+END //
+
+-- 16. Reordenar estadísticas generales cada semana
+
+CREATE EVENT IF NOT EXISTS ev_weekly_statistics_update
+ON SCHEDULE EVERY 1 WEEK
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    INSERT INTO estadisticas (metric_name, metric_value)
+    SELECT 
+        'productos_mejor_calificados',
+        COUNT(*)
+    FROM products
+    WHERE average_rating >= 4.5
+    ON DUPLICATE KEY UPDATE metric_value = VALUES(metric_value);
+    
+    INSERT INTO estadisticas (metric_name, metric_value)
+    SELECT 
+        'empresas_activas_semana',
+        COUNT(DISTINCT company_id)
+    FROM rates
+    WHERE daterating >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)
+    ON DUPLICATE KEY UPDATE metric_value = VALUES(metric_value);
+END //
+
+-- 17. Crear resúmenes temporales de uso por categoría
+
+CREATE EVENT IF NOT EXISTS ev_category_usage_summary
+ON SCHEDULE EVERY 1 WEEK
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    INSERT INTO estadisticas (metric_name, metric_value)
+    SELECT 
+        CONCAT('categoria_', cat.id, '_calificaciones'),
+        COUNT(qp.rating)
+    FROM categories cat
+    LEFT JOIN products p ON cat.id = p.category_id
+    LEFT JOIN quality_products qp ON p.id = qp.product_id
+    WHERE qp.daterating >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)
+    GROUP BY cat.id
+    ON DUPLICATE KEY UPDATE metric_value = VALUES(metric_value);
+END //
+
+-- 18. Actualizar beneficios caducados
+
+CREATE EVENT IF NOT EXISTS ev_expire_benefits
+ON SCHEDULE EVERY 1 DAY
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    -- Marcar beneficios como expirados (si tuvieran un campo activo)
+    INSERT INTO log_acciones (action_type, description)
+    SELECT 
+        'BENEFICIO_EXPIRADO',
+        CONCAT('Beneficio ', id, ' ha expirado')
+    FROM benefits
+    WHERE expires_at IS NOT NULL 
+        AND expires_at < CURRENT_DATE;
+END //
+
+-- 19. Alertar productos sin evaluación anual
+
+CREATE EVENT IF NOT EXISTS ev_alert_unrated_products
+ON SCHEDULE EVERY 1 MONTH
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    INSERT INTO alertas_productos (product_id, alert_type, message)
+    SELECT 
+        p.id,
+        'SIN_EVALUACION_ANUAL',
+        CONCAT('El producto "', p.name, '" no ha sido evaluado en el último año')
+    FROM products p
+    LEFT JOIN quality_products qp ON p.id = qp.product_id
+        AND qp.daterating >= DATE_SUB(CURRENT_DATE, INTERVAL 365 DAY)
+    WHERE qp.product_id IS NULL;
+END //
+
+-- 20. Actualizar precios con índice externo
+
+CREATE EVENT IF NOT EXISTS ev_update_prices_with_index
+ON SCHEDULE EVERY 1 MONTH
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    DECLARE v_index_value DECIMAL(5,4) DEFAULT 1.025; -- 2.5% mensual
+    
+    -- Actualizar precios de productos activos
+    UPDATE companyproducts cp
+    JOIN products p ON cp.product_id = p.id
+    SET cp.price = cp.price * v_index_value
+    WHERE p.average_rating > 0; -- Solo productos con calificaciones
+    
+    INSERT INTO log_acciones (action_type, description)
+    VALUES ('ACTUALIZACION_INDICE', CONCAT('Precios actualizados con índice: ', v_index_value));
+END //
+
+DELIMITER ;
+
