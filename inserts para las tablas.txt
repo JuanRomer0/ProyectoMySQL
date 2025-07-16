@@ -1,0 +1,2078 @@
+======================= INSERTS PARA LAS TABLAS===============================
+==============================================================================
+INSERT INTO countries (isocode, name, alfaisotwo, alfaisothree) VALUES
+('AF', 'Afganistán', 'AF', 'AFG'),
+('AL', 'Albania', 'AL', 'ALB'),
+('DE', 'Alemania', 'DE', 'DEU'),
+('AD', 'Andorra', 'AD', 'AND'),
+('AO', 'Angola', 'AO', 'AGO'),
+('AI', 'Anguilla', 'AI', 'AIA'),
+('AG', 'Antigua y Barbuda', 'AG', 'ATG'),
+('SA', 'Arabia Saudí', 'SA', 'SAU'),
+('DZ', 'Argelia', 'DZ', 'DZA'),
+('AR', 'Argentina', 'AR', 'ARG'),
+('AM', 'Armenia', 'AM', 'ARM'),
+('AW', 'Aruba', 'AW', 'ABW'),
+('AU', 'Australia', 'AU', 'AUS'),
+('AT', 'Austria', 'AT', 'AUT'),
+('AZ', 'Azerbaiyán', 'AZ', 'AZE'),
+('BS', 'Bahamas', 'BS', 'BHS'),
+('BH', 'Baréin', 'BH', 'BHR'),
+('BD', 'Bangladesh', 'BD', 'BGD'),
+('BB', 'Barbados', 'BB', 'BRB'),
+('BE', 'Bélgica', 'BE', 'BEL'),
+('BZ', 'Belice', 'BZ', 'BLZ'),
+('BJ', 'Benín', 'BJ', 'BEN'),
+('BM', 'Bermudas', 'BM', 'BMU'),
+('BY', 'Bielorrusia', 'BY', 'BLR'),
+('MM', 'Birmania (Myanmar)', 'MM', 'MMR'),
+('BO', 'Bolivia', 'BO', 'BOL'),
+('BA', 'Bosnia-Herzegovina', 'BA', 'BIH'),
+('BW', 'Botsuana', 'BW', 'BWA'),
+('BR', 'Brasil', 'BR', 'BRA'),
+('BN', 'Brunéi Darussalam', 'BN', 'BRN'),
+('BG', 'Bulgaria', 'BG', 'BGR'),
+('BF', 'Burkina Faso', 'BF', 'BFA'),
+('BI', 'Burundi', 'BI', 'BDI'),
+('BT', 'Bután', 'BT', 'BTN'),
+('CV', 'Cabo Verde', 'CV', 'CPV'),
+('KH', 'Camboya (Kampuchea)', 'KH', 'KHM'),
+('CM', 'Camerún', 'CM', 'CMR'),
+('CA', 'Canadá', 'CA', 'CAN'),
+('TD', 'Chad', 'TD', 'TCD'),
+('CL', 'Chile', 'CL', 'CHL'),
+('CN', 'China', 'CN', 'CHN'),
+('CY', 'Chipre', 'CY', 'CYP'),
+('CO', 'Colombia', 'CO', 'COL'),
+('KM', 'Comoras', 'KM', 'COM'),
+('CG', 'Congo', 'CG', 'COG'),
+('KP', 'Corea del Norte', 'KP', 'PRK'),
+('KR', 'Corea del Sur', 'KR', 'KOR'),
+('CI', 'Costa de Marfil', 'CI', 'CIV'),
+('CR', 'Costa Rica', 'CR', 'CRI'),
+('HR', 'Croacia', 'HR', 'HRV'),
+('CU', 'Cuba', 'CU', 'CUB'),
+('DK', 'Dinamarca', 'DK', 'DNK'),
+('DM', 'Dominica', 'DM', 'DMA'),
+('EC', 'Ecuador', 'EC', 'ECU'),
+('EG', 'Egipto', 'EG', 'EGY'),
+('SV', 'El Salvador', 'SV', 'SLV'),
+('AE', 'Emiratos Árabes Unidos', 'AE', 'ARE'),
+('ER', 'Eritrea', 'ER', 'ERI'),
+('SK', 'Eslovaquia', 'SK', 'SVK'),
+('SI', 'Eslovenia', 'SI', 'SVN'),
+('ES', 'España', 'ES', 'ESP'),
+('US', 'Estados Unidos', 'US', 'USA'),
+('EE', 'Estonia', 'EE', 'EST'),
+('ET', 'Etiopía', 'ET', 'ETH'),
+('PH', 'Filipinas', 'PH', 'PHL'),
+('FI', 'Finlandia', 'FI', 'FIN'),
+('FR', 'Francia', 'FR', 'FRA'),
+('GA', 'Gabón', 'GA', 'GAB'),
+('GM', 'Gambia', 'GM', 'GMB'),
+('GE', 'Georgia', 'GE', 'GEO'),
+('GH', 'Ghana', 'GH', 'GHA'),
+('GI', 'Gibraltar', 'GI', 'GIB'),
+('GD', 'Granada', 'GD', 'GRD'),
+('GR', 'Grecia', 'GR', 'GRC'),
+('GL', 'Groenlandia', 'GL', 'GRL'),
+('GP', 'Guadalupe', 'GP', 'GLP'),
+('GU', 'Guam', 'GU', 'GUM'),
+('GT', 'Guatemala', 'GT', 'GTM'),
+('GF', 'Guayana Francesa', 'GF', 'GUF'),
+('GN', 'Guinea', 'GN', 'GIN'),
+('GQ', 'Guinea Ecuatorial', 'GQ', 'GNQ'),
+('GW', 'Guinea-Bissau', 'GW', 'GNB'),
+('GY', 'Guyana', 'GY', 'GUY'),
+('HT', 'Haití', 'HT', 'HTI'),
+('HN', 'Honduras', 'HN', 'HND'),
+('HK', 'Hong Kong', 'HK', 'HKG'),
+('HU', 'Hungría', 'HU', 'HUN'),
+('IN', 'India', 'IN', 'IND'),
+('ID', 'Indonesia', 'ID', 'IDN'),
+('IQ', 'Irak', 'IQ', 'IRQ'),
+('IR', 'Irán', 'IR', 'IRN'),
+('IE', 'Irlanda', 'IE', 'IRL'),
+('IS', 'Islandia', 'IS', 'ISL'),
+('IL', 'Israel', 'IL', 'ISR'),
+('IT', 'Italia', 'IT', 'ITA'),
+('JM', 'Jamaica', 'JM', 'JAM'),
+('JP', 'Japón', 'JP', 'JPN'),
+('JO', 'Jordania', 'JO', 'JOR'),
+('KZ', 'Kazajistán', 'KZ', 'KAZ'),
+('KE', 'Kenia', 'KE', 'KEN'),
+('KG', 'Kirguizistán', 'KG', 'KGZ'),
+('KI', 'Kiribati', 'KI', 'KIR'),
+('KW', 'Kuwait', 'KW', 'KWT'),
+('LA', 'Laos', 'LA', 'LAO'),
+('LS', 'Lesoto', 'LS', 'LSO'),
+('LV', 'Letonia', 'LV', 'LVA'),
+('LB', 'Líbano', 'LB', 'LBN'),
+('LR', 'Liberia', 'LR', 'LBR'),
+('LY', 'Libia', 'LY', 'LBY'),
+('LI', 'Liechtenstein', 'LI', 'LIE'),
+('LT', 'Lituania', 'LT', 'LTU'),
+('LU', 'Luxemburgo', 'LU', 'LUX'),
+('MO', 'Macao', 'MO', 'MAC'),
+('MK', 'Macedonia', 'MK', 'MKD'),
+('MG', 'Madagascar', 'MG', 'MDG'),
+('MY', 'Malasia', 'MY', 'MYS'),
+('MW', 'Malaui', 'MW', 'MWI'),
+('MV', 'Maldivas', 'MV', 'MDV'),
+('ML', 'Malí', 'ML', 'MLI'),
+('MT', 'Malta', 'MT', 'MLT'),
+('MA', 'Marruecos', 'MA', 'MAR'),
+('MQ', 'Martinica', 'MQ', 'MTQ'),
+('MU', 'Mauricio', 'MU', 'MUS'),
+('MR', 'Mauritania', 'MR', 'MRT'),
+('MX', 'México', 'MX', 'MEX'),
+('FM', 'Micronesia', 'FM', 'FSM'),
+('MD', 'Moldavia', 'MD', 'MDA'),
+('MC', 'Mónaco', 'MC', 'MCO'),
+('MN', 'Mongolia', 'MN', 'MNG'),
+('MS', 'Montserrat', 'MS', 'MSR'),
+('MZ', 'Mozambique', 'MZ', 'MOZ'),
+('NA', 'Namibia', 'NA', 'NAM'),
+('NR', 'Nauru', 'NR', 'NRU'),
+('NP', 'Nepal', 'NP', 'NPL'),
+('NI', 'Nicaragua', 'NI', 'NIC'),
+('NE', 'Níger', 'NE', 'NER'),
+('NG', 'Nigeria', 'NG', 'NGA'),
+('NU', 'Niue', 'NU', 'NIU'),
+('NO', 'Noruega', 'NO', 'NOR'),
+('NC', 'Nueva Caledonia', 'NC', 'NCL'),
+('NZ', 'Nueva Zelanda', 'NZ', 'NZL'),
+('OM', 'Omán', 'OM', 'OMN'),
+('NL', 'Países Bajos', 'NL', 'NLD'),
+('PK', 'Pakistán', 'PK', 'PAK'),
+('PW', 'Palaos', 'PW', 'PLW'),
+('PA', 'Panamá', 'PA', 'PAN'),
+('PG', 'Papúa Nueva Guinea', 'PG', 'PNG'),
+('PY', 'Paraguay', 'PY', 'PRY'),
+('PE', 'Perú', 'PE', 'PER'),
+('PF', 'Polinesia Francesa', 'PF', 'PYF'),
+('PL', 'Polonia', 'PL', 'POL'),
+('PT', 'Portugal', 'PT', 'PRT'),
+('PR', 'Puerto Rico', 'PR', 'PRI'),
+('QA', 'Qatar', 'QA', 'QAT'),
+('GB', 'Reino Unido', 'GB', 'GBR'),
+('CF', 'República Centroafricana', 'CF', 'CAF'),
+('CZ', 'República Checa', 'CZ', 'CZE'),
+('DO', 'República Dominicana', 'DO', 'DOM'),
+('RE', 'Reunión', 'RE', 'REU'),
+('RW', 'Ruanda', 'RW', 'RWA'),
+('RO', 'Rumania', 'RO', 'ROU'),
+('RU', 'Rusia', 'RU', 'RUS'),
+('WS', 'Samoa', 'WS', 'WSM'),
+('AS', 'Samoa Americana', 'AS', 'ASM'),
+('KN', 'San Cristóbal y Nieves', 'KN', 'KNA'),
+('SM', 'San Marino', 'SM', 'SMR'),
+('PM', 'San Pedro y Miquelón', 'PM', 'SPM'),
+('VC', 'San Vicente y las Granadinas', 'VC', 'VCT'),
+('SH', 'Santa Elena', 'SH', 'SHN'),
+('LC', 'Santa Lucía', 'LC', 'LCA'),
+('ST', 'Santo Tomé y Príncipe', 'ST', 'STP'),
+('SN', 'Senegal', 'SN', 'SEN'),
+('SC', 'Seychelles', 'SC', 'SYC'),
+('SL', 'Sierra Leona', 'SL', 'SLE'),
+('SG', 'Singapur', 'SG', 'SGP'),
+('SY', 'Siria', 'SY', 'SYR'),
+('SO', 'Somalia', 'SO', 'SOM'),
+('LK', 'Sri Lanka', 'LK', 'LKA'),
+('SZ', 'Suazilandia', 'SZ', 'SWZ'),
+('ZA', 'Sudáfrica', 'ZA', 'ZAF'),
+('SD', 'Sudán', 'SD', 'SDN'),
+('SE', 'Suecia', 'SE', 'SWE'),
+('CH', 'Suiza', 'CH', 'CHE'),
+('SR', 'Surinam', 'SR', 'SUR'),
+('TJ', 'Tayikistán', 'TJ', 'TJK'),
+('TH', 'Tailandia', 'TH', 'THA'),
+('TW', 'Taiwán', 'TW', 'TWN'),
+('TZ', 'Tanzania', 'TZ', 'TZA'),
+('IO', 'Territorio Británico del Océano Índico', 'IO', 'IOT'),
+('TF', 'Tierras Australes Francesas', 'TF', 'ATF'),
+('TL', 'Timor Oriental', 'TL', 'TLS'),
+('TG', 'Togo', 'TG', 'TGO'),
+('TK', 'Tokelau', 'TK', 'TKL'),
+('TO', 'Tonga', 'TO', 'TON'),
+('TT', 'Trinidad y Tobago', 'TT', 'TTO'),
+('TN', 'Túnez', 'TN', 'TUN'),
+('TC', 'Islas Turcas y Caicos', 'TC', 'TCA'),
+('TM', 'Turkmenistán', 'TM', 'TKM'),
+('TR', 'Turquía', 'TR', 'TUR'),
+('TV', 'Tuvalu', 'TV', 'TUV'),
+('UA', 'Ucrania', 'UA', 'UKR'),
+('UG', 'Uganda', 'UG', 'UGA'),
+('UY', 'Uruguay', 'UY', 'URY'),
+('UZ', 'Uzbekistán', 'UZ', 'UZB'),
+('VU', 'Vanuatu', 'VU', 'VUT'),
+('VA', 'Ciudad del Vaticano', 'VA', 'VAT'),
+('VE', 'Venezuela', 'VE', 'VEN'),
+('VN', 'Vietnam', 'VN', 'VNM'),
+('VG', 'Islas Vírgenes Británicas', 'VG', 'VGB'),
+('VI', 'Islas Vírgenes de EE.UU.', 'VI', 'VIR'),
+('WF', 'Wallis y Futuna', 'WF', 'WLF'),
+('YE', 'Yemen', 'YE', 'YEM'),
+('DJ', 'Yibuti', 'DJ', 'DJI'),
+('ZM', 'Zambia', 'ZM', 'ZMB'),
+('ZW', 'Zimbabue', 'ZW', 'ZWE');
+
+=====================================================================================
+-- INSERCIÓN DE DEPARTAMENTOS DE COLOMBIA
+=====================================================================================
+INSERT INTO stateorregions (code, name, country_id, code3166, subdivision_id) VALUES
+('AMA', 'Amazonas', 'CO', 'CO-AMA', 1),
+('ANT', 'Antioquia', 'CO', 'CO-ANT', 1),
+('ARA', 'Arauca', 'CO', 'CO-ARA', 1),
+('ATL', 'Atlántico', 'CO', 'CO-ATL', 1),
+('BOL', 'Bolívar', 'CO', 'CO-BOL', 1),
+('BOY', 'Boyacá', 'CO', 'CO-BOY', 1),
+('CAL', 'Caldas', 'CO', 'CO-CAL', 1),
+('CAQ', 'Caquetá', 'CO', 'CO-CAQ', 1),
+('CAS', 'Casanare', 'CO', 'CO-CAS', 1),
+('CAU', 'Cauca', 'CO', 'CO-CAU', 1),
+('CES', 'Cesar', 'CO', 'CO-CES', 1),
+('CHO', 'Chocó', 'CO', 'CO-CHO', 1),
+('CUN', 'Cundinamarca', 'CO', 'CO-CUN', 1),
+('COR', 'Córdoba', 'CO', 'CO-COR', 1),
+('DC', 'Distrito Capital de Bogotá', 'CO', 'CO-DC', 2),
+('GUA', 'Guainía', 'CO', 'CO-GUA', 1),
+('GUV', 'Guaviare', 'CO', 'CO-GUV', 1),
+('HUI', 'Huila', 'CO', 'CO-HUI', 1),
+('LAG', 'La Guajira', 'CO', 'CO-LAG', 1),
+('MAG', 'Magdalena', 'CO', 'CO-MAG', 1),
+('MET', 'Meta', 'CO', 'CO-MET', 1),
+('NAR', 'Nariño', 'CO', 'CO-NAR', 1),
+('NSA', 'Norte de Santander', 'CO', 'CO-NSA', 1),
+('PUT', 'Putumayo', 'CO', 'CO-PUT', 1),
+('QUI', 'Quindío', 'CO', 'CO-QUI', 1),
+('RIS', 'Risaralda', 'CO', 'CO-RIS', 1),
+('SAP', 'San Andrés, Providencia y Santa Catalina', 'CO', 'CO-SAP', 1),
+('SAN', 'Santander', 'CO', 'CO-SAN', 1),
+('SUC', 'Sucre', 'CO', 'CO-SUC', 1),
+('TOL', 'Tolima', 'CO', 'CO-TOL', 1),
+('VAC', 'Valle del Cauca', 'CO', 'CO-VAC', 1),
+('VAU', 'Vaupés', 'CO', 'CO-VAU', 1),
+('VID', 'Vichada', 'CO', 'CO-VID', 1);
+
+==============================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE ANTIOQUIA
+-- Municipios de Antioquia (Código departamento: 05)
+==============================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('05001', 'Medellín', 'ANT'),
+('05002', 'Abejorral', 'ANT'),
+('05004', 'Abriaquí', 'ANT'),
+('05021', 'Alejandría', 'ANT'),
+('05030', 'Amagá', 'ANT'),
+('05031', 'Amalfi', 'ANT'),
+('05034', 'Andes', 'ANT'),
+('05036', 'Angelópolis', 'ANT'),
+('05038', 'Angostura', 'ANT'),
+('05040', 'Anorí', 'ANT'),
+('05042', 'Santafé de Antioquia', 'ANT'),
+('05044', 'Anza', 'ANT'),
+('05045', 'Apartadó', 'ANT'),
+('05051', 'Arboletes', 'ANT'),
+('05055', 'Argelia', 'ANT'),
+('05059', 'Armenia', 'ANT'),
+('05079', 'Barbosa', 'ANT'),
+('05086', 'Belmira', 'ANT'),
+('05088', 'Bello', 'ANT'),
+('05091', 'Betania', 'ANT'),
+('05093', 'Betulia', 'ANT'),
+('05101', 'Ciudad Bolívar', 'ANT'),
+('05107', 'Briceño', 'ANT'),
+('05113', 'Buriticá', 'ANT'),
+('05120', 'Cáceres', 'ANT'),
+('05125', 'Caicedo', 'ANT'),
+('05129', 'Caldas', 'ANT'),
+('05134', 'Campamento', 'ANT'),
+('05138', 'Cañasgordas', 'ANT'),
+('05142', 'Caracolí', 'ANT'),
+('05145', 'Caramanta', 'ANT'),
+('05147', 'Carepa', 'ANT'),
+('05148', 'El Carmen de Viboral', 'ANT'),
+('05150', 'Carolina', 'ANT'),
+('05154', 'Caucasia', 'ANT'),
+('05172', 'Chigorodó', 'ANT'),
+('05190', 'Cisneros', 'ANT'),
+('05197', 'Cocorná', 'ANT'),
+('05206', 'Concepción', 'ANT'),
+('05209', 'Concordia', 'ANT'),
+('05212', 'Copacabana', 'ANT'),
+('05234', 'Dabeiba', 'ANT'),
+('05237', 'Don Matías', 'ANT'),
+('05240', 'Ebéjico', 'ANT'),
+('05250', 'El Bagre', 'ANT'),
+('05264', 'Entrerríos', 'ANT'),
+('05266', 'Envigado', 'ANT'),
+('05282', 'Fredonia', 'ANT'),
+('05284', 'Frontino', 'ANT'),
+('05306', 'Giraldo', 'ANT'),
+('05308', 'Girardota', 'ANT'),
+('05310', 'Gómez Plata', 'ANT'),
+('05313', 'Granada', 'ANT'),
+('05315', 'Guadalupe', 'ANT'),
+('05318', 'Guarne', 'ANT'),
+('05321', 'Guatapé', 'ANT'),
+('05347', 'Heliconia', 'ANT'),
+('05353', 'Hispania', 'ANT'),
+('05360', 'Itagüí', 'ANT'),
+('05361', 'Ituango', 'ANT'),
+('05364', 'Jardín', 'ANT'),
+('05368', 'Jericó', 'ANT'),
+('05376', 'La Ceja', 'ANT'),
+('05380', 'La Estrella', 'ANT'),
+('05390', 'La Pintada', 'ANT'),
+('05400', 'La Unión', 'ANT'),
+('05411', 'Liborina', 'ANT'),
+('05425', 'Maceo', 'ANT'),
+('05440', 'Marinilla', 'ANT'),
+('05467', 'Montebello', 'ANT'),
+('05475', 'Murindó', 'ANT'),
+('05480', 'Mutatá', 'ANT'),
+('05483', 'Nariño', 'ANT'),
+('05490', 'Necoclí', 'ANT'),
+('05495', 'Nechí', 'ANT'),
+('05501', 'Olaya', 'ANT'),
+('05541', 'Peñol', 'ANT'),
+('05543', 'Peque', 'ANT'),
+('05576', 'Pueblorrico', 'ANT'),
+('05579', 'Puerto Berrío', 'ANT'),
+('05585', 'Puerto Nare', 'ANT'),
+('05591', 'Puerto Triunfo', 'ANT'),
+('05604', 'Remedios', 'ANT'),
+('05607', 'Retiro', 'ANT'),
+('05615', 'Rionegro', 'ANT'),
+('05628', 'Sabanalarga', 'ANT'),
+('05631', 'Sabaneta', 'ANT'),
+('05642', 'Salgar', 'ANT'),
+('05647', 'San Andrés de Cuerquia', 'ANT'),
+('05649', 'San Carlos', 'ANT'),
+('05652', 'San Francisco', 'ANT'),
+('05656', 'San Jerónimo', 'ANT'),
+('05658', 'San José de la Montaña', 'ANT'),
+('05659', 'San Juan de Urabá', 'ANT'),
+('05660', 'San Luis', 'ANT'),
+('05664', 'San Pedro de los Milagros', 'ANT'),
+('05665', 'San Pedro de Urabá', 'ANT'),
+('05667', 'San Rafael', 'ANT'),
+('05670', 'San Roque', 'ANT'),
+('05674', 'San Vicente Ferrer', 'ANT'),
+('05679', 'Santa Bárbara', 'ANT'),
+('05686', 'Santa Rosa de Osos', 'ANT'),
+('05690', 'Santo Domingo', 'ANT'),
+('05697', 'El Santuario', 'ANT'),
+('05736', 'Segovia', 'ANT'),
+('05756', 'Sonsón', 'ANT'),
+('05761', 'Sopetrán', 'ANT'),
+('05789', 'Támesis', 'ANT'),
+('05790', 'Tarazá', 'ANT'),
+('05792', 'Tarso', 'ANT'),
+('05809', 'Titiribí', 'ANT'),
+('05819', 'Toledo', 'ANT'),
+('05837', 'Turbo', 'ANT'),
+('05842', 'Uramita', 'ANT'),
+('05847', 'Urrao', 'ANT'),
+('05854', 'Valdivia', 'ANT'),
+('05856', 'Valparaíso', 'ANT'),
+('05858', 'Vegachí', 'ANT'),
+('05861', 'Venecia', 'ANT'),
+('05873', 'Vigía del Fuerte', 'ANT'),
+('05885', 'Yalí', 'ANT'),
+('05887', 'Yarumal', 'ANT'),
+('05890', 'Yolombó', 'ANT'),
+('05893', 'Yondó', 'ANT'),
+('05895', 'Zaragoza', 'ANT');
+
+======================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE ATLÁNTICO
+-- Municipios de Atlántico (Código departamento: 08)
+======================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('08001', 'Barranquilla', 'ATL'),
+('08078', 'Baranoa', 'ATL'),
+('08137', 'Campo de la Cruz', 'ATL'),
+('08141', 'Candelaria', 'ATL'),
+('08296', 'Galapa', 'ATL'),
+('08372', 'Juan de Acosta', 'ATL'),
+('08421', 'Luruaco', 'ATL'),
+('08433', 'Malambo', 'ATL'),
+('08436', 'Manatí', 'ATL'),
+('08520', 'Palmar de Varela', 'ATL'),
+('08549', 'Piojó', 'ATL'),
+('08558', 'Polonuevo', 'ATL'),
+('08560', 'Ponedera', 'ATL'),
+('08573', 'Puerto Colombia', 'ATL'),
+('08606', 'Repelón', 'ATL'),
+('08634', 'Sabanagrande', 'ATL'),
+('08638', 'Sabanalarga', 'ATL'),
+('08675', 'Santa Lucía', 'ATL'),
+('08685', 'Santo Tomás', 'ATL'),
+('08758', 'Soledad', 'ATL'),
+('08770', 'Suán', 'ATL'),
+('08832', 'Tubará', 'ATL'),
+('08849', 'Usiacurí', 'ATL');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE BOLÍVAR
+-- Municipios de Bolívar (Código departamento: 13)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('13001', 'Cartagena', 'BOL'),
+('13006', 'Achí', 'BOL'),
+('13030', 'Altos del Rosario', 'BOL'),
+('13042', 'Arenal', 'BOL'),
+('13052', 'Arjona', 'BOL'),
+('13062', 'Arroyohondo', 'BOL'),
+('13074', 'Barranco de Loba', 'BOL'),
+('13140', 'Calamar', 'BOL'),
+('13160', 'Cantagallo', 'BOL'),
+('13188', 'Cicuco', 'BOL'),
+('13212', 'Córdoba', 'BOL'),
+('13222', 'Clemencia', 'BOL'),
+('13244', 'El Carmen de Bolívar', 'BOL'),
+('13248', 'El Guamo', 'BOL'),
+('13268', 'El Peñón', 'BOL'),
+('13300', 'Hatillo de Loba', 'BOL'),
+('13430', 'Magangué', 'BOL'),
+('13433', 'Mahates', 'BOL'),
+('13440', 'Margarita', 'BOL'),
+('13442', 'María la Baja', 'BOL'),
+('13458', 'Montecristo', 'BOL'),
+('13468', 'Mompós', 'BOL'),
+('13473', 'Morales', 'BOL'),
+('13549', 'Pinillos', 'BOL'),
+('13580', 'Regidor', 'BOL'),
+('13600', 'Río Viejo', 'BOL'),
+('13620', 'San Cristóbal', 'BOL'),
+('13647', 'San Estanislao', 'BOL'),
+('13650', 'San Fernando', 'BOL'),
+('13654', 'San Jacinto', 'BOL'),
+('13655', 'San Jacinto del Cauca', 'BOL'),
+('13657', 'San Juan Nepomuceno', 'BOL'),
+('13667', 'San Martín de Loba', 'BOL'),
+('13670', 'San Pablo', 'BOL'),
+('13673', 'Santa Catalina', 'BOL'),
+('13683', 'Santa Rosa', 'BOL'),
+('13688', 'Santa Rosa del Sur', 'BOL'),
+('13744', 'Simití', 'BOL'),
+('13760', 'Soplaviento', 'BOL'),
+('13780', 'Talaigua Nuevo', 'BOL'),
+('13810', 'Tiquisio', 'BOL'),
+('13836', 'Turbaco', 'BOL'),
+('13838', 'Turbaná', 'BOL'),
+('13873', 'Villanueva', 'BOL'),
+('13894', 'Zambrano', 'BOL');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE BOYACÁ
+-- Municipios de Boyacá (Código departamento: 15)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('15001', 'Tunja', 'BOY'),
+('15022', 'Almeida', 'BOY'),
+('15047', 'Aquitania', 'BOY'),
+('15051', 'Arcabuco', 'BOY'),
+('15087', 'Belén', 'BOY'),
+('15090', 'Berbeo', 'BOY'),
+('15092', 'Betéitiva', 'BOY'),
+('15097', 'Boavita', 'BOY'),
+('15104', 'Boyacá', 'BOY'),
+('15106', 'Briceño', 'BOY'),
+('15109', 'Buenavista', 'BOY'),
+('15114', 'Busbanzá', 'BOY'),
+('15131', 'Caldas', 'BOY'),
+('15135', 'Campohermoso', 'BOY'),
+('15162', 'Cerinza', 'BOY'),
+('15172', 'Chinavita', 'BOY'),
+('15176', 'Chiquinquirá', 'BOY'),
+('15180', 'Chiscas', 'BOY'),
+('15183', 'Chita', 'BOY'),
+('15185', 'Chitaraque', 'BOY'),
+('15187', 'Chivatá', 'BOY'),
+('15189', 'Ciénega', 'BOY'),
+('15204', 'Cómbita', 'BOY'),
+('15212', 'Coper', 'BOY'),
+('15215', 'Corrales', 'BOY'),
+('15218', 'Covarachía', 'BOY'),
+('15223', 'Cubará', 'BOY'),
+('15224', 'Cucaita', 'BOY'),
+('15226', 'Cuítiva', 'BOY'),
+('15232', 'Chíquiza', 'BOY'),
+('15236', 'Chivor', 'BOY'),
+('15238', 'Duitama', 'BOY'),
+('15244', 'El Cocuy', 'BOY'),
+('15248', 'El Espino', 'BOY'),
+('15272', 'Firavitoba', 'BOY'),
+('15276', 'Floresta', 'BOY'),
+('15293', 'Gachantivá', 'BOY'),
+('15296', 'Gámeza', 'BOY'),
+('15299', 'Garagoa', 'BOY'),
+('15317', 'Guacamayas', 'BOY'),
+('15322', 'Guateque', 'BOY'),
+('15325', 'Guayatá', 'BOY'),
+('15332', 'Güicán', 'BOY'),
+('15362', 'Iza', 'BOY'),
+('15367', 'Jenesano', 'BOY'),
+('15368', 'Jericó', 'BOY'),
+('15377', 'Labranzagrande', 'BOY'),
+('15380', 'La Capilla', 'BOY'),
+('15401', 'La Victoria', 'BOY'),
+('15403', 'La Uvita', 'BOY'),
+('15407', 'Villa de Leyva', 'BOY'),
+('15425', 'Macanal', 'BOY'),
+('15442', 'Maripí', 'BOY'),
+('15455', 'Miraflores', 'BOY'),
+('15464', 'Mongua', 'BOY'),
+('15466', 'Monguí', 'BOY'),
+('15469', 'Moniquirá', 'BOY'),
+('15476', 'Motavita', 'BOY'),
+('15480', 'Muzo', 'BOY'),
+('15491', 'Nobsa', 'BOY'),
+('15494', 'Nuevo Colón', 'BOY'),
+('15500', 'Oicatá', 'BOY'),
+('15507', 'Otanche', 'BOY'),
+('15511', 'Pachavita', 'BOY'),
+('15514', 'Páez', 'BOY'),
+('15516', 'Paipa', 'BOY'),
+('15518', 'Pajarito', 'BOY'),
+('15522', 'Panqueba', 'BOY'),
+('15531', 'Pauna', 'BOY'),
+('15533', 'Paya', 'BOY'),
+('15537', 'Paz de Río', 'BOY'),
+('15542', 'Pesca', 'BOY'),
+('15550', 'Pisba', 'BOY'),
+('15572', 'Puerto Boyacá', 'BOY'),
+('15580', 'Quípama', 'BOY'),
+('15599', 'Ramiriquí', 'BOY'),
+('15600', 'Ráquira', 'BOY'),
+('15621', 'Rondón', 'BOY'),
+('15632', 'Saboyá', 'BOY'),
+('15638', 'Sáchica', 'BOY'),
+('15646', 'Samacá', 'BOY'),
+('15660', 'San Eduardo', 'BOY'),
+('15664', 'San José de Pare', 'BOY'),
+('15667', 'San Luis de Gaceno', 'BOY'),
+('15673', 'San Mateo', 'BOY'),
+('15676', 'San Miguel de Sema', 'BOY'),
+('15681', 'San Pablo de Borbur', 'BOY'),
+('15686', 'Santana', 'BOY'),
+('15690', 'Santa María', 'BOY'),
+('15693', 'Santa Rosa de Viterbo', 'BOY'),
+('15696', 'Santa Sofía', 'BOY'),
+('15720', 'Sativanorte', 'BOY'),
+('15723', 'Sativasur', 'BOY'),
+('15740', 'Siachoque', 'BOY'),
+('15753', 'Soatá', 'BOY'),
+('15755', 'Socotá', 'BOY'),
+('15757', 'Socha', 'BOY'),
+('15759', 'Sogamoso', 'BOY'),
+('15761', 'Somondoco', 'BOY'),
+('15762', 'Sora', 'BOY'),
+('15763', 'Sotaquirá', 'BOY'),
+('15764', 'Soracá', 'BOY'),
+('15774', 'Susacón', 'BOY'),
+('15776', 'Sutamarchán', 'BOY'),
+('15778', 'Sutatenza', 'BOY'),
+('15790', 'Tasco', 'BOY'),
+('15798', 'Tenza', 'BOY'),
+('15804', 'Tibaná', 'BOY'),
+('15806', 'Tibasosa', 'BOY'),
+('15808', 'Tinjacá', 'BOY'),
+('15810', 'Tipacoque', 'BOY'),
+('15814', 'Toca', 'BOY'),
+('15816', 'Togüí', 'BOY'),
+('15820', 'Tópaga', 'BOY'),
+('15822', 'Tota', 'BOY'),
+('15832', 'Tunungua', 'BOY'),
+('15835', 'Turmeque', 'BOY'),
+('15837', 'Tuta', 'BOY'),
+('15839', 'Tutazá', 'BOY'),
+('15842', 'Úmbita', 'BOY'),
+('15861', 'Ventaquemada', 'BOY'),
+('15879', 'Viracachá', 'BOY'),
+('15897', 'Zetaquira', 'BOY');
+
+====================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE CALDAS
+-- Municipios de Caldas (Código departamento: 17)
+====================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('17001', 'Manizales', 'CAL'),
+('17013', 'Aguadas', 'CAL'),
+('17042', 'Anserma', 'CAL'),
+('17050', 'Aranzazu', 'CAL'),
+('17088', 'Belalcázar', 'CAL'),
+('17174', 'Chinchiná', 'CAL'),
+('17272', 'Filadelfia', 'CAL'),
+('17380', 'La Dorada', 'CAL'),
+('17388', 'La Merced', 'CAL'),
+('17433', 'Manzanares', 'CAL'),
+('17442', 'Marmato', 'CAL'),
+('17444', 'Marquetalia', 'CAL'),
+('17446', 'Marulanda', 'CAL'),
+('17486', 'Neira', 'CAL'),
+('17495', 'Norcasia', 'CAL'),
+('17513', 'Pácora', 'CAL'),
+('17524', 'Palestina', 'CAL'),
+('17541', 'Pensilvania', 'CAL'),
+('17614', 'Riosucio', 'CAL'),
+('17616', 'Risaralda', 'CAL'),
+('17653', 'Salamina', 'CAL'),
+('17662', 'Samaná', 'CAL'),
+('17665', 'San José', 'CAL'),
+('17777', 'Supía', 'CAL'),
+('17867', 'Victoria', 'CAL'),
+('17873', 'Villamaría', 'CAL'),
+('17877', 'Viterbo', 'CAL');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE CAQUETÁ
+-- Municipios de Caquetá (Código departamento: 18)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('18001', 'Florencia', 'CAQ'),
+('18029', 'Albania', 'CAQ'),
+('18094', 'Belén de los Andaquíes', 'CAQ'),
+('18150', 'Cartagena del Chairá', 'CAQ'),
+('18205', 'Curillo', 'CAQ'),
+('18247', 'El Doncello', 'CAQ'),
+('18256', 'El Paujil', 'CAQ'),
+('18410', 'La Montañita', 'CAQ'),
+('18460', 'Milán', 'CAQ'),
+('18479', 'Morelia', 'CAQ'),
+('18592', 'Puerto Rico', 'CAQ'),
+('18610', 'San José de la Fragua', 'CAQ'),
+('18753', 'San Vicente del Caguán', 'CAQ'),
+('18756', 'Solano', 'CAQ'),
+('18785', 'Solita', 'CAQ'),
+('18860', 'Valparaíso', 'CAQ');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE CAUCA
+-- Municipios de Cauca (Código departamento: 19)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('19001', 'Popayán', 'CAU'),
+('19022', 'Almaguer', 'CAU'),
+('19050', 'Argelia', 'CAU'),
+('19075', 'Balboa', 'CAU'),
+('19100', 'Bolívar', 'CAU'),
+('19110', 'Buenos Aires', 'CAU'),
+('19130', 'Cajibío', 'CAU'),
+('19137', 'Caldono', 'CAU'),
+('19142', 'Caloto', 'CAU'),
+('19212', 'Corinto', 'CAU'),
+('19256', 'El Tambo', 'CAU'),
+('19290', 'Florencia', 'CAU'),
+('19318', 'Guapi', 'CAU'),
+('19355', 'Inzá', 'CAU'),
+('19364', 'Jambaló', 'CAU'),
+('19392', 'La Sierra', 'CAU'),
+('19397', 'La Vega', 'CAU'),
+('19418', 'López', 'CAU'),
+('19450', 'Mercaderes', 'CAU'),
+('19455', 'Miranda', 'CAU'),
+('19473', 'Morales', 'CAU'),
+('19513', 'Padilla', 'CAU'),
+('19517', 'Páez', 'CAU'),
+('19532', 'Patía', 'CAU'),
+('19533', 'Piamonte', 'CAU'),
+('19548', 'Piendamó', 'CAU'),
+('19573', 'Puerto Tejada', 'CAU'),
+('19585', 'Puracé', 'CAU'),
+('19622', 'Rosas', 'CAU'),
+('19693', 'San Sebastián', 'CAU'),
+('19698', 'Santander de Quilichao', 'CAU'),
+('19701', 'Santa Rosa', 'CAU'),
+('19743', 'Silvia', 'CAU'),
+('19760', 'Sotará', 'CAU'),
+('19780', 'Suárez', 'CAU'),
+('19785', 'Sucre', 'CAU'),
+('19807', 'Timbío', 'CAU'),
+('19809', 'Timbiquí', 'CAU'),
+('19821', 'Toribío', 'CAU'),
+('19824', 'Totoró', 'CAU'),
+('19845', 'Villa Rica', 'CAU');
+
+====================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE CESAR
+-- Municipios de Cesar (Código departamento: 20)
+====================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('20001', 'Valledupar', 'CES'),
+('20011', 'Aguachica', 'CES'),
+('20013', 'Agustín Codazzi', 'CES'),
+('20032', 'Astrea', 'CES'),
+('20045', 'Becerril', 'CES'),
+('20060', 'Bosconia', 'CES'),
+('20175', 'Chimichagua', 'CES'),
+('20178', 'Chiriguaná', 'CES'),
+('20228', 'Curumaní', 'CES'),
+('20238', 'El Copey', 'CES'),
+('20250', 'El Paso', 'CES'),
+('20295', 'Gamarra', 'CES'),
+('20310', 'González', 'CES'),
+('20383', 'La Gloria', 'CES'),
+('20400', 'La Jagua de Ibirico', 'CES'),
+('20443', 'Manaure', 'CES'),
+('20517', 'Pailitas', 'CES'),
+('20550', 'Pelaya', 'CES'),
+('20570', 'Pueblo Bello', 'CES'),
+('20614', 'Río de Oro', 'CES'),
+('20621', 'La Paz', 'CES'),
+('20710', 'San Alberto', 'CES'),
+('20750', 'San Diego', 'CES'),
+('20770', 'San Martín', 'CES'),
+('20787', 'Tamalameque', 'CES');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE CÓRDOBA
+-- Municipios de Córdoba (Código departamento: 23)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('23001', 'Montería', 'COR'),
+('23068', 'Ayapel', 'COR'),
+('23079', 'Buenavista', 'COR'),
+('23090', 'Canalete', 'COR'),
+('23162', 'Cereté', 'COR'),
+('23168', 'Chimá', 'COR'),
+('23182', 'Chinú', 'COR'),
+('23189', 'Ciénaga de Oro', 'COR'),
+('23300', 'Cotorra', 'COR'),
+('23350', 'La Apartada', 'COR'),
+('23417', 'Lorica', 'COR'),
+('23419', 'Los Córdobas', 'COR'),
+('23464', 'Momil', 'COR'),
+('23466', 'Montelíbano', 'COR'),
+('23500', 'Moñitos', 'COR'),
+('23555', 'Planeta Rica', 'COR'),
+('23570', 'Pueblo Nuevo', 'COR'),
+('23574', 'Puerto Escondido', 'COR'),
+('23580', 'Puerto Libertador', 'COR'),
+('23586', 'Purísima', 'COR'),
+('23660', 'Sahagún', 'COR'),
+('23670', 'San Andrés de Sotavento', 'COR'),
+('23672', 'San Antero', 'COR'),
+('23675', 'San Bernardo del Viento', 'COR'),
+('23678', 'San Carlos', 'COR'),
+('23686', 'San Pelayo', 'COR'),
+('23807', 'Tierralta', 'COR'),
+('23855', 'Valencia', 'COR');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE CUNDINAMARCA
+-- Municipios de Cundinamarca (Código departamento: 25)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('25001', 'Agua de Dios', 'CUN'),
+('25019', 'Albán', 'CUN'),
+('25035', 'Anapoima', 'CUN'),
+('25040', 'Anolaima', 'CUN'),
+('25053', 'Arbeláez', 'CUN'),
+('25086', 'Beltrán', 'CUN'),
+('25095', 'Bituima', 'CUN'),
+('25099', 'Bojacá', 'CUN'),
+('25120', 'Cabrera', 'CUN'),
+('25123', 'Cachipay', 'CUN'),
+('25126', 'Cajicá', 'CUN'),
+('25148', 'Caparrapí', 'CUN'),
+('25151', 'Cáqueza', 'CUN'),
+('25154', 'Carmen de Carupa', 'CUN'),
+('25168', 'Chaguaní', 'CUN'),
+('25175', 'Chía', 'CUN'),
+('25178', 'Chipaque', 'CUN'),
+('25181', 'Choachí', 'CUN'),
+('25183', 'Chocontá', 'CUN'),
+('25200', 'Cogua', 'CUN'),
+('25214', 'Cota', 'CUN'),
+('25224', 'Cucunubá', 'CUN'),
+('25245', 'El Colegio', 'CUN'),
+('25258', 'El Peñón', 'CUN'),
+('25260', 'El Rosal', 'CUN'),
+('25269', 'Facatativá', 'CUN'),
+('25279', 'Fómeque', 'CUN'),
+('25281', 'Fosca', 'CUN'),
+('25286', 'Funza', 'CUN'),
+('25288', 'Fúquene', 'CUN'),
+('25290', 'Fusagasugá', 'CUN'),
+('25293', 'Gachalá', 'CUN'),
+('25295', 'Gachancipá', 'CUN'),
+('25297', 'Gachetá', 'CUN'),
+('25299', 'Gama', 'CUN'),
+('25307', 'Girardot', 'CUN'),
+('25312', 'Granada', 'CUN'),
+('25317', 'Guachetá', 'CUN'),
+('25320', 'Guaduas', 'CUN'),
+('25322', 'Guasca', 'CUN'),
+('25324', 'Guataquí', 'CUN'),
+('25326', 'Guatavita', 'CUN'),
+('25328', 'Guayabal de Síquima', 'CUN'),
+('25335', 'Guayabetal', 'CUN'),
+('25339', 'Gutiérrez', 'CUN'),
+('25368', 'Jerusalén', 'CUN'),
+('25372', 'Junín', 'CUN'),
+('25377', 'La Calera', 'CUN'),
+('25386', 'La Mesa', 'CUN'),
+('25394', 'La Palma', 'CUN'),
+('25398', 'La Peña', 'CUN'),
+('25402', 'La Vega', 'CUN'),
+('25407', 'Lenguazaque', 'CUN'),
+('25426', 'Macheta', 'CUN'),
+('25430', 'Madrid', 'CUN'),
+('25436', 'Manta', 'CUN'),
+('25438', 'Medina', 'CUN'),
+('25473', 'Mosquera', 'CUN'),
+('25483', 'Nariño', 'CUN'),
+('25486', 'Nemocón', 'CUN'),
+('25488', 'Nilo', 'CUN'),
+('25489', 'Nimaima', 'CUN'),
+('25491', 'Nocaima', 'CUN'),
+('25506', 'Venecia', 'CUN'),
+('25513', 'Pacho', 'CUN'),
+('25518', 'Paime', 'CUN'),
+('25524', 'Pandi', 'CUN'),
+('25530', 'Paratebueno', 'CUN'),
+('25535', 'Pasca', 'CUN'),
+('25572', 'Puerto Salgar', 'CUN'),
+('25580', 'Pulí', 'CUN'),
+('25592', 'Quebradanegra', 'CUN'),
+('25594', 'Quetame', 'CUN'),
+('25596', 'Quipile', 'CUN'),
+('25599', 'Apulo', 'CUN'),
+('25612', 'Ricaurte', 'CUN'),
+('25645', 'San Antonio del Tequendama', 'CUN'),
+('25649', 'San Bernardo', 'CUN'),
+('25653', 'San Cayetano', 'CUN'),
+('25658', 'San Francisco', 'CUN'),
+('25662', 'San Juan de Río Seco', 'CUN'),
+('25718', 'Sasaima', 'CUN'),
+('25736', 'Sesquilé', 'CUN'),
+('25740', 'Sibaté', 'CUN'),
+('25743', 'Silvania', 'CUN'),
+('25745', 'Simijaca', 'CUN'),
+('25754', 'Soacha', 'CUN'),
+('25758', 'Sopó', 'CUN'),
+('25769', 'Subachoque', 'CUN'),
+('25772', 'Suesca', 'CUN'),
+('25777', 'Supatá', 'CUN'),
+('25779', 'Susa', 'CUN'),
+('25781', 'Sutatausa', 'CUN'),
+('25785', 'Tabio', 'CUN'),
+('25793', 'Tausa', 'CUN'),
+('25797', 'Tena', 'CUN'),
+('25799', 'Tenjo', 'CUN'),
+('25805', 'Tibacuy', 'CUN'),
+('25807', 'Tibirita', 'CUN'),
+('25815', 'Tocaima', 'CUN'),
+('25817', 'Tocancipá', 'CUN'),
+('25823', 'Topaipí', 'CUN'),
+('25839', 'Ubalá', 'CUN'),
+('25841', 'Ubaque', 'CUN'),
+('25843', 'Villa de San Diego de Ubaté', 'CUN'),
+('25845', 'Une', 'CUN'),
+('25851', 'Útica', 'CUN'),
+('25862', 'Vergara', 'CUN'),
+('25867', 'Vianí', 'CUN'),
+('25871', 'Villagómez', 'CUN'),
+('25873', 'Villapinzón', 'CUN'),
+('25875', 'Villeta', 'CUN'),
+('25878', 'Viotá', 'CUN'),
+('25885', 'Yacopí', 'CUN'),
+('25898', 'Zipacón', 'CUN'),
+('25899', 'Zipaquirá', 'CUN');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE CHOCÓ
+-- Municipios de Chocó (Código departamento: 27)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('27001', 'Quibdó', 'CHO'),
+('27006', 'Acandí', 'CHO'),
+('27025', 'Alto Baudó', 'CHO'),
+('27050', 'Atrato', 'CHO'),
+('27073', 'Bagadó', 'CHO'),
+('27075', 'Bahía Solano', 'CHO'),
+('27077', 'Bajo Baudó', 'CHO'),
+('27086', 'Belén de Bajirá', 'CHO'),
+('27099', 'Bojayá', 'CHO'),
+('27135', 'El Cantón del San Pablo', 'CHO'),
+('27150', 'Carmen del Darién', 'CHO'),
+('27160', 'Cértegui', 'CHO'),
+('27205', 'Condoto', 'CHO'),
+('27245', 'El Carmen de Atrato', 'CHO'),
+('27250', 'El Litoral del San Juan', 'CHO'),
+('27361', 'Istmina', 'CHO'),
+('27372', 'Juradó', 'CHO'),
+('27413', 'Lloró', 'CHO'),
+('27425', 'Medio Atrato', 'CHO'),
+('27430', 'Medio Baudó', 'CHO'),
+('27450', 'Medio San Juan', 'CHO'),
+('27491', 'Nóvita', 'CHO'),
+('27495', 'Nuquí', 'CHO'),
+('27580', 'Río Iró', 'CHO'),
+('27600', 'Río Quito', 'CHO'),
+('27615', 'Riosucio', 'CHO'),
+('27660', 'San José del Palmar', 'CHO'),
+('27745', 'Sipí', 'CHO'),
+('27787', 'Tadó', 'CHO'),
+('27800', 'Unguía', 'CHO'),
+('27810', 'Unión Panamericana', 'CHO');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE HUILA
+-- Municipios de Huila (Código departamento: 41)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('41001', 'Neiva', 'HUI'),
+('41006', 'Acevedo', 'HUI'),
+('41013', 'Agrado', 'HUI'),
+('41016', 'Aipe', 'HUI'),
+('41020', 'Algeciras', 'HUI'),
+('41026', 'Altamira', 'HUI'),
+('41078', 'Baraya', 'HUI'),
+('41132', 'Campoalegre', 'HUI'),
+('41206', 'Colombia', 'HUI'),
+('41244', 'Elías', 'HUI'),
+('41298', 'Garzón', 'HUI'),
+('41306', 'Gigante', 'HUI'),
+('41319', 'Guadalupe', 'HUI'),
+('41349', 'Hobo', 'HUI'),
+('41357', 'Íquira', 'HUI'),
+('41359', 'Isnos', 'HUI'),
+('41378', 'La Argentina', 'HUI'),
+('41396', 'La Plata', 'HUI'),
+('41483', 'Nátaga', 'HUI'),
+('41503', 'Oporapa', 'HUI'),
+('41518', 'Paicol', 'HUI'),
+('41524', 'Palermo', 'HUI'),
+('41530', 'Palestina', 'HUI'),
+('41548', 'Pital', 'HUI'),
+('41551', 'Pitalito', 'HUI'),
+('41615', 'Rivera', 'HUI'),
+('41660', 'Saladoblanco', 'HUI'),
+('41668', 'San Agustín', 'HUI'),
+('41676', 'Santa María', 'HUI'),
+('41770', 'Suaza', 'HUI'),
+('41791', 'Tarqui', 'HUI'),
+('41797', 'Tesalia', 'HUI'),
+('41799', 'Tello', 'HUI'),
+('41801', 'Teruel', 'HUI'),
+('41807', 'Timaná', 'HUI'),
+('41872', 'Villavieja', 'HUI'),
+('41885', 'Yaguará', 'HUI');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE LA GUAJIRA
+-- Municipios de La Guajira (Código departamento: 44)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('44001', 'Riohacha', 'LAG'),
+('44035', 'Albania', 'LAG'),
+('44078', 'Barrancas', 'LAG'),
+('44090', 'Dibulla', 'LAG'),
+('44098', 'Distracción', 'LAG'),
+('44110', 'El Molino', 'LAG'),
+('44279', 'Fonseca', 'LAG'),
+('44378', 'Hatonuevo', 'LAG'),
+('44420', 'La Jagua del Pilar', 'LAG'),
+('44430', 'Maicao', 'LAG'),
+('44560', 'Manaure', 'LAG'),
+('44650', 'San Juan del Cesar', 'LAG'),
+('44847', 'Uribia', 'LAG'),
+('44855', 'Urumita', 'LAG'),
+('44874', 'Villanueva', 'LAG');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE MAGDALENA
+-- Municipios de Magdalena (Código departamento: 47)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('47001', 'Santa Marta', 'MAG'),
+('47030', 'Algarrobo', 'MAG'),
+('47053', 'Aracataca', 'MAG'),
+('47058', 'Ariguaní', 'MAG'),
+('47161', 'Cerro San Antonio', 'MAG'),
+('47170', 'Chivolo', 'MAG'),
+('47189', 'Ciénaga', 'MAG'),
+('47205', 'Concordia', 'MAG'),
+('47245', 'El Banco', 'MAG'),
+('47258', 'El Piñón', 'MAG'),
+('47268', 'El Retén', 'MAG'),
+('47288', 'Fundación', 'MAG'),
+('47318', 'Guamal', 'MAG'),
+('47460', 'Nueva Granada', 'MAG'),
+('47541', 'Pedraza', 'MAG'),
+('47545', 'Pijiño del Carmen', 'MAG'),
+('47551', 'Pivijay', 'MAG'),
+('47555', 'Plato', 'MAG'),
+('47570', 'Puebloviejo', 'MAG'),
+('47605', 'Remolino', 'MAG'),
+('47660', 'Sabanas de San Ángel', 'MAG'),
+('47675', 'Salamina', 'MAG'),
+('47692', 'San Sebastián', 'MAG'),
+('47703', 'San Zenón', 'MAG'),
+('47707', 'Santa Ana', 'MAG'),
+('47720', 'Santa Bárbara de Pinto', 'MAG'),
+('47745', 'Sitionuevo', 'MAG'),
+('47798', 'Tenerife', 'MAG'),
+('47960', 'Zapayán', 'MAG'),
+('47980', 'Zona Bananera', 'MAG');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE META
+-- Municipios de Meta (Código departamento: 50)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('50001', 'Villavicencio', 'MET'),
+('50006', 'Acacías', 'MET'),
+('50110', 'Barranca de Upía', 'MET'),
+('50124', 'Cabuyaro', 'MET'),
+('50150', 'Castilla la Nueva', 'MET'),
+('50223', 'Cubarral', 'MET'),
+('50226', 'Cumaral', 'MET'),
+('50245', 'El Calvario', 'MET'),
+('50251', 'El Castillo', 'MET'),
+('50270', 'El Dorado', 'MET'),
+('50287', 'Fuente de Oro', 'MET'),
+('50313', 'Granada', 'MET'),
+('50318', 'Guamal', 'MET'),
+('50325', 'Mapiripán', 'MET'),
+('50330', 'Mesetas', 'MET'),
+('50350', 'La Macarena', 'MET'),
+('50370', 'Uribe', 'MET'),
+('50400', 'Lejanías', 'MET'),
+('50450', 'Puerto Concordia', 'MET'),
+('50568', 'Puerto Gaitán', 'MET'),
+('50573', 'Puerto López', 'MET'),
+('50577', 'Puerto Lleras', 'MET'),
+('50590', 'Puerto Rico', 'MET'),
+('50606', 'Restrepo', 'MET'),
+('50680', 'San Carlos de Guaroa', 'MET'),
+('50683', 'San Juan de Arama', 'MET'),
+('50686', 'San Juanito', 'MET'),
+('50689', 'San Martín', 'MET'),
+('50711', 'Vista Hermosa', 'MET');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE NARIÑO
+-- Municipios de Nariño (Código departamento: 52)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('52001', 'Pasto', 'NAR'),
+('52019', 'Albán', 'NAR'),
+('52022', 'Aldana', 'NAR'),
+('52036', 'Ancuyá', 'NAR'),
+('52051', 'Arboleda', 'NAR'),
+('52079', 'Barbacoas', 'NAR'),
+('52083', 'Belén', 'NAR'),
+('52110', 'Buesaco', 'NAR'),
+('52203', 'Colón', 'NAR'),
+('52207', 'Consacá', 'NAR'),
+('52210', 'Contadero', 'NAR'),
+('52215', 'Córdoba', 'NAR'),
+('52224', 'Cuaspud', 'NAR'),
+('52227', 'Cumbal', 'NAR'),
+('52233', 'Cumbitara', 'NAR'),
+('52240', 'Chachagüí', 'NAR'),
+('52250', 'El Charco', 'NAR'),
+('52254', 'El Peñol', 'NAR'),
+('52256', 'El Rosario', 'NAR'),
+('52258', 'El Tablón de Gómez', 'NAR'),
+('52260', 'El Tambo', 'NAR'),
+('52287', 'Funes', 'NAR'),
+('52317', 'Guachucal', 'NAR'),
+('52320', 'Guaitarilla', 'NAR'),
+('52323', 'Gualmatán', 'NAR'),
+('52352', 'Iles', 'NAR'),
+('52354', 'Imués', 'NAR'),
+('52356', 'Ipiales', 'NAR'),
+('52378', 'La Cruz', 'NAR'),
+('52381', 'La Florida', 'NAR'),
+('52385', 'La Llanada', 'NAR'),
+('52390', 'La Tola', 'NAR'),
+('52399', 'La Unión', 'NAR'),
+('52405', 'Leiva', 'NAR'),
+('52411', 'Linares', 'NAR'),
+('52418', 'Los Andes', 'NAR'),
+('52427', 'Magüí', 'NAR'),
+('52435', 'Mallama', 'NAR'),
+('52473', 'Mosquera', 'NAR'),
+('52480', 'Nariño', 'NAR'),
+('52490', 'Olaya Herrera', 'NAR'),
+('52506', 'Ospina', 'NAR'),
+('52520', 'Francisco Pizarro', 'NAR'),
+('52540', 'Policarpa', 'NAR'),
+('52560', 'Potosí', 'NAR'),
+('52565', 'Providencia', 'NAR'),
+('52573', 'Puerres', 'NAR'),
+('52585', 'Pupiales', 'NAR'),
+('52612', 'Ricaurte', 'NAR'),
+('52621', 'Roberto Payán', 'NAR'),
+('52678', 'Samaniego', 'NAR'),
+('52683', 'Sandoná', 'NAR'),
+('52685', 'San Bernardo', 'NAR'),
+('52687', 'San Lorenzo', 'NAR'),
+('52693', 'San Pablo', 'NAR'),
+('52694', 'San Pedro de Cartago', 'NAR'),
+('52696', 'Santa Bárbara', 'NAR'),
+('52699', 'Santacruz', 'NAR'),
+('52720', 'Sapuyes', 'NAR'),
+('52786', 'Taminango', 'NAR'),
+('52788', 'Tangua', 'NAR'),
+('52835', 'Tumaco', 'NAR'),
+('52838', 'Tuquerres', 'NAR'),
+('52885', 'Yacuanquer', 'NAR');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE NORTE DE SANTANDER
+-- Municipios de Norte de Santander (Código departamento: 54)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('54001', 'Cúcuta', 'NSA'),
+('54003', 'Ábrego', 'NSA'),
+('54051', 'Arboledas', 'NSA'),
+('54099', 'Bochalema', 'NSA'),
+('54109', 'Bucarasica', 'NSA'),
+('54125', 'Cácota', 'NSA'),
+('54128', 'Cáchira', 'NSA'),
+('54172', 'Chinácota', 'NSA'),
+('54174', 'Chitagá', 'NSA'),
+('54206', 'Convención', 'NSA'),
+('54223', 'Cucutilla', 'NSA'),
+('54239', 'Durania', 'NSA'),
+('54245', 'El Carmen', 'NSA'),
+('54250', 'El Tarra', 'NSA'),
+('54261', 'El Zulia', 'NSA'),
+('54313', 'Gramalote', 'NSA'),
+('54344', 'Hacarí', 'NSA'),
+('54347', 'Herrán', 'NSA'),
+('54377', 'Labateca', 'NSA'),
+('54385', 'La Esperanza', 'NSA'),
+('54398', 'La Playa', 'NSA'),
+('54405', 'Los Patios', 'NSA'),
+('54418', 'Lourdes', 'NSA'),
+('54480', 'Mutiscua', 'NSA'),
+('54498', 'Ocaña', 'NSA'),
+('54518', 'Pamplona', 'NSA'),
+('54520', 'Pamplonita', 'NSA'),
+('54553', 'Puerto Santander', 'NSA'),
+('54599', 'Ragonvalia', 'NSA'),
+('54660', 'Salazar', 'NSA'),
+('54670', 'San Calixto', 'NSA'),
+('54673', 'San Cayetano', 'NSA'),
+('54680', 'Santiago', 'NSA'),
+('54720', 'Sardinata', 'NSA'),
+('54743', 'Silos', 'NSA'),
+('54800', 'Teorama', 'NSA'),
+('54810', 'Tibú', 'NSA'),
+('54820', 'Toledo', 'NSA'),
+('54871', 'Villa Caro', 'NSA'),
+('54874', 'Villa del Rosario', 'NSA');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE QUINDÍO
+-- Municipios de Quindío (Código departamento: 63)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('63001', 'Armenia', 'QUI'),
+('63111', 'Buenavista', 'QUI'),
+('63130', 'Calarcá', 'QUI'),
+('63190', 'Circasia', 'QUI'),
+('63212', 'Córdoba', 'QUI'),
+('63272', 'Filandia', 'QUI'),
+('63302', 'Génova', 'QUI'),
+('63401', 'La Tebaida', 'QUI'),
+('63470', 'Montenegro', 'QUI'),
+('63548', 'Pijao', 'QUI'),
+('63594', 'Quimbaya', 'QUI'),
+('63690', 'Salento', 'QUI');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE RISARALDA
+-- Municipios de Risaralda (Código departamento: 66)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('66001', 'Pereira', 'RIS'),
+('66045', 'Apía', 'RIS'),
+('66075', 'Balboa', 'RIS'),
+('66088', 'Belén de Umbría', 'RIS'),
+('66170', 'Dosquebradas', 'RIS'),
+('66318', 'Guática', 'RIS'),
+('66383', 'La Celia', 'RIS'),
+('66400', 'La Virginia', 'RIS'),
+('66440', 'Marsella', 'RIS'),
+('66456', 'Mistrató', 'RIS'),
+('66572', 'Pueblo Rico', 'RIS'),
+('66594', 'Quinchía', 'RIS'),
+('66682', 'Santa Rosa de Cabal', 'RIS'),
+('66687', 'Santuario', 'RIS');
+
+====================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE SANTANDER
+-- Municipios de Santander (Código departamento: 68)
+====================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('68001', 'Bucaramanga', 'SAN'),
+('68013', 'Aguada', 'SAN'),
+('68020', 'Albania', 'SAN'),
+('68051', 'Aratoca', 'SAN'),
+('68077', 'Barbosa', 'SAN'),
+('68079', 'Barichara', 'SAN'),
+('68081', 'Barrancabermeja', 'SAN'),
+('68092', 'Betulia', 'SAN'),
+('68101', 'Bolívar', 'SAN'),
+('68121', 'Cabrera', 'SAN'),
+('68132', 'California', 'SAN'),
+('68147', 'Capitanejo', 'SAN'),
+('68152', 'Carcasí', 'SAN'),
+('68160', 'Cepitá', 'SAN'),
+('68162', 'Cerrito', 'SAN'),
+('68167', 'Charalá', 'SAN'),
+('68169', 'Charta', 'SAN'),
+('68176', 'Chima', 'SAN'),
+('68179', 'Chipatá', 'SAN'),
+('68190', 'Cimitarra', 'SAN'),
+('68207', 'Concepción', 'SAN'),
+('68209', 'Confines', 'SAN'),
+('68211', 'Contratación', 'SAN'),
+('68217', 'Coromoro', 'SAN'),
+('68229', 'Curití', 'SAN'),
+('68235', 'El Carmen de Chucurí', 'SAN'),
+('68245', 'El Guacamayo', 'SAN'),
+('68250', 'El Peñón', 'SAN'),
+('68255', 'El Playón', 'SAN'),
+('68264', 'Encino', 'SAN'),
+('68266', 'Enciso', 'SAN'),
+('68271', 'Florián', 'SAN'),
+('68276', 'Floridablanca', 'SAN'),
+('68296', 'Galán', 'SAN'),
+('68298', 'Gambita', 'SAN'),
+('68307', 'Girón', 'SAN'),
+('68318', 'Guaca', 'SAN'),
+('68320', 'Guadalupe', 'SAN'),
+('68322', 'Guapotá', 'SAN'),
+('68324', 'Guavatá', 'SAN'),
+('68327', 'Güepsa', 'SAN'),
+('68344', 'Hato', 'SAN'),
+('68368', 'Jesús María', 'SAN'),
+('68370', 'Jordán', 'SAN'),
+('68377', 'La Belleza', 'SAN'),
+('68385', 'Landázuri', 'SAN'),
+('68397', 'La Paz', 'SAN'),
+('68406', 'Lebrija', 'SAN'),
+('68418', 'Los Santos', 'SAN'),
+('68425', 'Macaravita', 'SAN'),
+('68432', 'Málaga', 'SAN'),
+('68444', 'Matanza', 'SAN'),
+('68464', 'Mogotes', 'SAN'),
+('68468', 'Molagavita', 'SAN'),
+('68498', 'Ocamonte', 'SAN'),
+('68500', 'Oiba', 'SAN'),
+('68502', 'Onzaga', 'SAN'),
+('68522', 'Palmar', 'SAN'),
+('68524', 'Palmas del Socorro', 'SAN'),
+('68533', 'Páramo', 'SAN'),
+('68547', 'Piedecuesta', 'SAN'),
+('68549', 'Pinchote', 'SAN'),
+('68572', 'Puente Nacional', 'SAN'),
+('68573', 'Puerto Parra', 'SAN'),
+('68575', 'Puerto Wilches', 'SAN'),
+('68615', 'Rionegro', 'SAN'),
+('68655', 'Sabana de Torres', 'SAN'),
+('68669', 'San Andrés', 'SAN'),
+('68673', 'San Benito', 'SAN'),
+('68679', 'San Gil', 'SAN'),
+('68682', 'San Joaquín', 'SAN'),
+('68684', 'San José de Miranda', 'SAN'),
+('68686', 'San Miguel', 'SAN'),
+('68689', 'San Vicente de Chucurí', 'SAN'),
+('68705', 'Santa Bárbara', 'SAN'),
+('68720', 'Santa Helena del Opón', 'SAN'),
+('68745', 'Simacota', 'SAN'),
+('68755', 'Socorro', 'SAN'),
+('68770', 'Suaita', 'SAN'),
+('68773', 'Sucre', 'SAN'),
+('68780', 'Suratá', 'SAN'),
+('68820', 'Tona', 'SAN'),
+('68855', 'Valle de San José', 'SAN'),
+('68861', 'Vélez', 'SAN'),
+('68867', 'Vetas', 'SAN'),
+('68872', 'Villanueva', 'SAN'),
+('68895', 'Zapatoca', 'SAN');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE SUCRE
+-- Municipios de Sucre (Código departamento: 70)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('70001', 'Sincelejo', 'SUC'),
+('70110', 'Buenavista', 'SUC'),
+('70124', 'Caimito', 'SUC'),
+('70204', 'Colosó', 'SUC'),
+('70215', 'Corozal', 'SUC'),
+('70230', 'Chalán', 'SUC'),
+('70233', 'El Roble', 'SUC'),
+('70235', 'Galeras', 'SUC'),
+('70265', 'Guaranda', 'SUC'),
+('70400', 'La Unión', 'SUC'),
+('70418', 'Los Palmitos', 'SUC'),
+('70429', 'Majagual', 'SUC'),
+('70473', 'Morroa', 'SUC'),
+('70508', 'Ovejas', 'SUC'),
+('70523', 'Palmito', 'SUC'),
+('70670', 'Sampués', 'SUC'),
+('70678', 'San Benito Abad', 'SUC'),
+('70702', 'San Juan de Betulia', 'SUC'),
+('70708', 'San Marcos', 'SUC'),
+('70713', 'San Onofre', 'SUC'),
+('70717', 'San Pedro', 'SUC'),
+('70742', 'Sincé', 'SUC'),
+('70771', 'Sucre', 'SUC'),
+('70820', 'Santiago de Tolú', 'SUC'),
+('70823', 'Toluviejo', 'SUC');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE TOLIMA
+-- Municipios de Tolima (Código departamento: 73)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('73001', 'Ibagué', 'TOL'),
+('73024', 'Alpujarra', 'TOL'),
+('73026', 'Alvarado', 'TOL'),
+('73030', 'Ambalema', 'TOL'),
+('73043', 'Anzoátegui', 'TOL'),
+('73055', 'Armero', 'TOL'),
+('73067', 'Ataco', 'TOL'),
+('73124', 'Cajamarca', 'TOL'),
+('73148', 'Carmen de Apicalá', 'TOL'),
+('73152', 'Casabianca', 'TOL'),
+('73168', 'Chaparral', 'TOL'),
+('73200', 'Coello', 'TOL'),
+('73217', 'Coyaima', 'TOL'),
+('73226', 'Cunday', 'TOL'),
+('73236', 'Dolores', 'TOL'),
+('73268', 'Espinal', 'TOL'),
+('73270', 'Falan', 'TOL'),
+('73275', 'Flandes', 'TOL'),
+('73283', 'Fresno', 'TOL'),
+('73319', 'Guamo', 'TOL'),
+('73347', 'Herveo', 'TOL'),
+('73349', 'Honda', 'TOL'),
+('73352', 'Icononzo', 'TOL'),
+('73408', 'Lérida', 'TOL'),
+('73411', 'Líbano', 'TOL'),
+('73443', 'Mariquita', 'TOL'),
+('73449', 'Melgar', 'TOL'),
+('73461', 'Murillo', 'TOL'),
+('73483', 'Natagaima', 'TOL'),
+('73504', 'Ortega', 'TOL'),
+('73520', 'Palocabildo', 'TOL'),
+('73547', 'Piedras', 'TOL'),
+('73555', 'Planadas', 'TOL'),
+('73563', 'Prado', 'TOL'),
+('73585', 'Purificación', 'TOL'),
+('73616', 'Rioblanco', 'TOL'),
+('73622', 'Roncesvalles', 'TOL'),
+('73624', 'Rovira', 'TOL'),
+('73671', 'Saldaña', 'TOL'),
+('73675', 'San Antonio', 'TOL'),
+('73678', 'San Luis', 'TOL'),
+('73686', 'Santa Isabel', 'TOL'),
+('73770', 'Suárez', 'TOL'),
+('73854', 'Valle de San Juan', 'TOL'),
+('73861', 'Venadillo', 'TOL'),
+('73870', 'Villahermosa', 'TOL'),
+('73873', 'Villarrica', 'TOL');
+
+====================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE VALLE DEL CAUCA
+-- Municipios de Valle del Cauca (Código departamento: 76)
+====================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('76001', 'Cali', 'VAC'),
+('76020', 'Alcalá', 'VAC'),
+('76036', 'Andalucía', 'VAC'),
+('76041', 'Ansermanuevo', 'VAC'),
+('76054', 'Argelia', 'VAC'),
+('76100', 'Bolívar', 'VAC'),
+('76109', 'Buenaventura', 'VAC'),
+('76111', 'Guadalajara de Buga', 'VAC'),
+('76113', 'Bugalagrande', 'VAC'),
+('76122', 'Caicedonia', 'VAC'),
+('76126', 'Calima', 'VAC'),
+('76130', 'Candelaria', 'VAC'),
+('76147', 'Cartago', 'VAC'),
+('76233', 'Dagua', 'VAC'),
+('76243', 'El Águila', 'VAC'),
+('76246', 'El Cairo', 'VAC'),
+('76248', 'El Cerrito', 'VAC'),
+('76250', 'El Dovio', 'VAC'),
+('76275', 'Florida', 'VAC'),
+('76306', 'Ginebra', 'VAC'),
+('76318', 'Guacarí', 'VAC'),
+('76364', 'Jamundí', 'VAC'),
+('76377', 'La Cumbre', 'VAC'),
+('76400', 'La Unión', 'VAC'),
+('76403', 'La Victoria', 'VAC'),
+('76497', 'Obando', 'VAC'),
+('76520', 'Palmira', 'VAC'),
+('76563', 'Pradera', 'VAC'),
+('76606', 'Restrepo', 'VAC'),
+('76616', 'Riofrío', 'VAC'),
+('76622', 'Roldanillo', 'VAC'),
+('76670', 'San Pedro', 'VAC'),
+('76736', 'Sevilla', 'VAC'),
+('76823', 'Toro', 'VAC'),
+('76828', 'Trujillo', 'VAC'),
+('76834', 'Tuluá', 'VAC'),
+('76845', 'Ulloa', 'VAC'),
+('76863', 'Versalles', 'VAC'),
+('76869', 'Vijes', 'VAC'),
+('76890', 'Yotoco', 'VAC'),
+('76892', 'Yumbo', 'VAC'),
+('76895', 'Zarzal', 'VAC');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE ARAUCA
+-- Municipios de Arauca (Código departamento: 81)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('81001', 'Arauca', 'ARA'),
+('81065', 'Arauquita', 'ARA'),
+('81220', 'Cravo Norte', 'ARA'),
+('81300', 'Fortul', 'ARA'),
+('81591', 'Puerto Rondón', 'ARA'),
+('81736', 'Saravena', 'ARA'),
+('81794', 'Tame', 'ARA');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE CASANARE
+-- Municipios de Casanare (Código departamento: 85)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('85001', 'Yopal', 'CAS'),
+('85010', 'Aguazul', 'CAS'),
+('85015', 'Chámeza', 'CAS'),
+('85125', 'Hato Corozal', 'CAS'),
+('85136', 'La Salina', 'CAS'),
+('85139', 'Maní', 'CAS'),
+('85162', 'Monterrey', 'CAS'),
+('85225', 'Nunchía', 'CAS'),
+('85230', 'Orocué', 'CAS'),
+('85250', 'Paz de Ariporo', 'CAS'),
+('85263', 'Pore', 'CAS'),
+('85279', 'Recetor', 'CAS'),
+('85300', 'Sabanalarga', 'CAS'),
+('85315', 'Sácama', 'CAS'),
+('85325', 'San Luis de Palenque', 'CAS'),
+('85400', 'Támara', 'CAS'),
+('85410', 'Tauramena', 'CAS'),
+('85430', 'Trinidad', 'CAS'),
+('85440', 'Villanueva', 'CAS');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE PUTUMAYO
+-- Municipios de Putumayo (Código departamento: 86)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('86001', 'Mocoa', 'PUT'),
+('86219', 'Colón', 'PUT'),
+('86320', 'Orito', 'PUT'),
+('86568', 'Puerto Asís', 'PUT'),
+('86569', 'Puerto Caicedo', 'PUT'),
+('86571', 'Puerto Guzmán', 'PUT'),
+('86573', 'Leguízamo', 'PUT'),
+('86749', 'Sibundoy', 'PUT'),
+('86755', 'San Francisco', 'PUT'),
+('86757', 'San Miguel', 'PUT'),
+('86760', 'Santiago', 'PUT'),
+('86865', 'Valle del Guamuez', 'PUT'),
+('86885', 'Villagarzón', 'PUT');
+
+=====================================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA
+-- Municipios de San Andrés, Providencia y Santa Catalina (Código departamento: 88)
+=====================================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('88001', 'San Andrés', 'SAP'),
+('88564', 'Providencia', 'SAP');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE AMAZONAS
+-- Municipios de Amazonas (Código departamento: 91)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('91001', 'Leticia', 'AMA'),
+('91263', 'El Encanto', 'AMA'),
+('91405', 'La Chorrera', 'AMA'),
+('91407', 'La Pedrera', 'AMA'),
+('91430', 'La Victoria', 'AMA'),
+('91460', 'Mirití - Paraná', 'AMA'),
+('91530', 'Puerto Alegría', 'AMA'),
+('91536', 'Puerto Arica', 'AMA'),
+('91540', 'Puerto Nariño', 'AMA'),
+('91669', 'Puerto Santander', 'AMA'),
+('91798', 'Tarapacá', 'AMA');
+
+====================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE GUAINÍA
+-- Municipios de Guainía (Código departamento: 94)
+====================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('94001', 'Inírida', 'GUA'),
+('94343', 'Barranco Minas', 'GUA'),
+('94663', 'Mapiripana', 'GUA'),
+('94883', 'San Felipe', 'GUA'),
+('94884', 'Puerto Colombia', 'GUA'),
+('94885', 'La Guadalupe', 'GUA'),
+('94886', 'Cacahual', 'GUA'),
+('94887', 'Pana Pana', 'GUA'),
+('94888', 'Morichal', 'GUA');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE GUAVIARE
+-- Municipios de Guaviare (Código departamento: 95)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('95001', 'San José del Guaviare', 'GUV'),
+('95015', 'Calamar', 'GUV'),
+('95025', 'El Retorno', 'GUV'),
+('95200', 'Miraflores', 'GUV');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE VAUPÉS
+-- Municipios de Vaupés (Código departamento: 97)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('97001', 'Mitú', 'VAU'),
+('97161', 'Carurú', 'VAU'),
+('97511', 'Pacoa', 'VAU'),
+('97666', 'Taraira', 'VAU'),
+('97777', 'Papunaua', 'VAU'),
+('97889', 'Yavaraté', 'VAU');
+
+===================================================================
+-- INSERCIÓN DE CIUDADES Y MUNICIPIOS DE VICHADA
+-- Municipios de Vichada (Código departamento: 99)
+===================================================================
+INSERT INTO citiesormunicipalities (code, name, statereg_id) VALUES
+('99001', 'Puerto Carreño', 'VID'),
+('99524', 'La Primavera', 'VID'),
+('99624', 'Santa Rosalía', 'VID'),
+('99773', 'Cumaribo', 'VID');
+
+=====================================================================================
+-- INSERCIÓN DE ESTADOS DE ESTADOS UNIDOS
+=====================================================================================
+INSERT INTO stateorregions (code, name, country_id, code3166, subdivision_id) VALUES
+('AL', 'Alabama', 'US', 'US-AL', 1),
+('AK', 'Alaska', 'US', 'US-AK', 1),
+('AZ', 'Arizona', 'US', 'US-AZ', 1),
+('AR', 'Arkansas', 'US', 'US-AR', 1),
+('CA', 'California', 'US', 'US-CA', 1),
+('CO', 'Colorado', 'US', 'US-CO', 1),
+('CT', 'Connecticut', 'US', 'US-CT', 1),
+('DE', 'Delaware', 'US', 'US-DE', 1),
+('DC', 'District of Columbia', 'US', 'US-DC', 2),
+('FL', 'Florida', 'US', 'US-FL', 1),
+('GA', 'Georgia', 'US', 'US-GA', 1),
+('HI', 'Hawaii', 'US', 'US-HI', 1),
+('ID', 'Idaho', 'US', 'US-ID', 1),
+('IL', 'Illinois', 'US', 'US-IL', 1),
+('IN', 'Indiana', 'US', 'US-IN', 1),
+('IA', 'Iowa', 'US', 'US-IA', 1),
+('KS', 'Kansas', 'US', 'US-KS', 1),
+('KY', 'Kentucky', 'US', 'US-KY', 1),
+('LA', 'Louisiana', 'US', 'US-LA', 1),
+('ME', 'Maine', 'US', 'US-ME', 1),
+('MD', 'Maryland', 'US', 'US-MD', 1),
+('MA', 'Massachusetts', 'US', 'US-MA', 1),
+('MI', 'Michigan', 'US', 'US-MI', 1),
+('MN', 'Minnesota', 'US', 'US-MN', 1),
+('MS', 'Mississippi', 'US', 'US-MS', 1),
+('MO', 'Missouri', 'US', 'US-MO', 1),
+('MT', 'Montana', 'US', 'US-MT', 1),
+('NE', 'Nebraska', 'US', 'US-NE', 1),
+('NV', 'Nevada', 'US', 'US-NV', 1),
+('NH', 'New Hampshire', 'US', 'US-NH', 1),
+('NJ', 'New Jersey', 'US', 'US-NJ', 1),
+('NM', 'New Mexico', 'US', 'US-NM', 1),
+('NY', 'New York', 'US', 'US-NY', 1),
+('NC', 'North Carolina', 'US', 'US-NC', 1),
+('ND', 'North Dakota', 'US', 'US-ND', 1),
+('OH', 'Ohio', 'US', 'US-OH', 1),
+('OK', 'Oklahoma', 'US', 'US-OK', 1),
+('OR', 'Oregon', 'US', 'US-OR', 1),
+('PA', 'Pennsylvania', 'US', 'US-PA', 1),
+('RI', 'Rhode Island', 'US', 'US-RI', 1),
+('SC', 'South Carolina', 'US', 'US-SC', 1),
+('SD', 'South Dakota', 'US', 'US-SD', 1),
+('TN', 'Tennessee', 'US', 'US-TN', 1),
+('TX', 'Texas', 'US', 'US-TX', 1),
+('UT', 'Utah', 'US', 'US-UT', 1),
+('VT', 'Vermont', 'US', 'US-VT', 1),
+('VA', 'Virginia', 'US', 'US-VA', 1),
+('WA', 'Washington', 'US', 'US-WA', 1),
+('WV', 'West Virginia', 'US', 'US-WV', 1),
+('WI', 'Wisconsin', 'US', 'US-WI', 1),
+('WY', 'Wyoming', 'US', 'US-WY', 1),
+
+================
+-- Territorios
+================
+
+('AS', 'American Samoa', 'US', 'US-AS', 3),
+('GU', 'Guam', 'US', 'US-GU', 3),
+('MP', 'Northern Mariana Islands', 'US', 'US-MP', 3),
+('PR', 'Puerto Rico', 'US', 'US-PR', 3),
+('UM', 'United States Minor Outlying Islands', 'US', 'US-UM', 3),
+('VI', 'Virgin Islands, U.S.', 'US', 'US-VI', 3);
+
+========================================================================================
+-- DATOS DE PRUEBA PARA VERIFICAR FUNCIONAMIENTO
+========================================================================================
+-- Insertar datos básicos
+INSERT INTO subdivisioncategories (description) VALUES 
+('State'), ('Province'), ('Region'), ('Territory');
+
+INSERT INTO typesidentifications (description, sufix) VALUES 
+('Número de Identificación Tributaria', 'NIT'),
+('Cédula de Ciudadanía', 'CC'),
+('Tax Identification Number', 'TIN');
+
+INSERT INTO categories (description) VALUES 
+('Restaurantes'), ('Tecnología'), ('Retail'), ('Servicios');
+
+INSERT INTO audiences (description) VALUES 
+('Consumidor Final'), ('Empresas'), ('Gobierno'), ('Estudiantes');
+
+INSERT INTO categories_polls (name) VALUES 
+('Satisfacción del Cliente'), ('Calidad del Producto'), ('Servicio al Cliente');
+
+INSERT INTO polls (name, description, isactive, categorypoll_id) VALUES 
+('Encuesta de Satisfacción General', 'Evaluación general del servicio', TRUE, 1),
+('Calidad de Productos', 'Evaluación de la calidad de productos', TRUE, 2);
+
+INSERT INTO unitofmeasure (description) VALUES 
+('Kilogramo'), ('Litro'), ('Unidad'), ('Metro');
+
+=================================
+-- Insert de empresa de prueba
+=================================
+INSERT INTO companies (id, type_id, name, category_id, city_id, audience_id, cellphone, email) VALUES 
+('900123456-1', 1, 'Restaurante El Buen Sabor', 1, 'MED', 1, '3001234567', 'contacto@elbuensabor.com');
+================================
+-- Insert de cliente de prueba
+================================
+INSERT INTO customers (name, city_id, audience_id, cellphone, email, address) VALUES 
+('Juan Romero', 'MED', 1, '3009876543', 'juan.romero@email.com', 'Calle 123 #45-67');
+================================
+-- Insert de producto de prueba
+================================
+INSERT INTO products (name, detail, price, category_id, image) VALUES 
+('Hamburguesa Especial', 'Hamburguesa con carne, queso, lechuga y tomate', 15000.00, 1, 'hamburguesa.jpg');
+======================================
+-- Insert de relación empresa-producto
+======================================
+INSERT INTO companyproducts (company_id, product_id, price, unitmeasure_id) VALUES 
+('900123456-1', 1, 15000.00, 3);
+===========================================================================================================
+-- INSERCIÓN DE DATOS PARA TABLAS DE CATÁLOGO
+================================================
+-- Tipos de identificación
+================================================
+INSERT INTO typesidentifications (description, sufix) VALUES 
+('Número de Identificación Tributaria', 'NIT'),
+('Cédula de Ciudadanía', 'CC'),
+('Cédula de Extranjería', 'CE'),
+('Pasaporte', 'PA'),
+('Tax Identification Number', 'TIN'),
+('Social Security Number', 'SSN'),
+('Employer Identification Number', 'EIN'),
+('Individual Taxpayer Identification Number', 'ITIN');
+===============================================
+-- Categorías de empresas/productos
+===============================================
+INSERT INTO categories (description) VALUES 
+('Restaurantes y Comida'),
+('Tecnología y Software'),
+('Retail y Comercio'),
+('Servicios Profesionales'),
+('Salud y Medicina'),
+('Educación'),
+('Entretenimiento'),
+('Transporte y Logística'),
+('Construcción'),
+('Manufactura'),
+('Agricultura'),
+('Turismo y Hotelería'),
+('Finanzas y Seguros'),
+('Inmobiliaria'),
+('Energía y Utilities'),
+('Telecomunicaciones'),
+('Automotriz'),
+('Textil y Moda'),
+('Deportes y Fitness'),
+('Belleza y Cuidado Personal');
+================================================
+-- Audiencias objetivo
+================================================
+INSERT INTO audiences (description) VALUES 
+('Consumidor Final'),
+('Pequeñas Empresas'),
+('Medianas Empresas'),
+('Grandes Corporaciones'),
+('Gobierno'),
+('Estudiantes'),
+('Profesionales'),
+('Seniors (65+)'),
+('Jóvenes (18-35)'),
+('Familias'),
+('Turistas'),
+('Empresarios'),
+('Freelancers'),
+('ONGs'),
+('Instituciones Educativas');
+=================================================
+-- Unidades de medida
+=================================================
+INSERT INTO unitofmeasure (description) VALUES 
+('Kilogramo'),
+('Gramo'),
+('Libra'),
+('Onza'),
+('Litro'),
+('Mililitro'),
+('Galón'),
+('Metro'),
+('Centímetro'),
+('Pulgada'),
+('Pie'),
+('Yarda'),
+('Metro cuadrado'),
+('Pie cuadrado'),
+('Metro cúbico'),
+('Pie cúbico'),
+('Unidad'),
+('Docena'),
+('Ciento'),
+('Millar'),
+('Paquete'),
+('Caja'),
+('Botella'),
+('Lata'),
+('Bolsa'),
+('Rollo'),
+('Hoja'),
+('Pieza'),
+('Par'),
+('Juego');
+================================================
+-- Categorías de encuestas
+================================================
+INSERT INTO categories_polls (name) VALUES 
+('Satisfacción del Cliente'),
+('Calidad del Producto'),
+('Servicio al Cliente'),
+('Experiencia de Compra'),
+('Facilidad de Uso'),
+('Precio y Valor'),
+('Tiempo de Entrega'),
+('Presentación del Producto'),
+('Atención Post-Venta'),
+('Recomendación'),
+('Accesibilidad'),
+('Innovación'),
+('Sostenibilidad'),
+('Seguridad'),
+('Confiabilidad');
+===============================================
+-- Períodos de membresía
+===============================================
+INSERT INTO periods (name) VALUES 
+('Mensual'),
+('Trimestral'),
+('Semestral'),
+('Anual'),
+('Bianual'),
+('Semanal'),
+('Quincenal'),
+('Diario');
+================================================
+-- Tipos de membresía
+================================================
+INSERT INTO memberships (name, description) VALUES 
+('Básica', 'Membresía básica con beneficios esenciales'),
+('Premium', 'Membresía premium con beneficios adicionales'),
+('VIP', 'Membresía VIP con todos los beneficios'),
+('Empresarial', 'Membresía diseñada para empresas'),
+('Estudiante', 'Membresía con descuento para estudiantes'),
+('Senior', 'Membresía especial para adultos mayores'),
+('Familiar', 'Membresía que cubre a toda la familia'),
+('Profesional', 'Membresía para profesionales independientes');
+=================================================
+-- Beneficios
+=================================================
+INSERT INTO benefits (description, detail) VALUES 
+('Descuento en productos', 'Descuento del 10% en todos los productos'),
+('Envío gratuito', 'Envío gratuito en todas las compras'),
+('Soporte prioritario', 'Atención al cliente prioritaria 24/7'),
+('Acceso anticipado', 'Acceso anticipado a nuevos productos'),
+('Devoluciones extendidas', 'Período de devolución extendido a 60 días'),
+('Puntos dobles', 'Acumulación de puntos dobles en cada compra'),
+('Eventos exclusivos', 'Invitación a eventos exclusivos para miembros'),
+('Consultoría gratuita', 'Sesiones de consultoría gratuitas'),
+('Descarga ilimitada', 'Descargas ilimitadas de contenido digital'),
+('Almacenamiento extra', 'Espacio de almacenamiento adicional'),
+('Sin publicidad', 'Experiencia sin anuncios publicitarios'),
+('Garantía extendida', 'Garantía extendida en productos'),
+('Cashback', 'Reembolso del 5% en compras'),
+('Acceso premium', 'Acceso a contenido premium exclusivo'),
+('Personalización', 'Opciones de personalización avanzadas');
+==============================================================================
+-- INSERCIÓN DE ENCUESTAS DE EJEMPLO
+-- Encuestas configuradas para evaluar diferentes aspectos
+==============================================================================
+INSERT INTO polls (name, description, isactive, categorypoll_id) VALUES 
+('Encuesta de Satisfacción General', 'Evaluación general de la satisfacción del cliente con nuestros servicios', TRUE, 1),
+
+('Evaluación de Calidad de Productos', 'Encuesta específica para evaluar la calidad de nuestros productos', TRUE, 2),
+
+('Servicio al Cliente - Evaluación', 'Evaluación del servicio de atención al cliente', TRUE, 3),
+
+('Experiencia de Compra Online', 'Evaluación de la experiencia de compra en línea', TRUE, 4),
+
+('Facilidad de Uso de la Plataforma', 'Evaluación de qué tan fácil es usar nuestra plataforma', TRUE, 5),
+
+('Evaluación Precio-Calidad', 'Encuesta sobre la relación precio-calidad de nuestros productos', TRUE, 6),
+
+('Tiempo de Entrega', 'Evaluación de los tiempos de entrega de pedidos', TRUE, 7),
+
+('Presentación y Empaque', 'Evaluación de la presentación y empaque de productos', TRUE, 8),
+
+('Atención Post-Venta', 'Evaluación del servicio post-venta', TRUE, 9),
+
+('Recomendación a Terceros', 'Encuesta sobre la probabilidad de recomendar nuestros servicios', TRUE, 10),
+
+('Accesibilidad del Servicio', 'Evaluación de la accesibilidad de nuestros servicios', TRUE, 11),
+
+('Innovación y Tecnología', 'Evaluación de nuestras innovaciones tecnológicas', TRUE, 12),
+
+('Responsabilidad Ambiental', 'Evaluación de nuestras prácticas sostenibles', TRUE, 13),
+
+('Seguridad y Privacidad', 'Evaluación de las medidas de seguridad y privacidad', TRUE, 14),
+
+('Confiabilidad del Servicio', 'Evaluación de la confiabilidad y consistencia del servicio', TRUE, 15);
+============================================================================
+-- CONFIGURACIÓN DE RELACIONES DE MEMBRESÍAS
+-- Precios por período y beneficios por audiencia
+============================================================================
+-- Precios de membresías por período
+======================================
+INSERT INTO membershipperiods (membership_id, period_id, price) VALUES 
+-- Membresía Básica
+(1, 1, 9.99),   -- Mensual
+(1, 2, 27.99),  -- Trimestral
+(1, 3, 54.99),  -- Semestral
+(1, 4, 99.99),  -- Anual
+
+-- Membresía Premium
+(2, 1, 19.99),  -- Mensual
+(2, 2, 57.99),  -- Trimestral
+(2, 3, 114.99), -- Semestral
+(2, 4, 199.99), -- Anual
+
+-- Membresía VIP
+(3, 1, 39.99),  -- Mensual
+(3, 2, 117.99), -- Trimestral
+(3, 3, 234.99), -- Semestral
+(3, 4, 399.99), -- Anual
+
+-- Membresía Empresarial
+(4, 1, 99.99),  -- Mensual
+(4, 2, 289.99), -- Trimestral
+(4, 3, 574.99), -- Semestral
+(4, 4, 999.99), -- Anual
+
+-- Membresía Estudiante (con descuento)
+(5, 1, 4.99),   -- Mensual
+(5, 2, 13.99),  -- Trimestral
+(5, 3, 27.99),  -- Semestral
+(5, 4, 49.99),  -- Anual
+
+-- Membresía Senior (con descuento)
+(6, 1, 7.99),   -- Mensual
+(6, 2, 22.99),  -- Trimestral
+(6, 3, 44.99),  -- Semestral
+(6, 4, 79.99),  -- Anual
+
+-- Membresía Familiar
+(7, 1, 29.99),  -- Mensual
+(7, 2, 87.99),  -- Trimestral
+(7, 3, 174.99), -- Semestral
+(7, 4, 299.99), -- Anual
+
+-- Membresía Profesional
+(8, 1, 49.99),  -- Mensual
+(8, 2, 147.99), -- Trimestral
+(8, 3, 294.99), -- Semestral
+(8, 4, 499.99); -- Anual
+
+==================================
+-- Beneficios por audiencia
+==================================
+INSERT INTO audiencebenefits (audience_id, benefit_id) VALUES 
+-- Consumidor Final
+(1, 1), (1, 2), (1, 5), (1, 13),
+-- Pequeñas Empresas
+(2, 1), (2, 3), (2, 8), (2, 12),
+-- Medianas Empresas
+(3, 1), (3, 3), (3, 8), (3, 12), (3, 14),
+-- Grandes Corporaciones
+(4, 3), (4, 8), (4, 12), (4, 14), (4, 15),
+-- Gobierno
+(4, 3), (4, 12), (4, 14),
+-- Estudiantes
+(6, 1), (6, 2), (6, 9), (6, 11),
+-- Profesionales
+(7, 1), (7, 3), (7, 8), (7, 14),
+-- Seniors (65+)
+(8, 1), (8, 2), (8, 3), (8, 5),
+-- Jóvenes (18-35)
+(9, 1), (9, 4), (9, 6), (9, 11),
+-- Familias
+(10, 1), (10, 2), (10, 5), (10, 13);
+===============================================================
+-- Beneficios por membresía, período y audiencia
+===============================================================
+INSERT INTO membershipbenefits (membership_id, period_id, audience_id, benefit_id) VALUES 
+-- Membresía Básica - Anual - Consumidor Final
+(1, 4, 1, 1), (1, 4, 1, 2), (1, 4, 1, 5),
+-- Membresía Premium - Anual - Pequeñas Empresas
+(2, 4, 2, 1), (2, 4, 2, 2), (2, 4, 2, 3), (2, 4, 2, 8),
+-- Membresía VIP - Anual - Medianas Empresas
+(3, 4, 3, 1), (3, 4, 3, 2), (3, 4, 3, 3), (3, 4, 3, 7), (3, 4, 3, 8), (3, 4, 3, 14),
+-- Membresía Empresarial - Anual - Grandes Corporaciones
+(4, 4, 4, 3), (4, 4, 4, 7), (4, 4, 4, 8), (4, 4, 4, 12), (4, 4, 4, 14), (4, 4, 4, 15),
+-- Membresía Estudiante - Anual - Estudiantes
+(5, 4, 6, 1), (5, 4, 6, 2), (5, 4, 6, 9), (5, 4, 6, 11),
+-- Membresía Senior - Anual - Seniors
+(6, 4, 8, 1), (6, 4, 8, 2), (6, 4, 8, 3), (6, 4, 8, 5),
+-- Membresía Familiar - Anual - Familias
+(7, 4, 10, 1), (7, 4, 10, 2), (7, 4, 10, 5), (7, 4, 10, 13),
+-- Membresía Profesional - Anual - Profesionales
+(8, 4, 7, 1), (8, 4, 7, 3), (8, 4, 7, 8), (8, 4, 7, 14);
+================================================================
+-- DATOS DE PRUEBA COMPLETOS PARA VERIFICAR FUNCIONAMIENTO
+-- Empresas, clientes, productos y relaciones de ejemplo
+================================================================
+-- Insert de empresas
+================================
+INSERT INTO companies (id, type_id, name, category_id, city_id, audience_id, cellphone, email) VALUES 
+('900123456-1', 1, 'Restaurante El Buen Sabor', 1, '05001', 1, '3001234567', 'contacto@elbuensabor.com'),
+('900234567-2', 1, 'TechSolutions SAS', 2, '11001', 2, '3012345678', 'info@techsolutions.co'),
+('900345678-3', 1, 'Moda y Estilo Ltda', 18, '76001', 1, '3023456789', 'ventas@modayestilo.co'),
+('900456789-4', 1, 'Constructora Andina', 9, '05001', 3, '3034567890', 'proyectos@constructoraandina.co'),
+('900567890-5', 1, 'Clínica San Rafael', 5, '68001', 1, '3045678901', 'citas@clinicasanrafael.co'),
+('123456789', 2, 'Tech Innovators Inc', 2, 'US-NYC', 2, '1234567890', 'contact@techinnovators.com'),
+('234567890', 2, 'Green Foods LLC', 1, 'US-LAX', 1, '2345678901', 'info@greenfoods.com'),
+('345678901', 2, 'Fashion Forward Corp', 18, 'US-CHI', 1, '3456789012', 'sales@fashionforward.com');
+================================
+-- Insert de clientes de ejemplo
+================================
+INSERT INTO customers (name, city_id, audience_id, cellphone, email, address) VALUES 
+('Juan Sebastian Romero', '05001', 1, '3009876543', 'juan.romero@email.com', 'Calle 123 #45-67, Medellín'),
+('María González López', '11001', 1, '3019876543', 'maria.gonzalez@email.com', 'Carrera 15 #32-45, Bogotá'),
+('Carlos Rodríguez Martín', '76001', 7, '3029876543', 'carlos.rodriguez@email.com', 'Avenida 6 #25-30, Cali'),
+('Ana Martínez Silva', '68001', 1, '3039876543', 'ana.martinez@email.com', 'Calle 45 #12-34, Bucaramanga'),
+('Luis Fernando Castro', '05001', 2, '3049876543', 'luis.castro@empresa.com', 'Carrera 70 #52-20, Medellín'),
+('John Smith', 'US-NYC', 1, '5551234567', 'john.smith@email.com', '123 Main St, New York, NY'),
+('Sarah Johnson', 'US-LAX', 1, '5552345678', 'sarah.johnson@email.com', '456 Oak Ave, Los Angeles, CA'),
+('Michael Brown', 'US-CHI', 7, '5553456789', 'michael.brown@email.com', '789 Pine St, Chicago, IL');
+=================================
+-- Insert de productos
+=================================
+INSERT INTO products (name, detail, price, category_id, image) VALUES 
+('Hamburguesa Especial', 'Hamburguesa artesanal con carne angus, queso, lechuga, tomate y salsas especiales', 15000.00, 1, 'hamburguesa_especial.jpg'),
+('Pizza Margherita', 'Pizza tradicional italiana con salsa de tomate, mozzarella fresca y albahaca', 25000.00, 1, 'pizza_margherita.jpg'),
+('Software de Gestión ERP', 'Sistema integral de planificación de recursos empresariales', 500000.00, 2, 'erp_software.jpg'),
+('Aplicación Móvil Personalizada', 'Desarrollo de aplicación móvil a medida para iOS y Android', 2000000.00, 2, 'app_movil.jpg'),
+('Vestido Elegante', 'Vestido de noche elegante, disponible en varios colores y tallas', 120000.00, 18, 'vestido_elegante.jpg'),
+('Zapatos de Cuero', 'Zapatos de cuero genuino, cómodos y duraderos', 180000.00, 18, 'zapatos_cuero.jpg'),
+('Consulta Médica General', 'Consulta médica general con especialista', 80000.00, 5, 'consulta_medica.jpg'),
+('Examen de Laboratorio', 'Paquete completo de exámenes de laboratorio', 150000.00, 5, 'examen_laboratorio.jpg'),
+('Smartphone Premium', 'Teléfono inteligente de última generación con cámara avanzada', 800000.00, 2, 'smartphone_premium.jpg'),
+('Laptop Gaming', 'Computadora portátil para gaming con alta performance', 2500000.00, 2, 'laptop_gaming.jpg');
+================================================================
+-- Insert de relaciones empresa-producto con precios específicos
+================================================================
+INSERT INTO companyproducts (company_id, product_id, price, unitmeasure_id) VALUES 
+('900123456-1', 1, 15000.00, 17), -- Restaurante - Hamburguesa
+('900123456-1', 2, 25000.00, 17), -- Restaurante - Pizza
+('900234567-2', 3, 500000.00, 17), -- TechSolutions - ERP
+('900234567-2', 4, 2000000.00, 17), -- TechSolutions - App Móvil
+('900345678-3', 5, 120000.00, 17), -- Moda y Estilo - Vestido
+('900345678-3', 6, 180000.00, 29), -- Moda y Estilo - Zapatos (par)
+('900567890-5', 7, 80000.00, 17), -- Clínica - Consulta
+('900567890-5', 8, 150000.00, 17), -- Clínica - Examen
+('123456789', 9, 800000.00, 17), -- Tech Innovators - Smartphone
+('123456789', 10, 2500000.00, 17); -- Tech Innovators - Laptop
+=================================
+-- Insert de favoritos 
+=================================
+INSERT INTO favorites (customer_id, company_id) VALUES 
+(1, '900123456-1'), -- Juan - Restaurante
+(1, '900234567-2'), -- Juan - TechSolutions
+(2, '900345678-3'), -- María - Moda y Estilo
+(2, '900567890-5'), -- María - Clínica
+(3, '900123456-1'), -- Carlos - Restaurante
+(4, '900567890-5'), -- Ana - Clínica
+(5, '900234567-2'), -- Luis - TechSolutions
+(6, '123456789'),   -- John - Tech Innovators
+(7, '234567890'),   -- Sarah - Green Foods
+(8, '345678901');   -- Michael - Fashion Forward
+==========================================================
+-- Insert de detalles de favoritos (productos específicos)
+==========================================================
+INSERT INTO details_favorites (favorite_id, product_id) VALUES 
+(1, 1), (1, 2), -- Juan favoritos del restaurante
+(2, 3), (2, 4), -- Juan favoritos de TechSolutions
+(3, 5), (3, 6), -- María favoritos de Moda y Estilo
+(4, 7), (4, 8), -- María favoritos de Clínica
+(5, 1), (5, 2), -- Carlos favoritos del restaurante
+(6, 7), (6, 8), -- Ana favoritos de Clínica
+(7, 3), (7, 4), -- Luis favoritos de TechSolutions
+(8, 9), (8, 10), -- John favoritos de Tech Innovators
+(10, 5), (10, 6); -- Michael favoritos de Fashion Forward
+=======================================
+-- Insert de calificaciones de empresas
+=======================================
+INSERT INTO rates (customer_id, company_id, poll_id, daterating, rating) VALUES 
+(1, '900123456-1', 1, '2024-01-15 14:30:00', 4.5),
+(1, '900234567-2', 1, '2024-01-16 10:15:00', 4.8),
+(2, '900345678-3', 1, '2024-01-17 16:45:00', 4.2),
+(2, '900567890-5', 3, '2024-01-18 09:20:00', 4.7),
+(3, '900123456-1', 1, '2024-01-19 12:30:00', 4.3),
+(4, '900567890-5', 3, '2024-01-20 15:10:00', 4.9),
+(5, '900234567-2', 1, '2024-01-21 11:45:00', 4.6),
+(6, '123456789', 1, '2024-01-22 13:20:00', 4.4),
+(7, '234567890', 1, '2024-01-23 17:30:00', 4.1),
+(8, '345678901', 1, '2024-01-24 14:15:00', 4.5);
+===================================================
+-- Insert de calificaciones de calidad de productos
+===================================================
+INSERT INTO quality_products (product_id, customer_id, poll_id, company_id, daterating, rating) VALUES 
+(1, 1, 2, '900123456-1', '2024-01-15 14:35:00', 4.6),
+(2, 1, 2, '900123456-1', '2024-01-15 14:40:00', 4.4),
+(3, 1, 2, '900234567-2', '2024-01-16 10:20:00', 4.9),
+(4, 1, 2, '900234567-2', '2024-01-16 10:25:00', 4.7),
+(5, 2, 2, '900345678-3', '2024-01-17 16:50:00', 4.3),
+(6, 2, 2, '900345678-3', '2024-01-17 16:55:00', 4.1),
+(7, 2, 2, '900567890-5', '2024-01-18 09:25:00', 4.8),
+(8, 2, 2, '900567890-5', '2024-01-18 09:30:00', 4.6),
+(1, 3, 2, '900123456-1', '2024-01-19 12:35:00', 4.2),
+(9, 6, 2, '123456789', '2024-01-22 13:25:00', 4.5),
+(10, 6, 2, '123456789', '2024-01-22 13:30:00', 4.7);
