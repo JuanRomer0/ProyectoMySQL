@@ -1669,73 +1669,6 @@ INSERT INTO stateorregions (code, name, country_id, subdivision_id, code3166) VA
 ========================================================================================
 -- DATOS DE PRUEBA PARA VERIFICAR FUNCIONAMIENTO
 ========================================================================================
--- Insertar datos básicos
-==========================
--- Insert de empresa 
-=================================
-INSERT INTO companies (id, type_id, name, category_id, city_id, audience_id, cellphone, email) VALUES
-('900234567-2', 1, 'Pizzería Don Tomate', 2, '68051', 2, '3102345678', 'don.tomate@pizza.com'),
-('900345678-3', 2, 'Panadería La Espiga', 3, '52036', 1, '3203456789', 'laespiga@pan.com'),
-('900456789-4', 1, 'Comidas Rápidas Express', 1, '41026', 2, '3004567890', 'express@comidas.com'),
-('900567890-5', 2, 'Heladería Frío Rico', 4, '25040', 1, '3105678901', 'contacto@friorico.com'),
-('900678901-6', 1, 'Parrilla Los Leños', 1, '17013', 2, '3206789012', 'loslenos@parrilla.com'),
-('900789012-7', 2, 'Café La Tertulia', 1, '47053', 1, '3007890123', 'info@latertulia.com'),
-('900890123-8', 1, 'Sushi Yoko', 1, '44035', 1, '3108901234', 'contacto@sushiyoko.com'),
-('900901234-9', 1, 'Arepas Mi Abuela', 1, '25040', 2, '3209012345', 'ventas@miabuela.com'),
-('901012345-0', 1, 'Tacos El Patrón', 1, '47030', 1, '3000123456', 'tacos@elpatron.com');
-================================
--- Insert de cliente 
-================================
-INSERT INTO customers (name, city_id, audience_id, cellphone, email, address) VALUES
-('María Gómez', '05002', 1, '3011234567', 'maria.gomez@email.com', 'Carrera 10 #12-34'),
-('Carlos Ruiz', '54003', 2, '3022345678', 'carlos.ruiz@email.com', 'Calle 45 #67-89'),
-('Laura Mendoza', '05004', 3, '3033456789', 'laura.mendoza@email.com', 'Transversal 3 #56-78'),
-('Jorge Salazar', '50006', 1, '3044567890', 'jorge.salazar@email.com', 'Diagonal 22 #44-55'),
-('Andrea Torres', '27006', 2, '3055678901', 'andrea.torres@email.com', 'Calle 98 #12-03'),
-('Luis Martínez', '41006', 3, '3066789012', 'luis.martinez@email.com', 'Carrera 33 #22-11'),
-('Paola Ramírez', '13006', 1, '3077890123', 'paola.ramirez@email.com', 'Av. Los Libertadores #88-99'),
-('Camilo Duarte', '41013', 2, '3088901234', 'camilo.duarte@email.com', 'Calle 23 #12-90'),
-('Tatiana Paredes', '25001', 1, '3099012345', 'tatiana.paredes@email.com', 'Calle 12 #34-56'),
-('Esteban Vélez', '20011', 3, '3100123456', 'esteban.velez@email.com', 'Carrera 77 #66-55');
-================================
--- Insert de producto 
--- Restaurantes (1)
--- Tecnología (2)
--- Retail (3)
--- Servicios (4)
-================================
-INSERT INTO products (name, detail, price, category_id, image) VALUES
-('Hamburguesa Especial', 'Hamburguesa con carne, queso, lechuga y tomate', 15000.00, 1, 'hamburguesa.jpg'),
-('Pizza Margarita', 'Pizza con queso mozzarella, tomate y albahaca fresca', 18000.00, 1, 'pizza.jpg'),
-('Taco Mexicano', 'Tortilla de maíz con carne, lechuga y guacamole', 12000.00, 1, 'taco.jpg'),
-
-('Camisa Casual Hombre', 'Camisa de algodón manga larga, varias tallas', 65000.00, 3, 'camisa.jpg'),
-('Zapatos Deportivos', 'Zapatos cómodos para entrenamiento diario', 120000.00, 3, 'zapatos.jpg'),
-('Reloj Análogo', 'Reloj de pulso clásico con correa de cuero', 85000.00, 3, 'reloj.jpg'),
-
-('Corte de Cabello', 'Corte profesional para dama o caballero', 20000.00, 4, 'corte.jpg'),
-('Lavado de Vehículo', 'Lavado externo e interno de carro particular', 30000.00, 4, 'lavado.jpg'),
-('Asesoría Contable', 'Consulta personalizada con contador público', 50000.00, 4, 'contable.jpg'),
-
-('Mouse Inalámbrico', 'Mouse ergonómico con conexión USB', 45000.00, 2, 'mouse.jpg'),
-('Audífonos Bluetooth', 'Audífonos con micrófono y cancelación de ruido', 95000.00, 2, 'audifonos.jpg'),
-('Laptop 14"', 'Portátil Core i5, 8GB RAM, 256GB SSD', 2300000.00, 2, 'laptop.jpg');
-
-======================================
--- Insert de relación empresa-producto
-======================================
-INSERT INTO companyproducts (company_id, product_id, price, unitmeasure_id) VALUES
-('900123456-1', 1, 15000.00, 3),
-('900123456-1', 2, 10000.00, 3),
-('900123456-1', 3, 18000.00, 3),
-('900123456-1', 4, 12000.00, 3),
-('900123456-1', 5, 9000.00, 3),
-('900123456-1', 6, 5000.00, 4),
-('900123456-1', 7, 2500.00, 3),
-('900123456-1', 8, 14000.00, 3),
-('900123456-1', 9, 35000.00, 1),
-('900123456-1', 10, 8000.00, 4);
-
 ====================================================================
 -- INSERCIÓN DE DATOS PARA TABLAS DE CATÁLOGO
 ================================================
@@ -1744,7 +1677,7 @@ INSERT INTO companyproducts (company_id, product_id, price, unitmeasure_id) VALU
 INSERT INTO typesidentifications (description, sufix) VALUES 
 ('Número de Identificación Tributaria', 'NIT'),
 ('Cédula de Ciudadanía', 'CC'),
-('Tax Identification Number', 'TIN');
+('Tax Identification Number', 'TIN'),
 ('Cédula de Extranjería', 'CE'),
 ('Pasaporte', 'PA'),
 ('Social Security Number', 'SSN'),
@@ -1885,6 +1818,73 @@ INSERT INTO benefits (description, detail) VALUES
 ('Cashback', 'Reembolso del 5% en compras'),
 ('Acceso premium', 'Acceso a contenido premium exclusivo'),
 ('Personalización', 'Opciones de personalización avanzadas');
+==============================================================================
+-- Insert de empresa 
+=================================
+INSERT INTO companies (id, type_id, name, category_id, city_id, audience_id, cellphone, email) VALUES
+('900234567-2', 1, 'Pizzería Don Tomate', 2, '68051', 2, '3102345678', 'don.tomate@pizza.com'),
+('900345678-3', 2, 'Panadería La Espiga', 3, '52036', 1, '3203456789', 'laespiga@pan.com'),
+('900456789-4', 1, 'Comidas Rápidas Express', 1, '41026', 2, '3004567890', 'express@comidas.com'),
+('900567890-5', 2, 'Heladería Frío Rico', 4, '25040', 1, '3105678901', 'contacto@friorico.com'),
+('900678901-6', 1, 'Parrilla Los Leños', 1, '17013', 2, '3206789012', 'loslenos@parrilla.com'),
+('900789012-7', 2, 'Café La Tertulia', 1, '47053', 1, '3007890123', 'info@latertulia.com'),
+('900890123-8', 1, 'Sushi Yoko', 1, '44035', 1, '3108901234', 'contacto@sushiyoko.com'),
+('900901234-9', 1, 'Arepas Mi Abuela', 1, '25040', 2, '3209012345', 'ventas@miabuela.com'),
+('901012345-0', 1, 'Tacos El Patrón', 1, '47030', 1, '3000123456', 'tacos@elpatron.com');
+================================
+-- Insert de cliente 
+================================
+INSERT INTO customers (name, city_id, audience_id, cellphone, email, address) VALUES
+('María Gómez', '05002', 1, '3011234567', 'maria.gomez@email.com', 'Carrera 10 #12-34'),
+('Carlos Ruiz', '54003', 2, '3022345678', 'carlos.ruiz@email.com', 'Calle 45 #67-89'),
+('Laura Mendoza', '05004', 3, '3033456789', 'laura.mendoza@email.com', 'Transversal 3 #56-78'),
+('Jorge Salazar', '50006', 1, '3044567890', 'jorge.salazar@email.com', 'Diagonal 22 #44-55'),
+('Andrea Torres', '27006', 2, '3055678901', 'andrea.torres@email.com', 'Calle 98 #12-03'),
+('Luis Martínez', '41006', 3, '3066789012', 'luis.martinez@email.com', 'Carrera 33 #22-11'),
+('Paola Ramírez', '13006', 1, '3077890123', 'paola.ramirez@email.com', 'Av. Los Libertadores #88-99'),
+('Camilo Duarte', '41013', 2, '3088901234', 'camilo.duarte@email.com', 'Calle 23 #12-90'),
+('Tatiana Paredes', '25001', 1, '3099012345', 'tatiana.paredes@email.com', 'Calle 12 #34-56'),
+('Esteban Vélez', '20011', 3, '3100123456', 'esteban.velez@email.com', 'Carrera 77 #66-55');
+================================
+-- Insert de producto 
+-- Restaurantes (1)
+-- Tecnología (2)
+-- Retail (3)
+-- Servicios (4)
+================================
+INSERT INTO products (name, detail, price, category_id, image) VALUES
+('Hamburguesa Especial', 'Hamburguesa con carne, queso, lechuga y tomate', 15000.00, 1, 'hamburguesa.jpg'),
+('Pizza Margarita', 'Pizza con queso mozzarella, tomate y albahaca fresca', 18000.00, 1, 'pizza.jpg'),
+('Taco Mexicano', 'Tortilla de maíz con carne, lechuga y guacamole', 12000.00, 1, 'taco.jpg'),
+
+('Camisa Casual Hombre', 'Camisa de algodón manga larga, varias tallas', 65000.00, 3, 'camisa.jpg'),
+('Zapatos Deportivos', 'Zapatos cómodos para entrenamiento diario', 120000.00, 3, 'zapatos.jpg'),
+('Reloj Análogo', 'Reloj de pulso clásico con correa de cuero', 85000.00, 3, 'reloj.jpg'),
+
+('Corte de Cabello', 'Corte profesional para dama o caballero', 20000.00, 4, 'corte.jpg'),
+('Lavado de Vehículo', 'Lavado externo e interno de carro particular', 30000.00, 4, 'lavado.jpg'),
+('Asesoría Contable', 'Consulta personalizada con contador público', 50000.00, 4, 'contable.jpg'),
+
+('Mouse Inalámbrico', 'Mouse ergonómico con conexión USB', 45000.00, 2, 'mouse.jpg'),
+('Audífonos Bluetooth', 'Audífonos con micrófono y cancelación de ruido', 95000.00, 2, 'audifonos.jpg'),
+('Laptop 14"', 'Portátil Core i5, 8GB RAM, 256GB SSD', 2300000.00, 2, 'laptop.jpg');
+
+======================================
+-- Insert de relación empresa-producto
+======================================
+INSERT INTO companyproducts (company_id, product_id, price, unitmeasure_id) VALUES
+('900234567-2', 1, 15500.00, 3),
+('900234567-2', 2, 9800.00, 3),
+('900234567-2', 3, 19000.00, 3),
+('900456789-4', 4, 13000.00, 3),
+('900456789-4', 5, 9500.00, 3),
+('900678901-6', 6, 5200.00, 4),
+('900678901-6', 7, 2700.00, 3),
+('900890123-8', 8, 14500.00, 3),
+('900901234-9', 9, 36000.00, 1),
+('901012345-0', 10, 8100.00, 4),
+('900345678-3', 11, 22000.00, 1),
+('900345678-3', 12, 31000.00, 1);
 ==============================================================================
 -- INSERCIÓN DE ENCUESTAS DE EJEMPLO
 -- Encuestas configuradas para evaluar diferentes aspectos
