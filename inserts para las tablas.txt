@@ -1768,11 +1768,8 @@ INSERT INTO companyproducts (company_id, product_id, price, unitmeasure_id) VALU
 -- Tipos de identificación
 ================================================
 INSERT INTO typesidentifications (description, sufix) VALUES 
-('Número de Identificación Tributaria', 'NIT'),
-('Cédula de Ciudadanía', 'CC'),
 ('Cédula de Extranjería', 'CE'),
 ('Pasaporte', 'PA'),
-('Tax Identification Number', 'TIN'),
 ('Social Security Number', 'SSN'),
 ('Employer Identification Number', 'EIN'),
 ('Individual Taxpayer Identification Number', 'ITIN');
@@ -1823,14 +1820,11 @@ INSERT INTO audiences (description) VALUES
 -- Unidades de medida
 =================================================
 INSERT INTO unitofmeasure (description) VALUES 
-('Kilogramo'),
 ('Gramo'),
 ('Libra'),
 ('Onza'),
-('Litro'),
 ('Mililitro'),
 ('Galón'),
-('Metro'),
 ('Centímetro'),
 ('Pulgada'),
 ('Pie'),
@@ -1839,7 +1833,6 @@ INSERT INTO unitofmeasure (description) VALUES
 ('Pie cuadrado'),
 ('Metro cúbico'),
 ('Pie cúbico'),
-('Unidad'),
 ('Docena'),
 ('Ciento'),
 ('Millar'),
