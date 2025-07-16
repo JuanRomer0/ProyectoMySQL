@@ -1,0 +1,228 @@
+==============================TABLAS PROYECTO==============================
+===========================================================================
+
+CREATE TABLE IF NOT EXISTS periods(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL UNIQUE
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS audiences(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    description VARCHAR(60) NOT NULL
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS benefits(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    description VARCHAR(80) NOT NULL,
+    detail TEXT
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS categories(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    description VARCHAR(60) NOT NULL UNIQUE
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS memberships(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    description TEXT
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS unitofmeasure(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    description VARCHAR(60) NOT NULL UNIQUE
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS categories_polls(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(80) NOT NULL UNIQUE
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS typesidentifications(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    description VARCHAR(60) NOT NULL UNIQUE,
+    sufix VARCHAR(5) NOT NULL UNIQUE
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS subdivisioncategories(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    description VARCHAR(40) NOT NULL UNIQUE
+) ENGINE=INNODB;
+
+=============================================================
+-- Tablas geográficas (corregidas)
+=============================================================
+
+CREATE TABLE IF NOT EXISTS countries(
+    isocode VARCHAR(6) PRIMARY KEY NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    alfaisotwo VARCHAR(2) NOT NULL,
+    alfaisothree VARCHAR(4) NOT NULL
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS stateorregions(
+    code VARCHAR(6) PRIMARY KEY NOT NULL,
+    name VARCHAR(60) NOT NULL UNIQUE,
+    country_id VARCHAR(6) NOT NULL,
+    FOREIGN KEY (country_id) REFERENCES countries(isocode) ON DELETE RESTRICT ON UPDATE CASCADE,
+    code3166 VARCHAR(10) UNIQUE,
+    subdivision_id INTEGER(11) NOT NULL,
+    FOREIGN KEY (subdivision_id) REFERENCES subdivisioncategories(id) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS citiesormunicipalities(
+    code VARCHAR(6) PRIMARY KEY NOT NULL,
+    name VARCHAR(60) NOT NULL,
+    statereg_id VARCHAR(6) NOT NULL,
+    FOREIGN KEY (statereg_id) REFERENCES stateorregions(code) ON DELETE RESTRICT ON UPDATE CASCADE,
+    UNIQUE KEY unique_city_per_state (name, statereg_id)
+) ENGINE=INNODB;
+==================================================================================================
+-- Tabla polls corregida
+=================================================================================================
+CREATE TABLE IF NOT EXISTS polls(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(80) NOT NULL UNIQUE,
+    description TEXT,
+    isactive BOOLEAN NOT NULL DEFAULT TRUE,
+    categorypoll_id INT NOT NULL,
+    FOREIGN KEY (categorypoll_id) REFERENCES categories_polls(id) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=INNODB;
+=================================================================================================
+-- Tablas de relación muchos a muchos (ya están bien creo)
+=================================================================================================
+CREATE TABLE IF NOT EXISTS audiencebenefits (
+    audience_id INT NOT NULL,
+    benefit_id INT NOT NULL,
+    PRIMARY KEY (audience_id, benefit_id),
+    FOREIGN KEY (audience_id) REFERENCES audiences(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (benefit_id) REFERENCES benefits(id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS membershipperiods (
+    membership_id INT NOT NULL,
+    period_id INT NOT NULL,
+    price DOUBLE NOT NULL CHECK (price >= 0),
+    PRIMARY KEY (membership_id, period_id),
+    FOREIGN KEY (membership_id) REFERENCES memberships(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (period_id) REFERENCES periods(id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS membershipbenefits (
+    membership_id INT NOT NULL,
+    period_id INT NOT NULL,
+    audience_id INT NOT NULL,
+    benefit_id INT NOT NULL,
+    PRIMARY KEY (membership_id, period_id, audience_id, benefit_id),
+    FOREIGN KEY (membership_id) REFERENCES memberships(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (period_id) REFERENCES periods(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (audience_id) REFERENCES audiences(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (benefit_id) REFERENCES benefits(id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=INNODB;
+
+-- CORRECCIÓN PRINCIPAL: Tabla companies
+CREATE TABLE IF NOT EXISTS companies(
+    id VARCHAR(20) PRIMARY KEY NOT NULL,
+    type_id INT NOT NULL,
+    FOREIGN KEY (type_id) REFERENCES typesidentifications(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    name VARCHAR(80) NOT NULL,
+    category_id INTEGER(11) NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    city_id VARCHAR(6) NOT NULL,
+    FOREIGN KEY (city_id) REFERENCES citiesormunicipalities(code) ON DELETE RESTRICT ON UPDATE CASCADE,
+    audience_id INT NOT NULL,
+    FOREIGN KEY (audience_id) REFERENCES audiences(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    cellphone VARCHAR(15) UNIQUE,
+    email VARCHAR(80) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS customers(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(80) NOT NULL,
+    city_id VARCHAR(6) NOT NULL,
+    FOREIGN KEY (city_id) REFERENCES citiesormunicipalities(code) ON DELETE RESTRICT ON UPDATE CASCADE,
+    audience_id INT NOT NULL,
+    FOREIGN KEY (audience_id) REFERENCES audiences(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    cellphone VARCHAR(20) UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    address VARCHAR(120),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS products(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(60) NOT NULL UNIQUE,
+    detail TEXT,
+    price DOUBLE NOT NULL CHECK (price >= 0),
+    category_id INTEGER(11) NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    image VARCHAR(80),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS favorites(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    company_id VARCHAR(20) NOT NULL,
+    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_customer_company (customer_id, company_id)
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS details_favorites(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    favorite_id INT NOT NULL,
+    FOREIGN KEY (favorite_id) REFERENCES favorites(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    product_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_favorite_product (favorite_id, product_id)
+) ENGINE=INNODB;
+==================================================================================================
+-- NOTA IMPORTANTE: companyproducts estaba con INT 
+==================================================================================================
+CREATE TABLE IF NOT EXISTS companyproducts(
+    company_id VARCHAR(20) NOT NULL,
+    product_id INT NOT NULL,
+    PRIMARY KEY (company_id, product_id),
+    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    price DOUBLE NOT NULL CHECK (price >= 0),
+    unitmeasure_id INT NOT NULL,
+    FOREIGN KEY (unitmeasure_id) REFERENCES unitofmeasure(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS quality_products(
+    product_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    poll_id INT NOT NULL,
+    company_id VARCHAR(20) NOT NULL,
+    PRIMARY KEY(product_id, customer_id, poll_id, company_id),
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    daterating DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    rating DOUBLE NOT NULL CHECK (rating >= 0 AND rating <= 10)
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS rates(
+    customer_id INT NOT NULL,
+    company_id VARCHAR(20) NOT NULL,
+    poll_id INT NOT NULL,
+    PRIMARY KEY(customer_id, company_id, poll_id),
+    FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    daterating DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    rating DOUBLE NOT NULL CHECK (rating >= 0 AND rating <= 10)
+) ENGINE=INNODB;
+
+
