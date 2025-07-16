@@ -1,0 +1,305 @@
+-- SUBCONSULTAS
+=========================================================================
+
+-- 1. Productos cuyo precio esté por encima del promedio de su categoría
+SELECT 
+    p.name as producto,
+    cp.price as precio,
+    cat.description as categoria,
+    (SELECT AVG(cp2.price) 
+     FROM companyproducts cp2 
+     JOIN products p2 ON cp2.product_id = p2.id 
+     WHERE p2.category_id = p.category_id) as promedio_categoria
+FROM products p
+JOIN companyproducts cp ON p.id = cp.product_id
+JOIN categories cat ON p.category_id = cat.id
+WHERE cp.price > (
+    SELECT AVG(cp2.price) 
+    FROM companyproducts cp2 
+    JOIN products p2 ON cp2.product_id = p2.id 
+    WHERE p2.category_id = p.category_id
+)
+ORDER BY cat.description, cp.price DESC;
+
+-- 2. Empresas que tienen más productos que la media de empresas
+SELECT 
+    comp.name as empresa,
+    COUNT(cp.product_id) as total_productos,
+    (SELECT AVG(producto_count) 
+     FROM (SELECT COUNT(product_id) as producto_count 
+           FROM companyproducts 
+           GROUP BY company_id) as avg_calc) as promedio_productos
+FROM companies comp
+JOIN companyproducts cp ON comp.id = cp.company_id
+GROUP BY comp.id, comp.name
+HAVING COUNT(cp.product_id) > (
+    SELECT AVG(producto_count) 
+    FROM (SELECT COUNT(product_id) as producto_count 
+          FROM companyproducts 
+          GROUP BY company_id) as avg_calc
+)
+ORDER BY total_productos DESC;
+
+-- 3. Productos favoritos que han sido calificados por otros clientes
+SELECT DISTINCT
+    cust.name as cliente,
+    p.name as producto_favorito,
+    AVG(qp.rating) as promedio_calificacion_otros
+FROM customers cust
+JOIN favorites f ON cust.id = f.customer_id
+JOIN details_favorites df ON f.id = df.favorite_id
+JOIN products p ON df.product_id = p.id
+JOIN quality_products qp ON p.id = qp.product_id
+WHERE qp.customer_id != cust.id
+GROUP BY cust.id, cust.name, p.id, p.name
+ORDER BY cust.name, promedio_calificacion_otros DESC;
+
+-- 4. Productos con el mayor número de veces añadidos como favoritos
+SELECT 
+    p.name as producto,
+    COUNT(df.product_id) as veces_favorito
+FROM products p
+JOIN details_favorites df ON p.id = df.product_id
+GROUP BY p.id, p.name
+HAVING COUNT(df.product_id) = (
+    SELECT MAX(fav_count)
+    FROM (SELECT COUNT(product_id) as fav_count 
+          FROM details_favorites 
+          GROUP BY product_id) as max_calc
+)
+ORDER BY veces_favorito DESC;
+
+-- 5. Clientes cuyo correo no aparece en rates ni en quality_products
+SELECT 
+    cust.name as cliente,
+    cust.email
+FROM customers cust
+WHERE cust.email NOT IN (
+    SELECT DISTINCT c.email 
+    FROM customers c 
+    JOIN rates r ON c.id = r.customer_id 
+    WHERE c.email IS NOT NULL
+)
+AND cust.email NOT IN (
+    SELECT DISTINCT c.email 
+    FROM customers c 
+    JOIN quality_products qp ON c.id = qp.customer_id 
+    WHERE c.email IS NOT NULL
+)
+AND cust.email IS NOT NULL
+ORDER BY cust.name;
+
+-- 6. Productos con calificación inferior al mínimo de su categoría
+SELECT 
+    p.name AS producto,
+    AVG(qp.rating) AS promedio_producto,
+    cat.description AS categoria,
+    min_cat.minimo_categoria
+FROM products p
+JOIN quality_products qp ON p.id = qp.product_id
+JOIN categories cat ON p.category_id = cat.id
+JOIN (
+    SELECT 
+        category_id,
+        MIN(promedio) AS minimo_categoria
+    FROM (
+        SELECT 
+            p2.id,
+            p2.category_id,
+            AVG(qp2.rating) AS promedio
+        FROM quality_products qp2
+        JOIN products p2 ON qp2.product_id = p2.id
+        GROUP BY p2.id, p2.category_id
+    ) AS promedios
+    GROUP BY category_id
+) AS min_cat ON p.category_id = min_cat.category_id
+GROUP BY p.id, p.name, cat.description, min_cat.minimo_categoria
+HAVING AVG(qp.rating) < min_cat.minimo_categoria
+ORDER BY promedio_producto;
+
+-- 7. Ciudades que no tienen clientes registrados
+SELECT 
+    c.name as ciudad,
+    sr.name as departamento
+FROM citiesormunicipalities c
+JOIN stateorregions sr ON c.statereg_id = sr.code
+WHERE c.code NOT IN (
+    SELECT DISTINCT city_id 
+    FROM customers 
+    WHERE city_id IS NOT NULL
+)
+ORDER BY sr.name, c.name;
+
+-- 8. Productos que no han sido evaluados en ninguna encuesta
+SELECT 
+    p.name as producto,
+    p.detail as detalle,
+    cat.description as categoria
+FROM products p
+JOIN categories cat ON p.category_id = cat.id
+WHERE p.id NOT IN (
+    SELECT DISTINCT product_id 
+    FROM quality_products 
+    WHERE product_id IS NOT NULL
+)
+ORDER BY cat.description, p.name;
+
+-- 9. Beneficios que no están asignados a ninguna audiencia
+SELECT 
+    b.description as beneficio,
+    b.detail as detalle
+FROM benefits b
+WHERE b.id NOT IN (
+    SELECT DISTINCT benefit_id 
+    FROM audiencebenefits 
+    WHERE benefit_id IS NOT NULL
+)
+ORDER BY b.description;
+
+-- 10. Productos favoritos que no están disponibles en ninguna empresa
+SELECT 
+    cust.name as cliente,
+    p.name as producto_no_disponible
+FROM customers cust
+JOIN favorites f ON cust.id = f.customer_id
+JOIN details_favorites df ON f.id = df.favorite_id
+JOIN products p ON df.product_id = p.id
+WHERE p.id NOT IN (
+    SELECT DISTINCT product_id 
+    FROM companyproducts 
+    WHERE product_id IS NOT NULL
+)
+ORDER BY cust.name, p.name;
+
+-- 11. Productos vendidos en empresas de ciudades con menos de tres empresas
+SELECT 
+    p.name as producto,
+    comp.name as empresa,
+    c.name as ciudad
+FROM products p
+JOIN companyproducts cp ON p.id = cp.product_id
+JOIN companies comp ON cp.company_id = comp.id
+JOIN citiesormunicipalities c ON comp.city_id = c.code
+WHERE c.code IN (
+    SELECT city_id
+    FROM companies
+    GROUP BY city_id
+    HAVING COUNT(*) < 3
+)
+ORDER BY c.name, comp.name;
+
+-- 12. Productos con calidad superior al promedio de todos los productos
+
+SELECT 
+    p.name as producto,
+    AVG(qp.rating) as promedio_producto,
+    (SELECT AVG(rating) FROM quality_products) as promedio_general
+FROM products p
+JOIN quality_products qp ON p.id = qp.product_id
+GROUP BY p.id, p.name
+HAVING AVG(qp.rating) > (SELECT AVG(rating) FROM quality_products)
+ORDER BY promedio_producto DESC;
+
+-- 13. Empresas que sólo venden productos de una única categoría
+
+SELECT p.name, AVG(q.rating) AS promedio
+FROM quality_products q
+JOIN products p ON q.product_id = p.id
+GROUP BY p.id
+HAVING AVG(q.rating) > (
+    SELECT AVG(rating) FROM quality_products
+);
+
+-- 14. Productos con el mayor precio entre todas las empresas
+
+SELECT 
+    p.name as producto,
+    MAX(cp.price) as precio_maximo,
+    comp.name as empresa_precio_maximo
+FROM products p
+JOIN companyproducts cp ON p.id = cp.product_id
+JOIN companies comp ON cp.company_id = comp.id
+WHERE cp.price = (
+    SELECT MAX(cp2.price)
+    FROM companyproducts cp2
+    WHERE cp2.product_id = p.id
+)
+GROUP BY p.id, p.name, comp.name
+ORDER BY precio_maximo DESC;
+
+-- 15. Productos favoritos calificados por otro cliente con más de 4 estrellas
+
+SELECT DISTINCT
+    cust.name as cliente,
+    p.name as producto_favorito,
+    MAX(qp.rating) as mejor_calificacion_otros
+FROM customers cust
+JOIN favorites f ON cust.id = f.customer_id
+JOIN details_favorites df ON f.id = df.favorite_id
+JOIN products p ON df.product_id = p.id
+JOIN quality_products qp ON p.id = qp.product_id
+WHERE qp.customer_id != cust.id
+AND qp.rating > 4
+GROUP BY cust.id, cust.name, p.id, p.name
+ORDER BY mejor_calificacion_otros DESC;
+
+-- 16. Productos sin imagen pero que han sido calificados
+SELECT 
+    p.name as producto,
+    p.image as imagen,
+    COUNT(qp.rating) as total_calificaciones,
+    AVG(qp.rating) as promedio_calificacion
+FROM products p
+JOIN quality_products qp ON p.id = qp.product_id
+WHERE p.image IS NULL OR p.image = ''
+GROUP BY p.id, p.name, p.image
+ORDER BY total_calificaciones DESC;
+
+-- 17. Planes de membresía sin periodo vigente
+SELECT 
+    m.name as plan_membresia,
+    m.description
+FROM memberships m
+WHERE m.id NOT IN (
+    SELECT DISTINCT membership_id 
+    FROM membershipperiods 
+    WHERE membership_id IS NOT NULL
+)
+ORDER BY m.name;
+
+-- 18. Beneficios compartidos por más de una audiencia
+SELECT 
+    b.description as beneficio,
+    COUNT(ab.audience_id) as audiencias_asignadas
+FROM benefits b
+JOIN audiencebenefits ab ON b.id = ab.benefit_id
+GROUP BY b.id, b.description
+HAVING COUNT(ab.audience_id) > 1
+ORDER BY audiencias_asignadas DESC;
+
+-- 19. Empresas cuyos productos no tienen unidad de medida definida
+SELECT DISTINCT
+    comp.name as empresa,
+    comp.email,
+    c.name as ciudad
+FROM companies comp
+JOIN citiesormunicipalities c ON comp.city_id = c.code
+JOIN companyproducts cp ON comp.id = cp.company_id
+WHERE cp.unitmeasure_id IS NULL
+ORDER BY comp.name;
+
+-- 20. Clientes con membresía activa y sin productos favoritos
+SELECT 
+    cust.name as cliente,
+    cust.email,
+    a.description as audiencia
+FROM customers cust
+JOIN audiences a ON cust.audience_id = a.id
+LEFT JOIN favorites f ON cust.id = f.customer_id
+WHERE f.customer_id IS NULL
+AND cust.audience_id IN (
+    SELECT DISTINCT audience_id 
+    FROM audiencebenefits
+)
+ORDER BY cust.name;
+
