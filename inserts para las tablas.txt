@@ -1669,6 +1669,7 @@ INSERT INTO stateorregions (code, name, country_id, subdivision_id, code3166) VA
 -- DATOS DE PRUEBA PARA VERIFICAR FUNCIONAMIENTO
 ========================================================================================
 -- Insertar datos básicos
+==========================
 INSERT INTO subdivisioncategories (description) VALUES 
 ('State'), ('Province'), ('Region'), ('Territory');
 
