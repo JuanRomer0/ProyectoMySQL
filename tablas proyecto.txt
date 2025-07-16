@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS details_favorites(
     UNIQUE KEY unique_favorite_product (favorite_id, product_id)
 ) ENGINE=INNODB;
 ==================================================================================================
--- NOTA IMPORTANTE: companyproducts estaba con INT 
+-- NOTA IMPORTANTE: companyproducts estaba con id INT y se modifica a VARCHAR(20) 
 ==================================================================================================
 CREATE TABLE IF NOT EXISTS companyproducts(
     company_id VARCHAR(20) NOT NULL,
