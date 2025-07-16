@@ -1,0 +1,296 @@
+=============================================
+-- TRIGGERS
+=============================================
+-- 1. Actualizar la fecha de modificación de un producto
+
+DELIMITER //
+
+CREATE TRIGGER tr_update_product_timestamp
+    BEFORE UPDATE ON products
+    FOR EACH ROW
+BEGIN
+    SET NEW.updated_at = CURRENT_TIMESTAMP;
+END //
+
+-- 2. Registrar log cuando un cliente califica un producto
+
+CREATE TRIGGER tr_log_calificacion
+    AFTER INSERT ON rates
+    FOR EACH ROW
+BEGIN
+    INSERT INTO log_acciones (customer_id, company_id, action_type, description)
+    VALUES (NEW.customer_id, NEW.company_id, 'CALIFICACION', 
+            CONCAT('Cliente calificó con ', NEW.rating, ' puntos'));
+END //
+
+-- 3. Impedir insertar productos sin unidad de medida
+
+CREATE TRIGGER tr_validate_product_unit
+    BEFORE INSERT ON companyproducts
+    FOR EACH ROW
+BEGIN
+    IF NEW.unitmeasure_id IS NULL THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'No se puede insertar producto sin unidad de medida';
+    END IF;
+END //
+
+-- 4. Validar calificaciones no mayores a 10
+
+CREATE TRIGGER tr_validate_rating_range
+    BEFORE INSERT ON rates
+    FOR EACH ROW
+BEGIN
+    IF NEW.rating > 10 OR NEW.rating < 0 THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'La calificación debe estar entre 0 y 10';
+    END IF;
+END //
+
+-- 5. Actualizar estado de membresía cuando vence
+
+CREATE TRIGGER tr_update_membership_status
+    BEFORE UPDATE ON membershipperiods
+    FOR EACH ROW
+BEGIN
+    IF NEW.end_date < CURRENT_DATE AND OLD.end_date >= CURRENT_DATE THEN
+        SET NEW.status = 'VENCIDA';
+    END IF;
+END //
+
+-- 6. Evitar duplicados de productos por empresa
+
+CREATE TRIGGER tr_prevent_duplicate_company_products
+    BEFORE INSERT ON companyproducts
+    FOR EACH ROW
+BEGIN
+    DECLARE v_count INT;
+    
+    SELECT COUNT(*) INTO v_count
+    FROM companyproducts
+    WHERE company_id = NEW.company_id AND product_id = NEW.product_id;
+    
+    IF v_count > 0 THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Este producto ya está asociado a esta empresa';
+    END IF;
+END //
+
+-- 7. Enviar notificación al añadir un favorito
+
+CREATE TRIGGER tr_notify_favorite_added
+    AFTER INSERT ON details_favorites
+    FOR EACH ROW
+BEGIN
+    DECLARE v_customer_id INT;
+    DECLARE v_company_id VARCHAR(20);
+    DECLARE v_product_name VARCHAR(60);
+    
+    SELECT f.customer_id, f.company_id INTO v_customer_id, v_company_id
+    FROM favorites f
+    WHERE f.id = NEW.favorite_id;
+    
+    SELECT name INTO v_product_name
+    FROM products
+    WHERE id = NEW.product_id;
+    
+    INSERT INTO notificaciones (customer_id, company_id, message, type)
+    VALUES (v_customer_id, v_company_id, 
+            CONCAT('Has agregado "', v_product_name, '" a tus favoritos'), 
+            'FAVORITO_AGREGADO');
+END //
+
+-- 8. Insertar fila en quality_products tras calificación
+
+CREATE TRIGGER tr_sync_quality_products
+    AFTER INSERT ON rates
+    FOR EACH ROW
+BEGIN
+    -- Este trigger se ejecuta solo si no existe ya el registro
+    -- (asumiendo que rates puede tener múltiples entradas por cliente-empresa-encuesta)
+    INSERT IGNORE INTO quality_products (product_id, customer_id, poll_id, company_id, rating)
+    SELECT cp.product_id, NEW.customer_id, NEW.poll_id, NEW.company_id, NEW.rating
+    FROM companyproducts cp
+    WHERE cp.company_id = NEW.company_id
+    LIMIT 1; -- Tomar el primer producto de la empresa como ejemplo
+END //
+
+-- 9. Eliminar favoritos si se elimina el producto
+
+CREATE TRIGGER tr_cleanup_favorites_on_product_delete
+    AFTER DELETE ON products
+    FOR EACH ROW
+BEGIN
+    DELETE FROM details_favorites
+    WHERE product_id = OLD.id;
+END //
+
+-- 10. Bloquear modificación de audiencias activas
+
+CREATE TRIGGER tr_prevent_active_audience_modification
+    BEFORE UPDATE ON audiences
+    FOR EACH ROW
+BEGIN
+    DECLARE v_active_count INT;
+    
+    SELECT COUNT(*) INTO v_active_count
+    FROM companies
+    WHERE audience_id = OLD.id;
+    
+    IF v_active_count > 0 THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'No se puede modificar una audiencia que tiene empresas asociadas';
+    END IF;
+END //
+
+-- 11. Recalcular promedio de calidad del producto tras nueva evaluación
+
+CREATE TRIGGER tr_update_product_average
+    AFTER INSERT ON quality_products
+    FOR EACH ROW
+BEGIN
+    UPDATE products
+    SET average_rating = (
+        SELECT AVG(rating)
+        FROM quality_products
+        WHERE product_id = NEW.product_id
+    )
+    WHERE id = NEW.product_id;
+END //
+
+-- 12. Registrar asignación de nuevo beneficio
+
+CREATE TRIGGER tr_log_benefit_assignment
+    AFTER INSERT ON membershipbenefits
+    FOR EACH ROW
+BEGIN
+    INSERT INTO log_acciones (action_type, description)
+    VALUES ('BENEFICIO_ASIGNADO', 
+            CONCAT('Beneficio ', NEW.benefit_id, ' asignado a membresía ', NEW.membership_id));
+END //
+
+-- 13. Impedir doble calificación por parte del cliente
+
+CREATE TRIGGER tr_prevent_duplicate_rating
+    BEFORE INSERT ON rates
+    FOR EACH ROW
+BEGIN
+    DECLARE v_count INT;
+    
+    SELECT COUNT(*) INTO v_count
+    FROM rates
+    WHERE customer_id = NEW.customer_id 
+        AND company_id = NEW.company_id 
+        AND poll_id = NEW.poll_id
+        AND DATE(daterating) = DATE(NEW.daterating);
+    
+    IF v_count > 0 THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Ya has calificado esta empresa hoy con esta encuesta';
+    END IF;
+END //
+
+-- 14. Validar correos duplicados en clientes
+
+CREATE TRIGGER tr_validate_unique_customer_email
+    BEFORE INSERT ON customers
+    FOR EACH ROW
+BEGIN
+    DECLARE v_count INT;
+    
+    IF NEW.email IS NOT NULL THEN
+        SELECT COUNT(*) INTO v_count
+        FROM customers
+        WHERE email = NEW.email;
+        
+        IF v_count > 0 THEN
+            SIGNAL SQLSTATE '45000' 
+            SET MESSAGE_TEXT = 'Este email ya está registrado';
+        END IF;
+    END IF;
+END //
+
+-- 15. Eliminar detalles de favoritos huérfanos
+
+CREATE TRIGGER tr_cleanup_favorite_details
+    AFTER DELETE ON favorites
+    FOR EACH ROW
+BEGIN
+    DELETE FROM details_favorites
+    WHERE favorite_id = OLD.id;
+END //
+
+-- 16. Actualizar campo updated_at en companies
+
+CREATE TRIGGER tr_update_company_timestamp
+    BEFORE UPDATE ON companies
+    FOR EACH ROW
+BEGIN
+    SET NEW.updated_at = CURRENT_TIMESTAMP;
+END //
+
+-- 17. Impedir borrar ciudad si hay empresas activas
+
+CREATE TRIGGER tr_prevent_city_deletion
+    BEFORE DELETE ON citiesormunicipalities
+    FOR EACH ROW
+BEGIN
+    DECLARE v_company_count INT;
+    
+    SELECT COUNT(*) INTO v_company_count
+    FROM companies
+    WHERE city_id = OLD.code;
+    
+    IF v_company_count > 0 THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'No se puede eliminar una ciudad que tiene empresas registradas';
+    END IF;
+END //
+
+-- 18. Registrar cambios de estado en encuestas
+
+CREATE TRIGGER tr_log_poll_status_change
+    AFTER UPDATE ON polls
+    FOR EACH ROW
+BEGIN
+    IF OLD.status != NEW.status THEN
+        INSERT INTO log_acciones (action_type, description)
+        VALUES ('CAMBIO_ESTADO_ENCUESTA', 
+                CONCAT('Encuesta ', NEW.id, ' cambió de ', OLD.status, ' a ', NEW.status));
+    END IF;
+END //
+
+-- 19. Sincronizar rates y quality_products
+
+CREATE TRIGGER tr_sync_rates_quality
+    AFTER UPDATE ON rates
+    FOR EACH ROW
+BEGIN
+    UPDATE quality_products
+    SET rating = NEW.rating,
+        daterating = NEW.daterating
+    WHERE customer_id = NEW.customer_id
+        AND company_id = NEW.company_id
+        AND poll_id = NEW.poll_id;
+END //
+
+-- 20. Eliminar productos sin relación a empresas
+
+CREATE TRIGGER tr_cleanup_orphan_products
+    AFTER DELETE ON companyproducts
+    FOR EACH ROW
+BEGIN
+    DECLARE v_remaining_relations INT;
+    
+    SELECT COUNT(*) INTO v_remaining_relations
+    FROM companyproducts
+    WHERE product_id = OLD.product_id;
+    
+    IF v_remaining_relations = 0 THEN
+        DELETE FROM products
+        WHERE id = OLD.product_id;
+    END IF;
+END //
+
+DELIMITER ;
+
