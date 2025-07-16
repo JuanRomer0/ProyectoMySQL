@@ -1,0 +1,372 @@
+=============================================
+-- FUNCIONES DEFINIDAS POR EL USUARIO (UDF)
+=============================================
+
+-- 1. Calcular el promedio ponderado de calidad de un producto
+
+DELIMITER //
+
+CREATE FUNCTION fn_promedio_ponderado(p_product_id INT)
+RETURNS DECIMAL(3,2)
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_promedio DECIMAL(3,2) DEFAULT 0.00;
+    
+    SELECT 
+        SUM(qp.rating * (1 + DATEDIFF(CURRENT_DATE, qp.daterating) / 365)) / 
+        SUM(1 + DATEDIFF(CURRENT_DATE, qp.daterating) / 365)
+    INTO v_promedio
+    FROM quality_products qp
+    WHERE qp.product_id = p_product_id;
+    
+    RETURN COALESCE(v_promedio, 0.00);
+END //
+
+-- 2. Determinar si un producto ha sido calificado recientemente
+
+CREATE FUNCTION fn_calificacion_reciente(p_fecha DATE)
+RETURNS BOOLEAN
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    RETURN DATEDIFF(CURRENT_DATE, p_fecha) <= 30;
+END //
+
+-- 3. Obtener el nombre de la empresa que vende un producto
+
+CREATE FUNCTION fn_empresa_producto(p_product_id INT)
+RETURNS VARCHAR(80)
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_empresa VARCHAR(80) DEFAULT '';
+    
+    SELECT c.name INTO v_empresa
+    FROM companyproducts cp
+    JOIN companies c ON cp.company_id = c.id
+    WHERE cp.product_id = p_product_id
+    LIMIT 1;
+    
+    RETURN COALESCE(v_empresa, 'Sin empresa');
+END //
+
+-- 4. Verificar si un cliente tiene membresía activa
+
+CREATE FUNCTION fn_membresia_activa(p_customer_id INT)
+RETURNS BOOLEAN
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_count INT DEFAULT 0;
+    
+    SELECT COUNT(*) INTO v_count
+    FROM membershipperiods mp
+    WHERE mp.membership_id = p_customer_id -- Asumiendo relación directa
+        AND mp.status = 'ACTIVA'
+        AND CURRENT_DATE BETWEEN mp.start_date AND mp.end_date;
+    
+    RETURN v_count > 0;
+END //
+
+-- 5. Validar si una ciudad supera el límite de empresas
+
+CREATE FUNCTION fn_ciudad_supera_empresas(p_city_id VARCHAR(6), p_limite INT)
+RETURNS BOOLEAN
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_count INT DEFAULT 0;
+    
+    SELECT COUNT(*) INTO v_count
+    FROM companies
+    WHERE city_id = p_city_id;
+    
+    RETURN v_count > p_limite;
+END //
+
+-- 6. Descripción textual de la calificación
+
+CREATE FUNCTION fn_descripcion_calificacion(p_valor DECIMAL(3,2))
+RETURNS VARCHAR(20)
+DETERMINISTIC
+BEGIN
+    CASE
+        WHEN p_valor >= 9.0 THEN RETURN 'Excelente';
+        WHEN p_valor >= 7.0 THEN RETURN 'Muy bueno';
+        WHEN p_valor >= 5.0 THEN RETURN 'Bueno';
+        WHEN p_valor >= 3.0 THEN RETURN 'Regular';
+        WHEN p_valor >= 1.0 THEN RETURN 'Malo';
+        ELSE RETURN 'Muy malo';
+    END CASE;
+END //
+
+-- 7. Estado del producto según su evaluación
+
+CREATE FUNCTION fn_estado_producto(p_product_id INT)
+RETURNS VARCHAR(20)
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_promedio DECIMAL(3,2);
+    
+    SELECT average_rating INTO v_promedio
+    FROM products
+    WHERE id = p_product_id;
+    
+    CASE
+        WHEN v_promedio >= 7.0 THEN RETURN 'Óptimo';
+        WHEN v_promedio >= 4.0 THEN RETURN 'Aceptable';
+        ELSE RETURN 'Crítico';
+    END CASE;
+END //
+
+-- 8. Verificar si un producto está en favoritos
+
+CREATE FUNCTION fn_es_favorito(p_customer_id INT, p_product_id INT)
+RETURNS BOOLEAN
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_count INT DEFAULT 0;
+    
+    SELECT COUNT(*) INTO v_count
+    FROM favorites f
+    JOIN details_favorites df ON f.id = df.favorite_id
+    WHERE f.customer_id = p_customer_id
+        AND df.product_id = p_product_id;
+    
+    RETURN v_count > 0;
+END //
+
+-- 9. Verificar si un beneficio está asignado a una audiencia
+
+CREATE FUNCTION fn_beneficio_asignado_audiencia(p_benefit_id INT, p_audience_id INT)
+RETURNS BOOLEAN
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_count INT DEFAULT 0;
+    
+    SELECT COUNT(*) INTO v_count
+    FROM audiencebenefits
+    WHERE benefit_id = p_benefit_id
+        AND audience_id = p_audience_id;
+    
+    RETURN v_count > 0;
+END //
+
+-- 10. Verificar si una fecha está en rango de membresía activa
+
+CREATE FUNCTION fn_fecha_en_membresia(p_fecha DATE, p_customer_id INT)
+RETURNS BOOLEAN
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_count INT DEFAULT 0;
+    
+    SELECT COUNT(*) INTO v_count
+    FROM membershipperiods mp
+    WHERE mp.membership_id = p_customer_id
+        AND mp.status = 'ACTIVA'
+        AND p_fecha BETWEEN mp.start_date AND mp.end_date;
+    
+    RETURN v_count > 0;
+END //
+
+-- 11. Calcular porcentaje de calificaciones positivas
+
+CREATE FUNCTION fn_porcentaje_positivas(p_product_id INT)
+RETURNS DECIMAL(5,2)
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_total INT DEFAULT 0;
+    DECLARE v_positivas INT DEFAULT 0;
+    
+    SELECT 
+        COUNT(*),
+        SUM(CASE WHEN rating >= 7.0 THEN 1 ELSE 0 END)
+    INTO v_total, v_positivas
+    FROM quality_products
+    WHERE product_id = p_product_id;
+    
+    IF v_total = 0 THEN
+        RETURN 0.00;
+    END IF;
+    
+    RETURN (v_positivas * 100.0) / v_total;
+END //
+
+-- 12. Calcular edad de una calificación en días
+
+CREATE FUNCTION fn_edad_calificacion(p_fecha_calificacion DATE)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    RETURN DATEDIFF(CURRENT_DATE, p_fecha_calificacion);
+END //
+
+-- 13. Contar productos únicos por empresa
+
+CREATE FUNCTION fn_productos_por_empresa(p_company_id VARCHAR(20))
+RETURNS INT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_count INT DEFAULT 0;
+    
+    SELECT COUNT(DISTINCT product_id) INTO v_count
+    FROM companyproducts
+    WHERE company_id = p_company_id;
+    
+    RETURN v_count;
+END //
+
+-- 14. Nivel de actividad del cliente
+
+CREATE FUNCTION fn_nivel_actividad_cliente(p_customer_id INT)
+RETURNS VARCHAR(20)
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_calificaciones INT DEFAULT 0;
+    
+    SELECT COUNT(*) INTO v_calificaciones
+    FROM quality_products
+    WHERE customer_id = p_customer_id
+        AND daterating >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH);
+    
+    CASE
+        WHEN v_calificaciones >= 10 THEN RETURN 'Frecuente';
+        WHEN v_calificaciones >= 3 THEN RETURN 'Esporádico';
+        ELSE RETURN 'Inactivo';
+    END CASE;
+END //
+
+-- 15. Precio promedio ponderado por favoritos
+
+CREATE FUNCTION fn_precio_promedio_ponderado(p_product_id INT)
+RETURNS DECIMAL(10,2)
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_precio DECIMAL(10,2) DEFAULT 0.00;
+    DECLARE v_favoritos INT DEFAULT 0;
+    
+    SELECT COUNT(*) INTO v_favoritos
+    FROM details_favorites
+    WHERE product_id = p_product_id;
+    
+    SELECT AVG(cp.price * (1 + v_favoritos * 0.1)) INTO v_precio
+    FROM companyproducts cp
+    WHERE cp.product_id = p_product_id;
+    
+    RETURN COALESCE(v_precio, 0.00);
+END //
+
+-- 16. Verificar si un beneficio está en múltiples audiencias
+
+CREATE FUNCTION fn_beneficio_multiple_audiencia(p_benefit_id INT)
+RETURNS BOOLEAN
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_count INT DEFAULT 0;
+    
+    SELECT COUNT(DISTINCT audience_id) INTO v_count
+    FROM audiencebenefits
+    WHERE benefit_id = p_benefit_id;
+    
+    RETURN v_count > 1;
+END //
+
+-- 17. Índice de variedad por ciudad
+
+CREATE FUNCTION fn_indice_variedad_ciudad(p_city_id VARCHAR(6))
+RETURNS DECIMAL(5,2)
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_empresas INT DEFAULT 0;
+    DECLARE v_productos INT DEFAULT 0;
+    
+    SELECT COUNT(DISTINCT c.id) INTO v_empresas
+    FROM companies c
+    WHERE c.city_id = p_city_id;
+    
+    SELECT COUNT(DISTINCT cp.product_id) INTO v_productos
+    FROM companies c
+    JOIN companyproducts cp ON c.id = cp.company_id
+    WHERE c.city_id = p_city_id;
+    
+    IF v_empresas = 0 THEN
+        RETURN 0.00;
+    END IF;
+    
+    RETURN (v_productos * 1.0) / v_empresas;
+END //
+
+-- 18. Evaluar si un producto debe ser desactivado
+
+CREATE FUNCTION fn_producto_desactivar(p_product_id INT)
+RETURNS BOOLEAN
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_promedio DECIMAL(3,2);
+    DECLARE v_total_calificaciones INT;
+    
+    SELECT 
+        AVG(rating),
+        COUNT(*)
+    INTO v_promedio, v_total_calificaciones
+    FROM quality_products
+    WHERE product_id = p_product_id
+        AND daterating >= DATE_SUB(CURRENT_DATE, INTERVAL 1 YEAR);
+    
+    RETURN (v_promedio < 3.0 AND v_total_calificaciones >= 5);
+END //
+
+-- 19. Calcular índice de popularidad del producto
+
+CREATE FUNCTION fn_indice_popularidad(p_product_id INT)
+RETURNS DECIMAL(5,2)
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE v_favoritos INT DEFAULT 0;
+    DECLARE v_calificaciones INT DEFAULT 0;
+    DECLARE v_promedio DECIMAL(3,2) DEFAULT 0;
+    
+    SELECT COUNT(*) INTO v_favoritos
+    FROM details_favorites
+    WHERE product_id = p_product_id;
+    
+    SELECT COUNT(*), AVG(rating) INTO v_calificaciones, v_promedio
+    FROM quality_products
+    WHERE product_id = p_product_id;
+    
+    RETURN (v_favoritos * 0.3) + (v_calificaciones * 0.4) + (v_promedio * 0.3);
+END //
+
+DELIMITER ;
+
+-- 20. Como auditor, deseo una función que genere un código único basado en el nombre del producto y su fecha de creación.
+
+DELIMITER $$
+CREATE FUNCTION codigo_unico_producto(p_product_id INT)
+RETURNS VARCHAR(100)
+DETERMINISTIC
+BEGIN
+    DECLARE nombre VARCHAR(60);
+    DECLARE creado DATETIME;
+    DECLARE codigo_final VARCHAR(100);
+    SELECT name INTO nombre FROM products WHERE id = p_product_id;
+    SET creado = NOW();
+    SET codigo_final = CONCAT(UCASE(LEFT(nombre, 3)), '-', DATE_FORMAT(creado, '%Y%m%d%H%i%s'));
+    RETURN codigo_final;
+END $$
+DELIMITER ;
+
+
