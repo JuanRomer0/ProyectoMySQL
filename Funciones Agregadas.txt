@@ -1,0 +1,242 @@
+-- FUNCIONES AGREGADAS
+======================================================
+
+-- 1. Promedio de calificación por producto
+SELECT 
+    p.name as producto,
+    COUNT(qp.rating) as total_calificaciones,
+    AVG(qp.rating) as promedio_calificacion,
+    MIN(qp.rating) as calificacion_minima,
+    MAX(qp.rating) as calificacion_maxima
+FROM products p
+LEFT JOIN quality_products qp ON p.id = qp.product_id
+GROUP BY p.id, p.name
+ORDER BY promedio_calificacion DESC;
+
+-- 2. Contar cuántos productos ha calificado cada cliente
+SELECT 
+    cust.name as cliente,
+    COUNT(DISTINCT qp.product_id) as productos_calificados,
+    AVG(qp.rating) as promedio_calificaciones_dadas
+FROM customers cust
+LEFT JOIN quality_products qp ON cust.id = qp.customer_id
+GROUP BY cust.id, cust.name
+ORDER BY productos_calificados DESC;
+
+-- 3. Total de beneficios asignados por audiencia
+SELECT 
+    a.description as audiencia,
+    COUNT(ab.benefit_id) as total_beneficios
+FROM audiences a
+LEFT JOIN audiencebenefits ab ON a.id = ab.audience_id
+GROUP BY a.id, a.description
+ORDER BY total_beneficios DESC;
+
+-- 4. Media de productos por empresa
+SELECT 
+    AVG(productos_por_empresa) as media_productos_empresa
+FROM (
+    SELECT 
+        comp.id,
+        COUNT(cp.product_id) as productos_por_empresa
+    FROM companies comp
+    LEFT JOIN companyproducts cp ON comp.id = cp.company_id
+    GROUP BY comp.id
+) as subquery;
+
+-- 5. Total de empresas por ciudad
+SELECT 
+    c.name as ciudad,
+    sr.name as departamento,
+    COUNT(comp.id) as total_empresas
+FROM citiesormunicipalities c
+JOIN stateorregions sr ON c.statereg_id = sr.code
+LEFT JOIN companies comp ON c.code = comp.city_id
+GROUP BY c.code, c.name, sr.name
+ORDER BY total_empresas DESC;
+
+-- 6. Promedio de precios por unidad de medida
+SELECT 
+    um.description as unidad_medida,
+    COUNT(cp.product_id) as total_productos,
+    AVG(cp.price) as precio_promedio,
+    MIN(cp.price) as precio_minimo,
+    MAX(cp.price) as precio_maximo,
+    STDDEV(cp.price) as desviacion_estandar
+FROM unitofmeasure um
+JOIN companyproducts cp ON um.id = cp.unitmeasure_id
+GROUP BY um.id, um.description
+ORDER BY precio_promedio DESC;
+
+-- 7. Número de clientes registrados por ciudad
+SELECT 
+    c.name as ciudad,
+    sr.name as departamento,
+    COUNT(cust.id) as total_clientes
+FROM citiesormunicipalities c
+JOIN stateorregions sr ON c.statereg_id = sr.code
+LEFT JOIN customers cust ON c.code = cust.city_id
+GROUP BY c.code, c.name, sr.name
+ORDER BY total_clientes DESC;
+
+-- 8. Planes de membresía por periodo
+SELECT 
+    p.name as periodo,
+    COUNT(mp.membership_id) as total_planes,
+    AVG(mp.price) as precio_promedio,
+    MIN(mp.price) as precio_minimo,
+    MAX(mp.price) as precio_maximo
+FROM periods p
+LEFT JOIN membershipperiods mp ON p.id = mp.period_id
+GROUP BY p.id, p.name
+ORDER BY precio_promedio DESC;
+
+-- 9. Promedio de calificaciones de favoritos por cliente
+SELECT 
+    cust.name as cliente,
+    COUNT(DISTINCT df.product_id) as productos_favoritos,
+    AVG(qp.rating) as promedio_calificacion_favoritos
+FROM customers cust
+JOIN favorites f ON cust.id = f.customer_id
+JOIN details_favorites df ON f.id = df.favorite_id
+LEFT JOIN quality_products qp ON df.product_id = qp.product_id AND cust.id = qp.customer_id
+GROUP BY cust.id, cust.name
+HAVING COUNT(DISTINCT df.product_id) > 0
+ORDER BY promedio_calificacion_favoritos DESC;
+
+-- 10. Fecha más reciente de calificación por producto
+SELECT 
+    p.name as producto,
+    MAX(qp.daterating) as ultima_calificacion,
+    COUNT(qp.rating) as total_calificaciones
+FROM products p
+LEFT JOIN quality_products qp ON p.id = qp.product_id
+GROUP BY p.id, p.name
+ORDER BY ultima_calificacion DESC;
+
+-- 11. Desviación estándar de precios por categoría
+SELECT 
+    cat.description as categoria,
+    COUNT(cp.product_id) as total_productos,
+    AVG(cp.price) as precio_promedio,
+    STDDEV(cp.price) as desviacion_estandar,
+    VARIANCE(cp.price) as varianza
+FROM categories cat
+JOIN products p ON cat.id = p.category_id
+JOIN companyproducts cp ON p.id = cp.product_id
+GROUP BY cat.id, cat.description
+ORDER BY desviacion_estandar DESC;
+
+-- 12. Cuántas veces un producto fue marcado como favorito
+SELECT 
+    p.name as producto,
+    COUNT(df.product_id) as veces_favorito,
+    COUNT(DISTINCT f.customer_id) as clientes_distintos
+FROM products p
+LEFT JOIN details_favorites df ON p.id = df.product_id
+LEFT JOIN favorites f ON df.favorite_id = f.id
+GROUP BY p.id, p.name
+ORDER BY veces_favorito DESC;
+
+-- 13. Varianza de precios por empresa
+SELECT 
+    comp.name as empresa,
+    COUNT(cp.product_id) as total_productos,
+    AVG(cp.price) as precio_promedio,
+    VARIANCE(cp.price) as varianza_precios,
+    STDDEV(cp.price) as desviacion_estandar
+FROM companies comp
+JOIN companyproducts cp ON comp.id = cp.company_id
+GROUP BY comp.id, comp.name
+HAVING COUNT(cp.product_id) > 1
+ORDER BY varianza_precios DESC;
+
+-- 14. promedio de calificaciones por encuesta
+
+SELECT poll_id, AVG(rating) AS promedio_rating
+FROM rates
+GROUP BY poll_id;
+
+-- 15. Percentiles de precios por categoría
+
+SELECT membership_id, COUNT(*) AS total_beneficios
+FROM membershipbenefits
+GROUP BY membership_id;
+
+-- 16. Concentración de empresas por ciudad 
+SELECT 
+    c.name as ciudad,
+    sr.name as departamento,
+    COUNT(comp.id) as total_empresas,
+    COUNT(DISTINCT cat.id) as categorias_diferentes,
+    ROUND(POWER(COUNT(comp.id), 2) / POWER(SUM(COUNT(comp.id)) OVER(), 2) * 10000, 2) as indice_concentracion
+FROM citiesormunicipalities c
+JOIN stateorregions sr ON c.statereg_id = sr.code
+LEFT JOIN companies comp ON c.code = comp.city_id
+LEFT JOIN categories cat ON comp.category_id = cat.id
+GROUP BY c.code, c.name, sr.name
+HAVING COUNT(comp.id) > 0
+ORDER BY indice_concentracion DESC;
+
+-- 17. Análisis de actividad de clientes por mes
+SELECT 
+    YEAR(qp.daterating) as año,
+    MONTH(qp.daterating) as mes,
+    COUNT(DISTINCT qp.customer_id) as clientes_activos,
+    COUNT(qp.product_id) as total_calificaciones,
+    AVG(qp.rating) as promedio_calificaciones,
+    COUNT(DISTINCT qp.product_id) as productos_evaluados
+FROM quality_products qp
+GROUP BY YEAR(qp.daterating), MONTH(qp.daterating)
+ORDER BY año DESC, mes DESC;
+
+-- 18. Distribución de membresías por rango de precio
+SELECT 
+    CASE 
+        WHEN mp.price < 10 THEN 'Económico (< $10)'
+        WHEN mp.price BETWEEN 10 AND 50 THEN 'Medio ($10-$50)'
+        WHEN mp.price BETWEEN 50 AND 100 THEN 'Premium ($50-$100)'
+        ELSE 'Luxury (> $100)'
+    END as rango_precio,
+    COUNT(mp.membership_id) as total_planes,
+    AVG(mp.price) as precio_promedio_rango,
+    MIN(mp.price) as precio_minimo_rango,
+    MAX(mp.price) as precio_maximo_rango
+FROM membershipperiods mp
+GROUP BY 
+    CASE 
+        WHEN mp.price < 10 THEN 'Económico (< $10)'
+        WHEN mp.price BETWEEN 10 AND 50 THEN 'Medio ($10-$50)'
+        WHEN mp.price BETWEEN 50 AND 100 THEN 'Premium ($50-$100)'
+        ELSE 'Luxury (> $100)'
+    END
+ORDER BY precio_promedio_rango;
+
+-- 19. Coeficiente de variación de calificaciones por producto
+SELECT 
+    p.name as producto,
+    COUNT(qp.rating) as total_calificaciones,
+    AVG(qp.rating) as promedio_calificacion,
+    STDDEV(qp.rating) as desviacion_estandar,
+    CASE 
+        WHEN AVG(qp.rating) > 0 THEN ROUND((STDDEV(qp.rating) / AVG(qp.rating)) * 100, 2)
+        ELSE 0 
+    END as coeficiente_variacion_porcentaje
+FROM products p
+JOIN quality_products qp ON p.id = qp.product_id
+GROUP BY p.id, p.name
+HAVING COUNT(qp.rating) >= 3
+ORDER BY coeficiente_variacion_porcentaje DESC;
+
+-- 20. Análisis de crecimiento de favoritos por trimestre
+SELECT 
+    YEAR(f.created_at) as año,
+    QUARTER(f.created_at) as trimestre,
+    COUNT(f.id) as nuevos_favoritos,
+    COUNT(DISTINCT f.customer_id) as clientes_nuevos_favoritos,
+    AVG(COUNT(f.id)) OVER (ORDER BY YEAR(f.created_at), QUARTER(f.created_at) 
+                          ROWS BETWEEN 3 PRECEDING AND CURRENT ROW) as promedio_movil_4_trimestres
+FROM favorites f
+GROUP BY YEAR(f.created_at), QUARTER(f.created_at)
+ORDER BY año DESC, trimestre DESC;
+
