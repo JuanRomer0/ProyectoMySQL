@@ -1671,32 +1671,7 @@ INSERT INTO stateorregions (code, name, country_id, subdivision_id, code3166) VA
 ========================================================================================
 -- Insertar datos básicos
 ==========================
-INSERT INTO subdivisioncategories (description) VALUES 
-('State'), ('Province'), ('Region'), ('Territory');
-
-INSERT INTO typesidentifications (description, sufix) VALUES 
-('Número de Identificación Tributaria', 'NIT'),
-('Cédula de Ciudadanía', 'CC'),
-('Tax Identification Number', 'TIN');
-
-INSERT INTO categories (description) VALUES 
-('Restaurantes'), ('Tecnología'), ('Retail'), ('Servicios');
-
-INSERT INTO audiences (description) VALUES 
-('Consumidor Final'), ('Empresas'), ('Gobierno'), ('Estudiantes');
-
-INSERT INTO categories_polls (name) VALUES 
-('Satisfacción del Cliente'), ('Calidad del Producto'), ('Servicio al Cliente');
-
-INSERT INTO polls (name, description, isactive, categorypoll_id) VALUES 
-('Encuesta de Satisfacción General', 'Evaluación general del servicio', TRUE, 1),
-('Calidad de Productos', 'Evaluación de la calidad de productos', TRUE, 2);
-
-INSERT INTO unitofmeasure (description) VALUES 
-('Kilogramo'), ('Litro'), ('Unidad'), ('Metro');
-
-=================================
--- Insert de empresa de prueba
+-- Insert de empresa 
 =================================
 INSERT INTO companies (id, type_id, name, category_id, city_id, audience_id, cellphone, email) VALUES
 ('900234567-2', 1, 'Pizzería Don Tomate', 2, '68051', 2, '3102345678', 'don.tomate@pizza.com'),
@@ -1709,7 +1684,7 @@ INSERT INTO companies (id, type_id, name, category_id, city_id, audience_id, cel
 ('900901234-9', 1, 'Arepas Mi Abuela', 1, '25040', 2, '3209012345', 'ventas@miabuela.com'),
 ('901012345-0', 1, 'Tacos El Patrón', 1, '47030', 1, '3000123456', 'tacos@elpatron.com');
 ================================
--- Insert de cliente de prueba
+-- Insert de cliente 
 ================================
 INSERT INTO customers (name, city_id, audience_id, cellphone, email, address) VALUES
 ('María Gómez', '05002', 1, '3011234567', 'maria.gomez@email.com', 'Carrera 10 #12-34'),
@@ -1723,14 +1698,13 @@ INSERT INTO customers (name, city_id, audience_id, cellphone, email, address) VA
 ('Tatiana Paredes', '25001', 1, '3099012345', 'tatiana.paredes@email.com', 'Calle 12 #34-56'),
 ('Esteban Vélez', '20011', 3, '3100123456', 'esteban.velez@email.com', 'Carrera 77 #66-55');
 ================================
--- Insert de producto de prueba
+-- Insert de producto 
 -- Restaurantes (1)
 -- Tecnología (2)
 -- Retail (3)
 -- Servicios (4)
 ================================
 INSERT INTO products (name, detail, price, category_id, image) VALUES
-
 ('Hamburguesa Especial', 'Hamburguesa con carne, queso, lechuga y tomate', 15000.00, 1, 'hamburguesa.jpg'),
 ('Pizza Margarita', 'Pizza con queso mozzarella, tomate y albahaca fresca', 18000.00, 1, 'pizza.jpg'),
 ('Taco Mexicano', 'Tortilla de maíz con carne, lechuga y guacamole', 12000.00, 1, 'taco.jpg'),
@@ -1762,12 +1736,15 @@ INSERT INTO companyproducts (company_id, product_id, price, unitmeasure_id) VALU
 ('900123456-1', 9, 35000.00, 1),
 ('900123456-1', 10, 8000.00, 4);
 
-===========================================================================================================
+====================================================================
 -- INSERCIÓN DE DATOS PARA TABLAS DE CATÁLOGO
 ================================================
 -- Tipos de identificación
 ================================================
 INSERT INTO typesidentifications (description, sufix) VALUES 
+('Número de Identificación Tributaria', 'NIT'),
+('Cédula de Ciudadanía', 'CC'),
+('Tax Identification Number', 'TIN');
 ('Cédula de Extranjería', 'CE'),
 ('Pasaporte', 'PA'),
 ('Social Security Number', 'SSN'),
