@@ -1,0 +1,557 @@
+-- PROCEDIMIENTOS ALMACENADOS
+==================================================================
+-- 1. Registrar una nueva calificación y actualizar el promedio
+DELIMITER //
+
+CREATE PROCEDURE sp_registrar_calificacion(
+    IN p_product_id INT,
+    IN p_customer_id INT,
+    IN p_company_id VARCHAR(20),
+    IN p_poll_id INT,
+    IN p_rating DECIMAL(3,2)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
+    
+    START TRANSACTION;
+    
+    -- Insertar la calificación
+    INSERT INTO rates (customer_id, company_id, poll_id, rating)
+    VALUES (p_customer_id, p_company_id, p_poll_id, p_rating);
+    
+    -- Insertar en quality_products
+    INSERT INTO quality_products (product_id, customer_id, poll_id, company_id, rating)
+    VALUES (p_product_id, p_customer_id, p_poll_id, p_company_id, p_rating);
+    
+    -- Actualizar promedio en products
+    UPDATE products p
+    SET average_rating = (
+        SELECT AVG(qp.rating)
+        FROM quality_products qp
+        WHERE qp.product_id = p_product_id
+    )
+    WHERE p.id = p_product_id;
+    
+    COMMIT;
+END //
+
+CALL sp_registrar_calificacion(1, 1, '900234567-2', 1, 8.5);
+CALL sp_registrar_calificacion(2, 2, '900345678-3', 2, 9.0);
+CALL sp_registrar_calificacion(3, 3, '900456789-4', 1, 7.5);
+CALL sp_registrar_calificacion(1, 4, '900678901-6', 3, 8.8);
+CALL sp_registrar_calificacion(2, 5, '900789012-7', 1, 9.2);
+
+-- 2. Insertar empresa y asociar productos por defecto
+
+CREATE PROCEDURE sp_insertar_empresa_con_productos(
+    IN p_company_id VARCHAR(20),
+    IN p_type_id INT,
+    IN p_name VARCHAR(80),
+    IN p_category_id INT,
+    IN p_city_id VARCHAR(6),
+    IN p_audience_id INT,
+    IN p_cellphone VARCHAR(15),
+    IN p_email VARCHAR(80)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
+    
+    START TRANSACTION;
+    
+    -- Insertar empresa
+    INSERT INTO companies (id, type_id, name, category_id, city_id, audience_id, cellphone, email)
+    VALUES (p_company_id, p_type_id, p_name, p_category_id, p_city_id, p_audience_id, p_cellphone, p_email);
+    
+    -- Asociar productos por defecto de la misma categoría
+    INSERT INTO companyproducts (company_id, product_id, price, unitmeasure_id)
+    SELECT p_company_id, p.id, p.price * 1.1, 1
+    FROM products p
+    WHERE p.category_id = p_category_id
+    LIMIT 3;
+    
+    COMMIT;
+END //
+
+CALL sp_insertar_empresa_con_productos('900111222-3', 1, 'Restaurante El Buen Sabor', 1, '05001', 1, '3001234567', 'buensabor@email.com');
+CALL sp_insertar_empresa_con_productos('900333444-5', 2, 'Tech Solutions SAS', 2, '68001', 2, '3007654321', 'info@techsolutions.com');
+CALL sp_insertar_empresa_con_productos('900555666-7', 1, 'Moda y Estilo Ltda', 3, '25001', 1, '3009876543', 'ventas@modaestilo.com');
+
+
+-- 3. Añadir producto favorito validando duplicados
+
+CREATE PROCEDURE sp_agregar_favorito(
+    IN p_customer_id INT,
+    IN p_company_id VARCHAR(20),
+    IN p_product_id INT
+)
+BEGIN
+    DECLARE v_favorite_id INT DEFAULT 0;
+    DECLARE v_exists INT DEFAULT 0;
+    
+    -- Verificar si ya existe el favorito principal
+    SELECT id INTO v_favorite_id
+    FROM favorites
+    WHERE customer_id = p_customer_id AND company_id = p_company_id;
+    
+    -- Si no existe, crear el favorito principal
+    IF v_favorite_id = 0 THEN
+        INSERT INTO favorites (customer_id, company_id)
+        VALUES (p_customer_id, p_company_id);
+        SET v_favorite_id = LAST_INSERT_ID();
+    END IF;
+    
+    -- Verificar si el producto ya está en favoritos
+    SELECT COUNT(*) INTO v_exists
+    FROM details_favorites
+    WHERE favorite_id = v_favorite_id AND product_id = p_product_id;
+    
+    -- Si no existe, agregarlo
+    IF v_exists = 0 THEN
+        INSERT INTO details_favorites (favorite_id, product_id)
+        VALUES (v_favorite_id, p_product_id);
+    END IF;
+END //
+
+CALL sp_agregar_favorito(1, '900234567-2', 1);
+CALL sp_agregar_favorito(1, '900234567-2', 2);
+CALL sp_agregar_favorito(2, '900345678-3', 3);
+CALL sp_agregar_favorito(3, '900456789-4', 4);
+CALL sp_agregar_favorito(4, '900678901-6', 5);
+CALL sp_agregar_favorito(5, '900789012-7', 6);
+
+-- 4. Generar resumen mensual de calificaciones por empresa
+CREATE PROCEDURE sp_resumen_mensual_calificaciones()
+BEGIN
+    INSERT INTO resumen_calificaciones (company_id, year, month, average_rating, total_ratings)
+    SELECT 
+        r.company_id,
+        YEAR(r.daterating) as year,
+        MONTH(r.daterating) as month,
+        AVG(r.rating) as average_rating,
+        COUNT(*) as total_ratings
+    FROM rates r
+    WHERE YEAR(r.daterating) = YEAR(CURRENT_DATE)
+        AND MONTH(r.daterating) = MONTH(CURRENT_DATE)
+    GROUP BY r.company_id, YEAR(r.daterating), MONTH(r.daterating)
+    ON DUPLICATE KEY UPDATE
+        average_rating = VALUES(average_rating),
+        total_ratings = VALUES(total_ratings);
+END //
+
+CALL sp_resumen_mensual_calificaciones();
+
+-- 5. Calcular beneficios activos por membresía
+
+CREATE PROCEDURE sp_beneficios_activos_membresia(
+    IN p_membership_id INT,
+    IN p_period_id INT,
+    IN p_audience_id INT
+)
+BEGIN
+    SELECT 
+        m.name as membership_name,
+        p.name as period_name,
+        a.description as audience_description,
+        b.description as benefit_description,
+        b.detail as benefit_detail
+    FROM membershipbenefits mb
+    JOIN memberships m ON mb.membership_id = m.id
+    JOIN periods p ON mb.period_id = p.id
+    JOIN audiences a ON mb.audience_id = a.id
+    JOIN benefits b ON mb.benefit_id = b.id
+    WHERE mb.membership_id = p_membership_id
+        AND mb.period_id = p_period_id
+        AND mb.audience_id = p_audience_id
+        AND (b.expires_at IS NULL OR b.expires_at > CURRENT_DATE);
+END //
+
+CALL sp_beneficios_activos_membresia(1, 4, 1); -- Básica, Anual, Consumidor Final
+CALL sp_beneficios_activos_membresia(2, 4, 2); -- Premium, Anual, Pequeñas Empresas
+CALL sp_beneficios_activos_membresia(3, 4, 3); -- VIP, Anual, Medianas Empresas
+CALL sp_beneficios_activos_membresia(4, 4, 4); -- Empresarial, Anual, Grandes Corporaciones
+CALL sp_beneficios_activos_membresia(5, 4, 6); -- Estudiante, Anual, Estudiantes
+
+-- 6. Eliminar productos huérfanos
+CREATE PROCEDURE sp_eliminar_productos_huerfanos()
+BEGIN
+    DELETE FROM products
+    WHERE id NOT IN (
+        SELECT DISTINCT product_id FROM quality_products
+        UNION
+        SELECT DISTINCT product_id FROM companyproducts
+        UNION
+        SELECT DISTINCT product_id FROM details_favorites
+    );
+    
+    SELECT ROW_COUNT() as productos_eliminados;
+END //
+
+-- 7. Actualizar precios de productos por categoría
+CREATE PROCEDURE sp_actualizar_precios_categoria(
+    IN p_category_id INT,
+    IN p_factor DECIMAL(5,2)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
+    
+    START TRANSACTION;
+    
+    INSERT INTO historial_precios (company_id, product_id, old_price, new_price)
+    SELECT 
+        cp.company_id,
+        cp.product_id,
+        cp.price as old_price,
+        cp.price * p_factor as new_price
+    FROM companyproducts cp
+    JOIN products p ON cp.product_id = p.id
+    WHERE p.category_id = p_category_id;
+    
+    -- Actualizar precios
+    UPDATE companyproducts cp
+    JOIN products p ON cp.product_id = p.id
+    SET cp.price = cp.price * p_factor
+    WHERE p.category_id = p_category_id;
+    
+    COMMIT;
+    
+    SELECT CONCAT('Precios actualizados con factor: ', p_factor) as resultado;
+END //
+
+CALL sp_actualizar_precios_categoria(1, 1.05); -- Aumentar 5% a categoría Restaurantes
+CALL sp_actualizar_precios_categoria(2, 1.03); -- Aumentar 3% a categoría Tecnología
+CALL sp_actualizar_precios_categoria(3, 1.07); -- Aumentar 7% a categoría Retail
+
+INSERT INTO products (name, detail, price, category_id) 
+VALUES ('Producto Huérfano Test', 'Este producto será eliminado', 1000.00, 1);
+
+CALL sp_eliminar_productos_huerfanos();
+
+-- 8. Validar inconsistencia entre rates y quality_products
+
+CREATE PROCEDURE sp_validar_inconsistencias_rates()
+BEGIN
+    INSERT INTO errores_log (error_type, description, table_affected, record_id)
+    SELECT 
+        'INCONSISTENCIA_RATES_QUALITY',
+        CONCAT('Rate sin quality_product correspondiente para customer: ', r.customer_id, ', company: ', r.company_id),
+        'rates',
+        CONCAT(r.customer_id, '-', r.company_id, '-', r.poll_id)
+    FROM rates r
+    LEFT JOIN quality_products qp ON r.customer_id = qp.customer_id 
+        AND r.company_id = qp.company_id 
+        AND r.poll_id = qp.poll_id
+    WHERE qp.product_id IS NULL;
+    
+    SELECT COUNT(*) as inconsistencias_encontradas FROM errores_log 
+    WHERE error_type = 'INCONSISTENCIA_RATES_QUALITY' 
+    AND DATE(created_at) = CURRENT_DATE;
+END //
+
+INSERT INTO rates (customer_id, company_id, poll_id, rating) 
+VALUES (99, '900999999-9', 99, 5.0); -- IDs que no existen
+
+CALL sp_validar_inconsistencias_rates();
+
+
+-- 9. Asignar beneficios a nuevas audiencias
+CREATE PROCEDURE sp_asignar_beneficio_audiencia(
+    IN p_benefit_id INT,
+    IN p_audience_id INT
+)
+BEGIN
+    INSERT IGNORE INTO audiencebenefits (audience_id, benefit_id)
+    VALUES (p_audience_id, p_benefit_id);
+    
+    IF ROW_COUNT() > 0 THEN
+        SELECT 'Beneficio asignado exitosamente' as resultado;
+    ELSE
+        SELECT 'El beneficio ya estaba asignado a esta audiencia' as resultado;
+    END IF;
+END //
+
+CALL sp_asignar_beneficio_audiencia(1, 5); -- Descuento en productos para Gobierno
+CALL sp_asignar_beneficio_audiencia(2, 6); -- Envío gratuito para Estudiantes
+CALL sp_asignar_beneficio_audiencia(3, 7); -- Soporte prioritario para Profesionales
+CALL sp_asignar_beneficio_audiencia(4, 8); -- Acceso anticipado para Seniors
+CALL sp_asignar_beneficio_audiencia(5, 9); -- Devoluciones extendidas para Jóvenes
+
+-- 10. Activar planes de membresía vencidos con pago confirmado
+
+CREATE PROCEDURE sp_activar_membresias_pagadas()
+BEGIN
+    UPDATE membershipperiods
+    SET status = 'ACTIVA'
+    WHERE end_date < CURRENT_DATE
+        AND pago_confirmado = TRUE
+        AND status = 'VENCIDA';
+    
+    SELECT ROW_COUNT() as membresias_activadas;
+END //
+
+-- Crear membresías vencidas con pago confirmado para la prueba
+UPDATE membershipperiods 
+SET end_date = DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY),
+    status = 'VENCIDA',
+    pago_confirmado = TRUE
+WHERE membership_id IN (1, 2)
+LIMIT 2;
+
+CALL sp_activar_membresias_pagadas();
+
+-- 11. Listar productos favoritos del cliente con su calificación
+
+CREATE PROCEDURE sp_favoritos_con_calificacion(
+    IN p_customer_id INT
+)
+BEGIN
+    SELECT 
+        p.name as producto,
+        c.name as empresa,
+        COALESCE(AVG(qp.rating), 0) as promedio_calificacion,
+        COUNT(qp.rating) as total_calificaciones
+    FROM favorites f
+    JOIN details_favorites df ON f.id = df.favorite_id
+    JOIN products p ON df.product_id = p.id
+    JOIN companies c ON f.company_id = c.id
+    LEFT JOIN quality_products qp ON p.id = qp.product_id
+    WHERE f.customer_id = p_customer_id
+    GROUP BY p.id, p.name, c.name
+    ORDER BY promedio_calificacion DESC;
+END //
+
+CALL sp_favoritos_con_calificacion(1);
+CALL sp_favoritos_con_calificacion(2);
+CALL sp_favoritos_con_calificacion(3);
+CALL sp_favoritos_con_calificacion(4);
+CALL sp_favoritos_con_calificacion(5);
+
+-- 12. Registrar encuesta y sus preguntas asociadas
+
+CREATE PROCEDURE sp_registrar_encuesta_completa(
+    IN p_name VARCHAR(80),
+    IN p_description TEXT,
+    IN p_category_id INT
+)
+BEGIN
+    DECLARE v_poll_id INT;
+    
+    INSERT INTO polls (name, description, categorypoll_id, isactive)
+    VALUES (p_name, p_description, p_category_id, TRUE);
+    
+    SET v_poll_id = LAST_INSERT_ID();
+    
+    SELECT v_poll_id as poll_id, 'Encuesta registrada exitosamente' as mensaje;
+END //
+
+CALL sp_registrar_encuesta_completa('Encuesta de Satisfacción Post-Compra', 'Evaluación detallada después de realizar una compra', 1);
+CALL sp_registrar_encuesta_completa('Encuesta de Usabilidad Web', 'Evaluación de la experiencia en el sitio web', 4);
+CALL sp_registrar_encuesta_completa('Encuesta de Calidad de Atención', 'Evaluación del servicio de atención al cliente', 3);
+CALL sp_registrar_encuesta_completa('Encuesta de Productos Nuevos', 'Evaluación de nuevos productos lanzados', 2);
+
+-- 13. Eliminar favoritos antiguos sin calificaciones
+
+CREATE PROCEDURE sp_limpiar_favoritos_antiguos()
+BEGIN
+    DELETE df FROM details_favorites df
+    JOIN favorites f ON df.favorite_id = f.id
+    LEFT JOIN quality_products qp ON df.product_id = qp.product_id 
+        AND f.customer_id = qp.customer_id
+        AND qp.daterating > DATE_SUB(CURRENT_DATE, INTERVAL 1 YEAR)
+    WHERE f.created_at < DATE_SUB(CURRENT_DATE, INTERVAL 1 YEAR)
+        AND qp.product_id IS NULL;
+    
+    SELECT ROW_COUNT() as favoritos_eliminados;
+END //
+
+-- Crear favoritos antiguos para la prueba
+INSERT INTO favorites (customer_id, company_id, created_at) 
+VALUES (6, '900234567-2', DATE_SUB(CURRENT_DATE, INTERVAL 13 MONTH));
+SET @last_favorite_id = LAST_INSERT_ID();
+INSERT INTO details_favorites (favorite_id, product_id, created_at) 
+VALUES (@last_favorite_id, 7, DATE_SUB(CURRENT_DATE, INTERVAL 13 MONTH));
+
+CALL sp_limpiar_favoritos_antiguos();
+
+-- 14. Asociar beneficios automáticamente por audiencia
+
+CREATE PROCEDURE sp_asociar_beneficios_automaticos()
+BEGIN
+    -- Consumidor Final: descuentos y envío gratuito
+    INSERT IGNORE INTO audiencebenefits (audience_id, benefit_id)
+    SELECT 1, id FROM benefits WHERE id IN (1, 2, 5, 13);
+    
+    -- Empresas: soporte prioritario y consultoría
+    INSERT IGNORE INTO audiencebenefits (audience_id, benefit_id)
+    SELECT a.id, b.id 
+    FROM audiences a, benefits b
+    WHERE a.id IN (2, 3, 4) AND b.id IN (3, 8, 12, 14);
+    
+    SELECT 'Beneficios asociados automáticamente' as resultado;
+END //
+
+CALL sp_asociar_beneficios_automaticos();
+
+-- 15. Historial de cambios de precio
+
+CREATE PROCEDURE sp_generar_historial_precios(
+    IN p_days_back INT
+)
+BEGIN
+    SELECT 
+        hp.company_id,
+        c.name as empresa,
+        p.name as producto,
+        hp.old_price,
+        hp.new_price,
+        ROUND(((hp.new_price - hp.old_price) / hp.old_price) * 100, 2) as porcentaje_cambio,
+        hp.change_date
+    FROM historial_precios hp
+    JOIN companies c ON hp.company_id = c.id
+    JOIN products p ON hp.product_id = p.id
+    WHERE hp.change_date >= DATE_SUB(CURRENT_DATE, INTERVAL p_days_back DAY)
+    ORDER BY hp.change_date DESC;
+END //
+
+CALL sp_generar_historial_precios(30); -- Últimos 30 días
+CALL sp_generar_historial_precios(7);  -- Última semana
+CALL sp_generar_historial_precios(1);  -- Último día
+
+-- 16. Registrar encuesta activa automáticamente
+
+CREATE PROCEDURE sp_crear_encuesta_activa(
+    IN p_name VARCHAR(80),
+    IN p_description TEXT,
+    IN p_category_id INT
+)
+BEGIN
+    INSERT INTO polls (name, description, categorypoll_id, isactive, status)
+    VALUES (p_name, p_description, p_category_id, TRUE, 'activa');
+    
+    SELECT LAST_INSERT_ID() as poll_id, 'Encuesta activa creada' as mensaje;
+END //
+
+CALL sp_crear_encuesta_activa('Encuesta de Tendencias de Mercado', 'Evaluación de tendencias actuales del mercado', 1);
+CALL sp_crear_encuesta_activa('Encuesta de Innovación Tecnológica', 'Evaluación de nuevas tecnologías implementadas', 12);
+CALL sp_crear_encuesta_activa('Encuesta de Responsabilidad Social', 'Evaluación de prácticas de responsabilidad social', 13);
+
+-- 17. Actualizar unidad de medida de productos sin afectar ventas
+
+CREATE PROCEDURE sp_actualizar_unidad_medida(
+    IN p_product_id INT,
+    IN p_new_unit_id INT
+)
+BEGIN
+    DECLARE v_has_sales INT DEFAULT 0;
+    
+    -- Verificar si el producto ha sido vendido (tiene calificaciones)
+    SELECT COUNT(*) INTO v_has_sales
+    FROM quality_products
+    WHERE product_id = p_product_id;
+    
+    IF v_has_sales = 0 THEN
+        UPDATE companyproducts
+        SET unitmeasure_id = p_new_unit_id
+        WHERE product_id = p_product_id;
+        
+        SELECT 'Unidad de medida actualizada exitosamente' as resultado;
+    ELSE
+        SELECT 'No se puede actualizar: el producto tiene ventas registradas' as resultado;
+    END IF;
+END //
+
+CALL sp_actualizar_unidad_medida(1, 2); -- Intentar cambiar producto con ventas (debería fallar)
+CALL sp_actualizar_unidad_medida(12, 3); -- Cambiar producto sin ventas (debería funcionar)
+
+-- 18. Recalcular promedios de calidad semanalmente
+
+CREATE PROCEDURE sp_recalcular_promedios_semanales()
+BEGIN
+    UPDATE products p
+    SET average_rating = (
+        SELECT COALESCE(AVG(qp.rating), 0)
+        FROM quality_products qp
+        WHERE qp.product_id = p.id
+    );
+    
+    -- Actualizar tabla de métricas
+    INSERT INTO product_metrics (product_id, average_rating, total_ratings)
+    SELECT 
+        p.id,
+        COALESCE(AVG(qp.rating), 0),
+        COUNT(qp.rating)
+    FROM products p
+    LEFT JOIN quality_products qp ON p.id = qp.product_id
+    GROUP BY p.id
+    ON DUPLICATE KEY UPDATE
+        average_rating = VALUES(average_rating),
+        total_ratings = VALUES(total_ratings);
+    
+    SELECT 'Promedios recalculados exitosamente' as resultado;
+END //
+
+CALL sp_recalcular_promedios_semanales();
+
+-- 19. Validar claves foráneas entre calificaciones y encuestas
+CREATE PROCEDURE sp_validar_fk_rates_polls()
+BEGIN
+    INSERT INTO inconsistencias_fk (table_name, column_name, invalid_value, reference_table)
+    SELECT 
+        'rates',
+        'poll_id',
+        r.poll_id,
+        'polls'
+    FROM rates r
+    LEFT JOIN polls p ON r.poll_id = p.id
+    WHERE p.id IS NULL;
+    
+    SELECT COUNT(*) as inconsistencias_fk FROM inconsistencias_fk 
+    WHERE table_name = 'rates' AND DATE(created_at) = CURRENT_DATE;
+END //
+
+INSERT INTO rates (customer_id, company_id, poll_id, rating) 
+VALUES (1, '900234567-2', 999, 8.0); -- poll_id que no existe
+
+CALL sp_validar_fk_rates_polls();
+
+-- 20. Generar el top 10 de productos más calificados por ciudad
+
+CREATE PROCEDURE sp_top_productos_por_ciudad(
+    IN p_city_id VARCHAR(6)
+)
+BEGIN
+    SELECT 
+        p.name as producto,
+        c.name as empresa,
+        city.name as ciudad,
+        COUNT(qp.rating) as total_calificaciones,
+        AVG(qp.rating) as promedio_rating
+    FROM quality_products qp
+    JOIN products p ON qp.product_id = p.id
+    JOIN companies c ON qp.company_id = c.id
+    JOIN citiesormunicipalities city ON c.city_id = city.code
+    WHERE c.city_id = p_city_id
+    GROUP BY p.id, p.name, c.name, city.name
+    ORDER BY total_calificaciones DESC, promedio_rating DESC
+    LIMIT 10;
+END //
+
+DELIMITER ;
+
+CALL sp_top_productos_por_ciudad('05001'); -- Medellín
+CALL sp_top_productos_por_ciudad('68001'); -- Bucaramanga
+CALL sp_top_productos_por_ciudad('25001'); -- Agua de Dios (Cundinamarca)
+CALL sp_top_productos_por_ciudad('47053'); -- Aracataca (Magdalena)
+CALL sp_top_productos_por_ciudad('41026'); -- Altamira (Huila)
+
