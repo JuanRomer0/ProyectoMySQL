@@ -2,21 +2,14 @@
 # 🧾 Historias de Usuario — Ejercicios de Normalización
 
 Este documento contiene 160 historias de usuario que representan diferentes contextos de bases de datos.  
-Cada historia está seguida por un espacio donde puedes escribir:
-
-- Dependencias funcionales  
-- Forma normal actual  
-- Proceso de normalización  
-- Relaciones resultantes
-
 ---
 # consultas
 
 ### ✅ Historia de Usuario 1
 
-> Como **usuario del sistema**, quiero registrar y consultar datos relevantes en un escenario de base de datos #1 para poder analizarlos y normalizarlos correctamente.
+Como analista, quiero listar todos los productos con su empresa asociada y el precio más bajo por ciudad.
 
-**Análisis y normalización:**
+**Solucion**
 
 <!-- Escribe tu análisis aquí -->
 
