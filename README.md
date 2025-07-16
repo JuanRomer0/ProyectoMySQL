@@ -10,6 +10,7 @@ Cada historia está seguida por un espacio donde puedes escribir:
 - Relaciones resultantes
 
 ---
+# consultas
 
 ### ✅ Historia de Usuario 1
 
