@@ -210,6 +210,7 @@ Cada historia está seguida por un espacio donde puedes escribir:
 <!-- Escribe tu análisis aquí -->
 
 ---
+# SUB-CONSULTAS 
 
 ### ✅ Historia de Usuario 21
 
