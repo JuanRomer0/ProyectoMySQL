@@ -1,0 +1,290 @@
+-- JOINS EM HDU 
+===================================================================
+-- 1. Ver productos con la empresa que los vende 
+
+SELECT 
+    c.name AS empresa,
+    p.name AS producto,
+    cp.price AS precio
+FROM companies c
+JOIN companyproducts cp ON c.id = cp.company_id
+JOIN products p ON p.id = cp.product_id;
+
+-- 2. Mostrar productos favoritos con su empresa y categoría
+SELECT 
+    cust.name as cliente,
+    p.name as producto_favorito,
+    cat.description as categoria,
+    comp.name as empresa,
+    cp.price as precio
+FROM customers cust
+JOIN favorites f ON cust.id = f.customer_id
+JOIN details_favorites df ON f.id = df.favorite_id
+JOIN products p ON df.product_id = p.id
+JOIN categories cat ON p.category_id = cat.id
+JOIN companies comp ON f.company_id = comp.id
+JOIN companyproducts cp ON comp.id = cp.company_id AND p.id = cp.product_id
+ORDER BY cust.name, cat.description;
+
+-- 3. Ver empresas aunque no tengan productos asociados
+
+SELECT 
+    comp.name as empresa,
+    comp.email,
+    c.name as ciudad,
+    cat.description as categoria_empresa,
+    COALESCE(COUNT(cp.product_id), 0) as total_productos
+FROM companies comp
+JOIN citiesormunicipalities c ON comp.city_id = c.code
+JOIN categories cat ON comp.category_id = cat.id
+LEFT JOIN companyproducts cp ON comp.id = cp.company_id
+GROUP BY comp.id, comp.name, comp.email, c.name, cat.description
+ORDER BY total_productos DESC;
+
+-- 4. Ver productos que fueron calificados (o no)
+
+SELECT 
+
+    p.name as producto,
+    cat.description as categoria,
+    COALESCE(AVG(qp.rating), 0) as promedio_calificacion,
+    COALESCE(COUNT(qp.rating), 0) as total_calificaciones
+FROM products p
+JOIN categories cat ON p.category_id = cat.id
+LEFT JOIN quality_products qp ON p.id = qp.product_id
+GROUP BY p.id, p.name, cat.description
+ORDER BY total_calificaciones DESC;
+
+-- 5. Ver productos con promedio de calificación y empresa
+
+SELECT 
+    p.name as producto,
+    comp.name as empresa,
+    cp.price as precio,
+    AVG(qp.rating) as promedio_calificacion,
+    COUNT(qp.rating) as total_calificaciones
+FROM products p
+JOIN companyproducts cp ON p.id = cp.product_id
+JOIN companies comp ON cp.company_id = comp.id
+LEFT JOIN quality_products qp ON p.id = qp.product_id AND comp.id = qp.company_id
+GROUP BY p.id, p.name, comp.name, cp.price
+ORDER BY promedio_calificacion DESC;
+
+-- 6. Ver clientes y sus calificaciones (si las tienen)
+
+SELECT 
+    cust.name as cliente,
+    cust.email,
+    c.name as ciudad,
+    COALESCE(COUNT(qp.product_id), 0) as productos_calificados,
+    COALESCE(AVG(qp.rating), 0) as promedio_calificaciones
+FROM customers cust
+JOIN citiesormunicipalities c ON cust.city_id = c.code
+LEFT JOIN quality_products qp ON cust.id = qp.customer_id
+GROUP BY cust.id, cust.name, cust.email, c.name
+ORDER BY productos_calificados DESC;
+
+-- 7. Ver favoritos con la última calificación del cliente
+
+SELECT 
+    cust.name as cliente,
+    p.name as producto_favorito,
+    comp.name as empresa,
+    qp.rating as ultima_calificacion,
+    qp.daterating as fecha_calificacion
+FROM customers cust
+JOIN favorites f ON cust.id = f.customer_id
+JOIN details_favorites df ON f.id = df.favorite_id
+JOIN products p ON df.product_id = p.id
+JOIN companies comp ON f.company_id = comp.id
+LEFT JOIN quality_products qp ON p.id = qp.product_id 
+    AND cust.id = qp.customer_id 
+    AND comp.id = qp.company_id
+ORDER BY cust.name, qp.daterating DESC;
+
+-- 8. Ver beneficios incluidos en cada plan de membresía
+
+SELECT 
+    m.name as plan_membresia,
+    p.name as periodo,
+    mp.price as precio,
+    b.description as beneficio,
+    b.detail as detalle_beneficio
+FROM memberships m
+JOIN membershipperiods mp ON m.id = mp.membership_id
+JOIN periods p ON mp.period_id = p.id
+LEFT JOIN membershipbenefits mb ON m.id = mb.membership_id AND p.id = mb.period_id
+LEFT JOIN benefits b ON mb.benefit_id = b.id
+ORDER BY m.name, p.name, b.description;
+
+-- 9. Ver clientes con membresía activa y sus beneficios
+
+SELECT 
+    cust.name as cliente,
+    a.description as audiencia,
+    b.description as beneficio,
+    b.detail as detalle_beneficio
+FROM customers cust
+JOIN audiences a ON cust.audience_id = a.id
+JOIN audiencebenefits ab ON a.id = ab.audience_id
+JOIN benefits b ON ab.benefit_id = b.id
+ORDER BY cust.name, b.description;
+
+-- 10. Ver ciudades con cantidad de empresas
+
+SELECT 
+    c.name as ciudad,
+    sr.name as departamento,
+    co.name as pais,
+    COUNT(comp.id) as total_empresas,
+    COUNT(DISTINCT cat.id) as categorias_diferentes
+FROM citiesormunicipalities c
+JOIN stateorregions sr ON c.statereg_id = sr.code
+JOIN countries co ON sr.country_id = co.isocode
+LEFT JOIN companies comp ON c.code = comp.city_id
+LEFT JOIN categories cat ON comp.category_id = cat.id
+GROUP BY c.code, c.name, sr.name, co.name
+ORDER BY total_empresas DESC;
+
+-- 11. Ver encuestas con calificaciones
+
+SELECT 
+    pol.name as encuesta,
+    cp.description as categoria_encuesta,
+    COUNT(r.rating) as total_respuestas,
+    AVG(r.rating) as promedio_calificacion
+FROM polls pol
+JOIN categories_polls cp ON pol.categorypoll_id = cp.id
+LEFT JOIN rates r ON pol.id = r.poll_id
+GROUP BY pol.id, pol.name, cp.description
+ORDER BY total_respuestas DESC;
+
+-- 12. Ver productos evaluados con datos del cliente
+
+SELECT 
+    p.name as producto,
+    cust.name as cliente,
+    c.name as ciudad_cliente,
+    qp.rating as calificacion,
+    qp.daterating as fecha_evaluacion,
+    pol.name as encuesta_utilizada
+FROM products p
+JOIN quality_products qp ON p.id = qp.product_id
+JOIN customers cust ON qp.customer_id = cust.id
+JOIN citiesormunicipalities c ON cust.city_id = c.code
+JOIN polls pol ON qp.poll_id = pol.id
+ORDER BY qp.daterating DESC;
+
+-- 13. Ver productos con audiencia de la empresa
+
+SELECT 
+    p.name as producto,
+    cat.description as categoria_producto,
+    comp.name as empresa,
+    a.description as audiencia_objetivo
+FROM products p
+JOIN categories cat ON p.category_id = cat.id
+JOIN companyproducts cp ON p.id = cp.product_id
+JOIN companies comp ON cp.company_id = comp.id
+JOIN audiences a ON comp.audience_id = a.id
+ORDER BY a.description, cat.description;
+
+-- 14. Ver clientes con sus productos favoritos
+
+SELECT 
+    cust.name as cliente,
+    cust.email,
+    p.name as producto_favorito,
+    comp.name as empresa,
+    df.created_at as fecha_agregado_favorito
+FROM customers cust
+JOIN favorites f ON cust.id = f.customer_id
+JOIN details_favorites df ON f.id = df.favorite_id
+JOIN products p ON df.product_id = p.id
+JOIN companies comp ON f.company_id = comp.id
+ORDER BY cust.name, df.created_at DESC;
+
+-- 15. Ver planes, periodos, precios y beneficios
+
+SELECT 
+    m.name as plan,
+    m.description as descripcion_plan,
+    per.name as periodo,
+    mp.price as precio,
+    b.description as beneficio,
+    a.description as audiencia
+FROM memberships m
+JOIN membershipperiods mp ON m.id = mp.membership_id
+JOIN periods per ON mp.period_id = per.id
+LEFT JOIN membershipbenefits mb ON m.id = mb.membership_id 
+    AND per.id = mb.period_id
+LEFT JOIN benefits b ON mb.benefit_id = b.id
+LEFT JOIN audiences a ON mb.audience_id = a.id
+ORDER BY m.name, per.name, a.description;
+
+-- 16. Ver combinaciones empresa-producto-cliente calificados
+
+SELECT 
+    comp.name as empresa,
+    p.name as producto,
+    cust.name as cliente,
+    qp.rating as calificacion,
+    qp.daterating as fecha_calificacion
+FROM companies comp
+JOIN companyproducts cp ON comp.id = cp.company_id
+JOIN products p ON cp.product_id = p.id
+JOIN quality_products qp ON p.id = qp.product_id AND comp.id = qp.company_id
+JOIN customers cust ON qp.customer_id = cust.id
+ORDER BY qp.daterating DESC;
+
+-- 17. Comparar favoritos con productos calificados
+
+SELECT 
+    cust.name as cliente,
+    p.name as producto,
+    'Favorito y Calificado' as estado,
+    qp.rating as calificacion
+FROM customers cust
+JOIN favorites f ON cust.id = f.customer_id
+JOIN details_favorites df ON f.id = df.favorite_id
+JOIN products p ON df.product_id = p.id
+JOIN quality_products qp ON p.id = qp.product_id AND cust.id = qp.customer_id
+ORDER BY cust.name, qp.rating DESC;
+
+-- 18. Ver productos ordenados por categoría
+
+SELECT 
+    cat.description as categoria,
+    p.name as producto,
+    p.detail as descripcion,
+    p.price as precio_base
+FROM categories cat
+JOIN products p ON cat.id = p.category_id
+ORDER BY cat.description, p.name;
+
+-- 19. Ver beneficios por audiencia, incluso vacíos
+
+SELECT 
+    a.description as audiencia,
+    COALESCE(b.description, 'Sin beneficios') as beneficio,
+    COALESCE(b.detail, 'N/A') as detalle
+FROM audiences a
+LEFT JOIN audiencebenefits ab ON a.id = ab.audience_id
+LEFT JOIN benefits b ON ab.benefit_id = b.id
+ORDER BY a.description, b.description;
+
+-- 20. Ver datos cruzados entre calificaciones, encuestas, productos y clientes
+
+SELECT 
+    cust.name as cliente,
+    p.name as producto,
+    pol.name as encuesta,
+    qp.rating as calificacion,
+    qp.daterating as fecha,
+    comp.name as empresa
+FROM customers cust
+JOIN quality_products qp ON cust.id = qp.customer_id
+JOIN products p ON qp.product_id = p.id
+JOIN polls pol ON qp.poll_id = pol.id
+JOIN companies comp ON qp.company_id = comp.id
+ORDER BY qp.daterating DESC;
